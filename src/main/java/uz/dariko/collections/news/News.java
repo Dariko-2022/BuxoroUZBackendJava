@@ -6,8 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.entity.Auditable;
+import uz.dariko.collections.sphere.Sphere;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -22,5 +25,17 @@ public class News extends Auditable {
     private String uzBody;
     private String krBody;
     private String ruBody;
+
+
+    private Set<NewsImgUrl> imagesUrl;
+
+    @ManyToOne
+    private Sphere sphere; //soha
+
+    private boolean actual; //dolzarb
+
+    private int countView=0; //kurishlar soni
+
+    private String source; //manba
 
 }
