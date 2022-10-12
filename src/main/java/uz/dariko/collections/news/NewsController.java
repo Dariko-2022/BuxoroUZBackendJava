@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("api/admin/news")
-public class NewsController extends AbstractController<NewsService>, GenericCRUDController<NewsCreateDTO, NewsUpdateDTO, NewsDTO, UUID> {
+public class NewsController extends AbstractController<NewsService> implements GenericCRUDController<NewsCreateDTO, NewsUpdateDTO, NewsDTO, UUID> {
 
     public NewsController(NewsService service) {
         super(service);
