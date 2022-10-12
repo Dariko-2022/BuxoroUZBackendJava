@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewsCreateDto {
+public class NewsCreateDTO {
     private String uzTitle;
     private String krTitle;
     private String ruTitle;

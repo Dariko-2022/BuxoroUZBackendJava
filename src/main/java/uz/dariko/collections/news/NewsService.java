@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.govSphere.GovSphere;
 import uz.dariko.collections.govSphere.GovSphereRepository;
-import uz.dariko.collections.news.dto.NewsCreateDto;
+import uz.dariko.collections.news.dto.NewsCreateDTO;
 import uz.dariko.collections.sphere.Sphere;
 import uz.dariko.collections.sphere.SphereRepository;
 
@@ -20,7 +20,7 @@ public class NewsService implements BaseService {
     GovSphereRepository govSphereRepository;
 
 
-    public ResponseEntity<?> create(NewsCreateDto newsCreateDto) {
+    public ResponseEntity<?> create(NewsCreateDTO newsCreateDto) {
         Optional<Sphere> byId = sphereRepository.findById(UUID.fromString(newsCreateDto.getSphereId()));
         Optional<GovSphere> byGovId = govSphereRepository.findById(UUID.fromString(newsCreateDto.getGovSphereId()));
 

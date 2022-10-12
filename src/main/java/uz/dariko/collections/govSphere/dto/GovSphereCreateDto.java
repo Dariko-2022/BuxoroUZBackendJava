@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GovSphereCreateDto {
+public class GovSphereCreateDTO {
     private String uzName;
     private String krName;
     private String ruName;

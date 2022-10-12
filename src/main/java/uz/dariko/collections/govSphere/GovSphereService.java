@@ -4,7 +4,7 @@ package uz.dariko.collections.govSphere;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.service.BaseService;
-import uz.dariko.collections.govSphere.dto.GovSphereCreateDto;
+import uz.dariko.collections.govSphere.dto.GovSphereCreateDTO;
 
 @Service
 public class GovSphereService implements BaseService {
@@ -14,7 +14,7 @@ public class GovSphereService implements BaseService {
         this.govSphereRepository = govSphereRepository;
     }
 
-    public ResponseEntity<?> create(GovSphereCreateDto govSphereCreateDto) {
+    public ResponseEntity<?> create(GovSphereCreateDTO govSphereCreateDto) {
         GovSphere govSphere = new GovSphere(
                 govSphereCreateDto.getUzName(),
                 govSphereCreateDto.getKrName(),
