@@ -1,4 +1,4 @@
-package uz.dariko.collections.user;
+package uz.dariko.collections.admin;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

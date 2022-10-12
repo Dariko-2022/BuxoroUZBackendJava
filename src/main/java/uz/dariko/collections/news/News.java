@@ -27,7 +27,6 @@ public class News extends Auditable {
     private String ruBody;
 
 
-    private Set<NewsImgUrl> imagesUrl;
 
     @ManyToOne
     private Sphere sphere; //soha

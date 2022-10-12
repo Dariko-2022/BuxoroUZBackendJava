@@ -17,11 +17,8 @@ import java.util.Objects;
 @Configuration
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-    }
-   /* private final AuthService authService;
+    private final AuthService authService;
     private final JwtService jwtService;
 
     @Override
@@ -40,5 +37,4 @@ public class JwtFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
-*/
 }

@@ -8,6 +8,9 @@ import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import uz.dariko.collections.admin.Admin;
+import uz.dariko.collections.admin.AdminMapper;
+import uz.dariko.utils.EntityGetter;
 
 import javax.annotation.PostConstruct;
 import java.security.Key;
@@ -16,7 +19,7 @@ import java.util.Date;
 @Service
 @RequiredArgsConstructor
 public class JwtService {
-  /*  private final EntityGetter entityGetter;
+    private final EntityGetter entityGetter;
     private final AdminMapper adminMapper;
     @Value("${jwt.secret}")
     private String secretWord;
@@ -62,5 +65,5 @@ public class JwtService {
                 .getBody();
         return body.getSubject();
     }
-*/
+
 }

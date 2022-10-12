@@ -18,7 +18,7 @@ import uz.dariko.collections.auth.dto.LoginDto;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    /*private final AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
     @PostMapping(path = "/login")
@@ -30,6 +30,6 @@ public class AuthController {
         }
         String token = jwtService.createJwt(loginDto.getUsername());
         return ResponseEntity.ok(token);
-    }*/
+    }
 
 }
