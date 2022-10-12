@@ -34,7 +34,7 @@ public class NewsService implements BaseService {
             Sphere sphere = byId.get();
             GovSphere govSphere = byGovId.get();
             List<File> images = new ArrayList<>();
-            for(String imgId : newsCreateDto.getImages()) {
+            for(String imgId : newsCreateDto.getImageIDs()) {
                 Optional<File> file = fileRepository.findById(UUID.fromString(imgId));
                 file.ifPresent(images::add);
             }
