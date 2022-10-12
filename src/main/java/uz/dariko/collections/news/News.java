@@ -6,11 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.entity.Auditable;
+import uz.dariko.collections.file.File;
 import uz.dariko.collections.govSphere.GovSphere;
 import uz.dariko.collections.sphere.Sphere;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Setter
 @Getter
@@ -32,6 +35,9 @@ public class News extends Auditable {
 
     @ManyToOne
     private GovSphere govSphere; //soha yunalishi
+
+    @OneToMany
+    private List<File> images;
 
     private boolean actual; //dolzarb
 
