@@ -1,24 +1,19 @@
-package uz.dariko.collections.sphere;
+package uz.dariko.collections.sphere.dto;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import uz.dariko.base.entity.Auditable;
 
-import javax.persistence.Entity;
-
-
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class Sphere extends Auditable { //soha
+public class SphereCreateDto {
+
     private String uzName;
     private String krName;
     private String ruName;
-
-//    private String imgUrl;
 
 }
