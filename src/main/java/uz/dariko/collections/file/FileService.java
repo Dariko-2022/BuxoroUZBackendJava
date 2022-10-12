@@ -1,12 +1,10 @@
 package uz.dariko.collections.file;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -27,16 +25,16 @@ import java.util.UUID;
 
 @Service
 public class FileService extends AbstractService<FileRepository, FileValidator> {
-    @Autowired
-    private ServletContext servletContext;
+    private final ServletContext servletContext;
     //    private static final String FILE_PATH = "/home/database/files/citizen-appeal";
     private static final String FILE_PATH = "D:\\database\\files";
 
-    @Autowired
-    private BaseUtils baseUtils;
+    private final BaseUtils baseUtils;
 
-    public FileService(FileRepository repository, FileValidator validator) {
+    public FileService(FileRepository repository, FileValidator validator, BaseUtils baseUtils, ServletContext servletContext) {
         super(repository, validator);
+        this.baseUtils = baseUtils;
+        this.servletContext = servletContext;
     }
 
     public ResponseEntity<Data<UUID>> uploadForNewPage(String orgId, uz.dariko.collections.file.File file){

@@ -18,8 +18,8 @@ public class File extends Auditable {
 
     private String filePath;
     private String originalName;
-    private String extention;
     private String generatedName;
+    private String extention;
     private Long size;
     private Boolean isActive = true;
     private Integer orderNumber;

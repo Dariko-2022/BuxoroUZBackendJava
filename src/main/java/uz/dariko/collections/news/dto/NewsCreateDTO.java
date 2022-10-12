@@ -1,9 +1,10 @@
 package uz.dariko.collections.news.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import uz.dariko.base.dto.BaseDTO;
-
-import java.util.List;
 
 
 @Getter
@@ -23,8 +24,6 @@ public class NewsCreateDTO implements BaseDTO {
     private String sphereID; //soha
 
     private String govSphereID; //soha yunalishi
-
-    private List<String> imageIDs;
 
     private boolean actual; //dolzarb
 

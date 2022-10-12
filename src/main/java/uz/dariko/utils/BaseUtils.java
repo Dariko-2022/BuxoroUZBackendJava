@@ -1,6 +1,5 @@
 package uz.dariko.utils;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -26,10 +25,13 @@ public class BaseUtils {
     public static final String DETAIL_PATH = "detail/{code}";
     public static final String LIST_PATH = "/list";
 
+
+    public static final String UPLOAD_DIR = "newsPhotos";
+
     public static final String LIST_WITH_ID_PATH = "/list/{code}";
     public static final String CHANGE_ORDER_PATH = "/change_order";
-    @Value("${income.base.url}")
-    public String BASE_URL;
+//    @Value("${income.base.url}")
+//    public String BASE_URL;
 
     public LocalDate dateFormat(String date) {
         if (date == null) {

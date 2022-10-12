@@ -15,6 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/file")
 public class FileController extends AbstractController<FileService> {
+
     public FileController(FileService service) {
         super(service);
     }
