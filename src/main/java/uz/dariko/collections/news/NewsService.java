@@ -21,8 +21,8 @@ public class NewsService implements BaseService {
 
 
     public ResponseEntity<?> create(NewsCreateDTO newsCreateDto) {
-        Optional<Sphere> byId = sphereRepository.findById(UUID.fromString(newsCreateDto.getSphereId()));
-        Optional<GovSphere> byGovId = govSphereRepository.findById(UUID.fromString(newsCreateDto.getGovSphereId()));
+        Optional<Sphere> byId = sphereRepository.findById(UUID.fromString(newsCreateDto.getSphereID()));
+        Optional<GovSphere> byGovId = govSphereRepository.findById(UUID.fromString(newsCreateDto.getGovSphereID()));
 
         if(byId.isPresent() && byGovId.isPresent()) {
             Sphere sphere = byId.get();

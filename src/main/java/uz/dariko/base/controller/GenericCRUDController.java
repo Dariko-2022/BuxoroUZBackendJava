@@ -14,9 +14,9 @@ import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
 
-public interface GenericCRUDController<CD extends BaseDTO, UD extends GenericDTO, GD extends GenericDTO, OD extends BaseDTO,  K extends Serializable> {
+public interface GenericCRUDController<CD extends BaseDTO, UD extends GenericDTO, GD extends GenericDTO, K extends Serializable> {
     @RequestMapping(value = BaseUtils.CREATE_PATH, method = RequestMethod.POST)
-    ResponseEntity<Data<GD>> create(@Valid @RequestBody CD DTO);
+    ResponseEntity<?> create(@Valid @RequestBody CD DTO);
 
     @RequestMapping(value = BaseUtils.UPDATE_PATH, method = RequestMethod.PATCH)
     ResponseEntity<Data<GD>> update(@Valid @RequestBody UD DTO);
@@ -33,6 +33,4 @@ public interface GenericCRUDController<CD extends BaseDTO, UD extends GenericDTO
     @RequestMapping(value = BaseUtils.LIST_WITH_ID_PATH, method = RequestMethod.GET)
     ResponseEntity<Data<List<GD>>> listWithId(@PathVariable K code);
 
-    @RequestMapping(value = BaseUtils.CHANGE_ORDER_PATH, method = RequestMethod.PATCH)
-    ResponseEntity<Data<List<GD>>>  changeOrder(@RequestBody OD orderDTO);
 }
