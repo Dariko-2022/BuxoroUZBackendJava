@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uz.dariko.base.controller.AbstractController;
-import uz.dariko.collections.region.sphere.dto.SphereCreateDto;
+import uz.dariko.collections.sphere.dto.SphereCreateDTO;
 
 @RestController
 @RequestMapping("api/admin/sphere")
@@ -20,7 +20,7 @@ public class SphereController extends AbstractController<SphereService> {
 
     @PostMapping
     public ResponseEntity<?> create(
-            @RequestBody SphereCreateDto sphereCreateDto
+            @RequestBody SphereCreateDTO sphereCreateDto
     ) {
         return service.create(sphereCreateDto);
     }
