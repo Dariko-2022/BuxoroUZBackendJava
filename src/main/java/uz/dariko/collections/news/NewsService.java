@@ -62,7 +62,7 @@ public class NewsService implements BaseService {
             News news = new News(
                     newsCreateDto.getUzTitle(), newsCreateDto.getKrTitle(), newsCreateDto.getRuTitle(),
                     newsCreateDto.getUzBody(), newsCreateDto.getKrBody(), newsCreateDto.getRuBody(),
-                    sphere,govSphere,images,newsCreateDto.isActual(),0,newsCreateDto.getSource()
+                    sphere,govSphere,images,newsCreateDto.isActual(),false,0,newsCreateDto.getSource()
                     );
             newsRepository.save(news);
             return ResponseEntity.status(201).body("saved");
