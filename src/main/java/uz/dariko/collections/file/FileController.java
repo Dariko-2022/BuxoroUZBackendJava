@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/file")
@@ -22,9 +21,16 @@ public class FileController extends AbstractController<FileService> {
     }
 
     @PostMapping("/uploads")
-    private ResponseEntity<?> uploads(List<MultipartHttpServletRequest> requests) throws IOException {
+    private ResponseEntity<?> uploads(MultipartHttpServletRequest requests) throws IOException {
         return service.uploads(requests);
     }
+
+//    @PostMapping("upload")
+//    public ResponseEntity<?> uploadAll(
+//            MultipartHttpServletRequest multipartHttpServletRequest
+//    ){
+//        return service.
+//    }
 
 
     @GetMapping("/view/{generatedName}")

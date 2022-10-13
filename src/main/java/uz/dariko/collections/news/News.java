@@ -41,6 +41,8 @@ public class News extends Auditable {
 
     private boolean actual; //dolzarb
 
+    private boolean smm; //SMM
+
     private int countView=0; //kurishlar soni
 
     private String source; //manba

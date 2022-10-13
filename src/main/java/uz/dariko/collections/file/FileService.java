@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartRequest;
 import uz.dariko.base.service.AbstractService;
 import uz.dariko.exception.exceptions.BadRequestException;
 import uz.dariko.exception.exceptions.UniversalException;
@@ -42,10 +41,16 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
         this.servletContext = servletContext;
     }
 
-    public ResponseEntity<?> uploads(List<MultipartHttpServletRequest> requests) throws IOException{
+    public ResponseEntity<?> uploads(MultipartHttpServletRequest requests) throws IOException{
+
+        HttpHeaders images = requests.getMultipartHeaders("images");
+
+        MultipartFile image = requests.getFile("images");
+
+        List<MultipartFile> multipartFiles = requests.getFiles("images");
 
         List<UUID> uploadIDs=new ArrayList<>();
-        for (MultipartHttpServletRequest request : requests) {
+        for (MultipartFile request : multipartFiles) {
             UUID upload = upload(request);
             uploadIDs.add(upload);
         }
@@ -53,7 +58,7 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
 
     }
 
-    public UUID upload( MultipartHttpServletRequest request) throws IOException {
+    public UUID upload( MultipartFile file) throws IOException {
 
         String folder = FILE_PATH;
         Path path = Path.of(folder);
@@ -61,7 +66,7 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
         if (!file2.isDirectory()) {
             file2.mkdirs();
         }
-        MultipartFile file = request.getFile("file");
+//        MultipartFile file = request.getFile("file");
         if (file != null) {
             if (file.getSize() > 100 * 1024 * 1024) {
                 throw new UniversalException("File hajmi 100 mb dan kichik bo'lishi kerak", HttpStatus.BAD_REQUEST);
@@ -69,17 +74,15 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
             String contentType = file.getContentType();
             String originalFilename = file.getOriginalFilename();
             long size = file.getSize();
-            String extention = "";
-            if (contentType.contains("pdf")) {
-                extention = ".pdf";
-            } else if (contentType.contains("png")) {
+            String extention = FilenameUtils.getExtension(originalFilename);
+            if (contentType.contains("png")) {
                 extention = ".png";
             } else if (contentType.contains("jpg")) {
                 extention = ".jpg";
             } else if (contentType.contains("jpeg")) {
                 extention = ".jpeg";
-            } else if (contentType.contains("word")) {
-                extention = ".docx";
+            } else {
+                throw new UniversalException("File faqat png, jpg va jpeg formatta bo'lishi kerak", HttpStatus.BAD_REQUEST);
             }
             String generatedName = UUID.randomUUID() + extention;
             String url = folder + "\\" + generatedName;
@@ -100,6 +103,7 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
             throw new BadRequestException("File null bo'lishi mumkin emas");
         }
     }
+
 
 
     public ResponseEntity<InputStreamResource> viewFile(String generatedName) throws FileNotFoundException {
