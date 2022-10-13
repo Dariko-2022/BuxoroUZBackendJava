@@ -37,10 +37,9 @@ public class NewsService implements BaseService {
 
 
     public ResponseEntity<?> getForHome() {
-        List<News> list1 = newsRepository.findNewsByIdAndActual(true,3);
-        List<News> list2 = newsRepository.findNewsByIdAndActual(false,4);
-        list1.addAll(list2);
-        return ResponseEntity.ok(list1);
+        List<News> list = newsRepository.findNewsByIdAndActual(true,3);
+        list.addAll(newsRepository.findNewsByIdAndActual(false,4));
+        return ResponseEntity.ok(list);
     }
 
     public ResponseEntity<?> create(NewsCreateDTO newsCreateDto) throws Exception {

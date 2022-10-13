@@ -19,7 +19,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.*;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -40,10 +39,6 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
 
     public ResponseEntity<?> uploads(MultipartHttpServletRequest requests) throws IOException{
 
-        HttpHeaders images = requests.getMultipartHeaders("images");
-
-        MultipartFile image = requests.getFile("images");
-
         List<MultipartFile> multipartFiles = requests.getFiles("images");
 
         List<UUID> uploadIDs=new ArrayList<>();
@@ -58,12 +53,11 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
     public UUID upload( MultipartFile file) throws IOException {
 
         String folder = FILE_PATH;
-        Path path = Path.of(folder);
         File file2 = new File(folder);
         if (!file2.isDirectory()) {
             file2.mkdirs();
         }
-//        MultipartFile file = request.getFile("file");
+
         if (file != null) {
             if (file.getSize() > 100 * 1024 * 1024) {
                 throw new UniversalException("File hajmi 100 mb dan kichik bo'lishi kerak", HttpStatus.BAD_REQUEST);
