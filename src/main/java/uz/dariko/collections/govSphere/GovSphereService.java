@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.govSphere.dto.GovSphereCreateDTO;
 
+import java.util.List;
+
 @Service
 public class GovSphereService implements BaseService {
     private final GovSphereRepository govSphereRepository;
@@ -23,5 +25,10 @@ public class GovSphereService implements BaseService {
 
         govSphereRepository.save(govSphere);
         return ResponseEntity.status(201).body("saved");
+    }
+
+    public ResponseEntity<?> getAll() {
+        List<GovSphere> all = govSphereRepository.findAll();
+        return ResponseEntity.ok(all);
     }
 }

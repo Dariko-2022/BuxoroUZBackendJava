@@ -1,5 +1,8 @@
 package uz.dariko.collections.file;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,9 +21,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -119,12 +123,26 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
 
     public ResponseEntity<InputStreamResource> viewFile(String generatedName) throws FileNotFoundException {
         uz.dariko.collections.file.File fileEntity = findFile(generatedName);
-        boolean exists = Files.exists(Path.of(fileEntity.getFilePath()));
         File send = new File(fileEntity.getFilePath());
         HttpHeaders headers = new HttpHeaders();
         headers.add("content-disposition", "inline;filename=" + fileEntity.getOriginalName());
         InputStreamResource resource = new InputStreamResource(new FileInputStream(send));
         return ResponseEntity.ok().headers(headers).contentLength(send.length()).contentType(MediaType.parseMediaType(fileEntity.getExtention())).body(resource);
+    }
+
+    public ResponseEntity<?> viewFiles(List<String> generatedNames) throws IOException {
+
+        List<MediaType> contentTypes = new ArrayList<>();
+        List<Byte[]> imagesData = new ArrayList<>();
+
+        for(String generatedName : generatedNames) {
+            contentTypes.add(MediaType.parseMediaType(FilenameUtils.getExtension(generatedName)));
+            uz.dariko.collections.file.File fileEntity = findFile(generatedName);
+            imagesData.add(ArrayUtils.toObject(IOUtils.toByteArray(Objects.requireNonNull(getClass().getResourceAsStream(fileEntity.getFilePath())))));
+
+        }
+
+        return null;
     }
 
     public ResponseEntity<Data<String>> download(HttpServletResponse response, String generatedName) throws IOException {

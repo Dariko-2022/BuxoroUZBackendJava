@@ -1,6 +1,7 @@
 package uz.dariko.collections.news;
 
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -65,17 +66,18 @@ public class NewsService implements BaseService {
         for(MultipartFile multipartFile : multipartFiles) {
             long size = multipartFile.getSize();
             if(size < 1024*1024*100) {
-                StringBuilder stringBuilder = new StringBuilder(UUID.randomUUID().toString());
-                stringBuilder.append(multipartFile.getOriginalFilename());
+                String originalName = multipartFile.getOriginalFilename();
+                String extention = FilenameUtils.getExtension(originalName);
+                String generatedName = UUID.randomUUID() + extention;
                 try (InputStream inputStream = multipartFile.getInputStream()) {
                     Path uploadPath = Paths.get("newsPhotos");
-                    Path filePath = uploadPath.resolve(stringBuilder.toString());
+                    Path filePath = uploadPath.resolve(generatedName);
                     Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
                     File file = new File(
                             filePath.toString(),
-                            multipartFile.getOriginalFilename(),
-                            stringBuilder.toString(),
-                            "jpg",
+                            originalName,
+                            generatedName,
+                            extention,
                             size,
                             true,
                             1
@@ -89,6 +91,15 @@ public class NewsService implements BaseService {
             }
         }
         return list;
+    }
+
+    public ResponseEntity<?> getById(String code) {
+        UUID id = UUID.fromString(code);
+
+        Optional<News> byId = newsRepository.findById(id);
+
+        return byId.isPresent() ? ResponseEntity.ok(byId.get()) : ResponseEntity.status(404).body("Not Found");
+
     }
 
 
