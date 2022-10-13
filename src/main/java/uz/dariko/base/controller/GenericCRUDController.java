@@ -19,7 +19,7 @@ public interface GenericCRUDController<CD extends BaseDTO, UD extends GenericDTO
     ResponseEntity<?> create(@Valid @RequestBody CD DTO);
 
     @RequestMapping(value = BaseUtils.UPDATE_PATH, method = RequestMethod.PATCH)
-    ResponseEntity<Data<GD>> update(@Valid @RequestBody UD DTO);
+    ResponseEntity<?> update(@Valid @RequestBody UD DTO);
 
     @RequestMapping(value = BaseUtils.DELETE_PATH, method = RequestMethod.DELETE)
     ResponseEntity<Data<Boolean>> delete(@PathVariable K code);
@@ -29,8 +29,5 @@ public interface GenericCRUDController<CD extends BaseDTO, UD extends GenericDTO
 
     @RequestMapping(value = BaseUtils.LIST_PATH, method = RequestMethod.GET)
     ResponseEntity<Data<List<GD>>> list();
-
-    @RequestMapping(value = BaseUtils.LIST_WITH_ID_PATH, method = RequestMethod.GET)
-    ResponseEntity<Data<List<GD>>> listWithId(@PathVariable K code);
 
 }

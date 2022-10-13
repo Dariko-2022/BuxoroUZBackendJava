@@ -10,6 +10,7 @@ import uz.dariko.response.Data;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -20,9 +21,9 @@ public class FileController extends AbstractController<FileService> {
         super(service);
     }
 
-    @PostMapping("/upload/{orgId}")
-    private ResponseEntity<Data<UUID>> upload(@PathVariable String orgId, MultipartHttpServletRequest request) throws IOException {
-        return service.upload(orgId, request);
+    @PostMapping("/uploads")
+    private ResponseEntity<?> uploads(List<MultipartHttpServletRequest> requests) throws IOException {
+        return service.uploads(requests);
     }
 
 

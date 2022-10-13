@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.dto.GenericDTO;
+import uz.dariko.collections.file.File;
 
+import javax.persistence.OneToOne;
 import java.util.UUID;
 
 @Getter
@@ -17,7 +19,8 @@ public class AdminDTO extends GenericDTO {
 
     private String password;
 
-    private String imgUrl;
+
+    private String imageID;
 
     private String firstName;
 
@@ -27,17 +30,17 @@ public class AdminDTO extends GenericDTO {
 
     private String phoneNumber;
 
+    private Boolean isSuperAdmin;
 
-
-
-    public AdminDTO(UUID id,String username, String password, String imgUrl, String firstName, String lastName, String email, String phoneNumber) {
+    public AdminDTO(UUID id, String username, String password, String imageID, String firstName, String lastName, String email, String phoneNumber, Boolean isSuperAdmin) {
         super(id);
         this.username = username;
         this.password = password;
-        this.imgUrl = imgUrl;
+        this.imageID = imageID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.isSuperAdmin = isSuperAdmin;
     }
 }

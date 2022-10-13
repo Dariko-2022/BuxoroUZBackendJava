@@ -8,19 +8,16 @@ import uz.dariko.response.Data;
 import java.io.Serializable;
 import java.util.List;
 
-public interface GenericCRUDService<CD extends BaseDTO, UD extends GenericDTO, GD extends GenericDTO, OD extends BaseDTO,
+public interface GenericCRUDService<CD extends BaseDTO, UD extends GenericDTO, GD extends GenericDTO,
         K extends Serializable> {
-    ResponseEntity<Data<GD>> create(CD DTO);
+    ResponseEntity<?> create(CD DTO);
 
-    ResponseEntity<Data<GD>> update(UD DTO);
+    ResponseEntity<?> update(UD DTO);
 
-    ResponseEntity<Data<Boolean>> delete(K key);
+    ResponseEntity<?> delete(K key);
 
-    ResponseEntity<Data<GD>> get(K key);
+    ResponseEntity<?> get(K key);
 
     ResponseEntity<Data<List<GD>>> list();
 
-    ResponseEntity<Data<List<GD>>> listWithId(K key);
-
-    ResponseEntity<Data<List<GD>>> changeOrder(OD od);
 }

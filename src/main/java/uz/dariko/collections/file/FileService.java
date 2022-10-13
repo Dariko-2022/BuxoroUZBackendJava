@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 import uz.dariko.base.service.AbstractService;
 import uz.dariko.exception.exceptions.BadRequestException;
 import uz.dariko.exception.exceptions.UniversalException;
@@ -20,6 +21,7 @@ import java.io.File;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,40 +39,20 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
         this.servletContext = servletContext;
     }
 
-    public ResponseEntity<Data<UUID>> uploadForNewPage(String orgId, uz.dariko.collections.file.File file){
-        Long orgID = baseUtils.parseLong(orgId);
-        String folder = FILE_PATH + "\\" + orgID;
-        File file2 = new File(folder);
-        if (!file2.isDirectory()) {
-            file2.mkdirs();
+    public ResponseEntity<?> uploads(List<MultipartHttpServletRequest> requests) throws IOException{
+
+        List<UUID> uploadIDs=new ArrayList<>();
+        for (MultipartHttpServletRequest request : requests) {
+            UUID upload = upload(request);
+            uploadIDs.add(upload);
         }
+        return ResponseEntity.ok(uploadIDs);
 
-
-
-
-        String extention="";
-        String generatedName1 = file.getGeneratedName();
-        for (int i = 0; i < generatedName1.length(); i++) {
-            if (generatedName1.charAt(i)=='.'){
-                extention=generatedName1.substring(i);
-            }
-        }
-        String generatedName = UUID.randomUUID()+extention ;
-        String url = folder + "\\" + generatedName;
-
-
-        uz.dariko.collections.file.File fileEntity = new uz.dariko.collections.file.File();
-        fileEntity.setFilePath(url);
-        fileEntity.setExtention(file.getExtention());
-        fileEntity.setSize(file.getSize());
-        fileEntity.setOriginalName(file.getOriginalName());
-        fileEntity.setGeneratedName(generatedName);
-        uz.dariko.collections.file.File save = repository.save(fileEntity);
-        return ResponseEntity.ok(new Data<>(save.getId()));
     }
-    public ResponseEntity<Data<UUID>> upload(String orgId, MultipartHttpServletRequest request) throws IOException {
-        Long orgID = baseUtils.parseLong(orgId);
-        String folder = FILE_PATH + "\\" + orgID;
+
+    public UUID upload( MultipartHttpServletRequest request) throws IOException {
+
+        String folder = FILE_PATH;
         Path path = Path.of(folder);
         File file2 = new File(folder);
         if (!file2.isDirectory()) {
@@ -110,7 +92,7 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
             fileEntity.setGeneratedName(generatedName);
 
             uz.dariko.collections.file.File save = repository.save(fileEntity);
-            return ResponseEntity.ok(new Data<>(save.getId()));
+            return save.getId();
         } else {
             throw new BadRequestException("File null bo'lishi mumkin emas");
         }

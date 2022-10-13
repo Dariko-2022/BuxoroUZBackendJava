@@ -27,12 +27,10 @@ public class NewsController extends AbstractController<NewsService> implements G
 
 
     @PostMapping("createWithPhoto")
-    public ResponseEntity<?> create(
-            NewsCreateDTO DTO,
-            @RequestParam("image") MultipartHttpServletRequest multipartFile
-    ) throws Exception {
+    public ResponseEntity<?> create(NewsCreateDTO DTO, @RequestParam("image") MultipartHttpServletRequest multipartFile) throws Exception {
         return service.create(DTO,multipartFile);
     }
+
 
     @Override
     public ResponseEntity<?> create(NewsCreateDTO DTO) {
@@ -40,7 +38,7 @@ public class NewsController extends AbstractController<NewsService> implements G
     }
 
     @Override
-    public ResponseEntity<Data<NewsDTO>> update(NewsUpdateDTO DTO) {
+    public ResponseEntity<?> update(NewsUpdateDTO DTO) {
         return null;
     }
 
@@ -58,10 +56,4 @@ public class NewsController extends AbstractController<NewsService> implements G
     public ResponseEntity<Data<List<NewsDTO>>> list() {
         return null;
     }
-
-    @Override
-    public ResponseEntity<Data<List<NewsDTO>>> listWithId(UUID code) {
-        return null;
-    }
-
 }

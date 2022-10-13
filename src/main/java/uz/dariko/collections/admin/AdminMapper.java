@@ -11,11 +11,11 @@ public class AdminMapper {
             return null;
         }
         String aboutMe = null;
-        /*if (admin.getAboutMe() != null) {
-            aboutMe = admin.getAboutMe().getGeneratedName();
-        }*/
+        if (admin.getImage() != null) {
+            aboutMe = admin.getImage().getGeneratedName();
+        }
         return new AdminDTO(admin
-                .getId(), admin.getUsername(), admin.getPassword(), admin.getImgUrl(), admin.getFirstName(), admin.getLastName(), admin.getEmail(),
-                admin.getPhoneNumber());
+                .getId(), admin.getUsername(), admin.getPassword(), aboutMe, admin.getFirstName(), admin.getLastName(), admin.getEmail(),
+                admin.getPhoneNumber(),admin.getIsSuperAdmin());
     }
 }
