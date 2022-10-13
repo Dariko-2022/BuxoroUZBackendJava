@@ -32,6 +32,11 @@ public class FileController extends AbstractController<FileService> {
         return service.viewFile(generatedName);
     }
 
+    @GetMapping("/view")
+    private ResponseEntity<?> viewFile(@PathVariable List<String> generatedNames) throws IOException {
+        return service.viewFiles(generatedNames);
+    }
+
 
     @GetMapping("/download/{generatedName}")
     private ResponseEntity<Data<String>> download(HttpServletResponse response, @PathVariable String generatedName) throws IOException {

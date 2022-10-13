@@ -2,10 +2,7 @@ package uz.dariko.collections.news;
 
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
@@ -27,10 +24,18 @@ public class NewsController extends AbstractController<NewsService> implements G
 
 
     @PostMapping("createWithPhoto")
-    public ResponseEntity<?> create(NewsCreateDTO DTO, @RequestParam("image") MultipartHttpServletRequest multipartFile) throws Exception {
+    public ResponseEntity<?> create(
+            NewsCreateDTO DTO,
+            @RequestParam("image") MultipartHttpServletRequest multipartFile
+    ) throws Exception {
         return service.create(DTO,multipartFile);
     }
 
+
+    @GetMapping("getById")
+    public ResponseEntity<?> getById(String uuid) {
+        return service.getById(uuid);
+    }
 
     @Override
     public ResponseEntity<?> create(NewsCreateDTO DTO) {
@@ -38,7 +43,7 @@ public class NewsController extends AbstractController<NewsService> implements G
     }
 
     @Override
-    public ResponseEntity<?> update(NewsUpdateDTO DTO) {
+    public ResponseEntity<Data<NewsDTO>> update(NewsUpdateDTO DTO) {
         return null;
     }
 
@@ -56,4 +61,10 @@ public class NewsController extends AbstractController<NewsService> implements G
     public ResponseEntity<Data<List<NewsDTO>>> list() {
         return null;
     }
+
+    @Override
+    public ResponseEntity<Data<List<NewsDTO>>> listWithId(UUID code) {
+        return null;
+    }
+
 }

@@ -1,10 +1,7 @@
 package uz.dariko.collections.govSphere;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.collections.govSphere.dto.GovSphereCreateDTO;
 
@@ -23,5 +20,10 @@ public class GovSphereController extends AbstractController<GovSphereService> {
             ) {
 
         return service.create(govSphereCreateDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAll() {
+        return service.getAll();
     }
 }

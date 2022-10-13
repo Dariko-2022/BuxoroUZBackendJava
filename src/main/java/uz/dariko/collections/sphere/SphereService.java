@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.sphere.dto.SphereCreateDTO;
 
+import java.util.List;
+
 
 @Service
 public class SphereService implements BaseService {
@@ -24,5 +26,10 @@ public class SphereService implements BaseService {
         );
         sphereRepository.save(sphere);
         return ResponseEntity.status(201).body("saved");
+    }
+
+    public ResponseEntity<?> getAll() {
+        List<Sphere> all = sphereRepository.findAll();
+        return ResponseEntity.ok(all);
     }
 }

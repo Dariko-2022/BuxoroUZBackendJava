@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
 import uz.dariko.collections.auth.AuthService;
 import uz.dariko.collections.auth.JwtFilter;
 
@@ -38,8 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .headers().defaultsDisabled().cacheControl();
+
+        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
+
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -59,9 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/webjars/"
                 )
                 .permitAll()
-                .antMatchers("api/v1/admin/**", "api/v1/file/upload", "api/v1/file/upload/image").authenticated()
-                .antMatchers("api/v1/**").permitAll();
+                .antMatchers("api/admin/**").permitAll();
     }
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

@@ -2,10 +2,7 @@ package uz.dariko.collections.sphere;
 
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
 import uz.dariko.collections.sphere.dto.SphereCreateDTO;
@@ -24,6 +21,11 @@ public class SphereController extends AbstractController<SphereService> {
             @RequestBody SphereCreateDTO sphereCreateDto
     ) {
         return service.create(sphereCreateDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAll() {
+        return service.getAll();
     }
 
 }
