@@ -10,7 +10,6 @@ import uz.dariko.response.Data;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/file")
@@ -36,11 +35,6 @@ public class FileController extends AbstractController<FileService> {
     @GetMapping("/view/{generatedName}")
     private ResponseEntity<InputStreamResource> viewFile(@PathVariable String generatedName) throws FileNotFoundException {
         return service.viewFile(generatedName);
-    }
-
-    @GetMapping("/view")
-    private ResponseEntity<?> viewFile(@PathVariable List<String> generatedNames) throws IOException {
-        return service.viewFiles(generatedNames);
     }
 
 

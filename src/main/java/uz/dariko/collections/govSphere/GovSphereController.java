@@ -6,7 +6,7 @@ import uz.dariko.base.controller.AbstractController;
 import uz.dariko.collections.govSphere.dto.GovSphereCreateDTO;
 
 @RestController
-@RequestMapping("api/admin/govSphere")
+@RequestMapping("govSphere")
 public class GovSphereController extends AbstractController<GovSphereService> {
 
 
