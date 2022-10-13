@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.govSphere.GovSphere;
@@ -16,6 +15,7 @@ import uz.dariko.collections.sphere.Sphere;
 import uz.dariko.collections.sphere.SphereRepository;
 import uz.dariko.exception.exceptions.UniversalException;
 import uz.dariko.utils.BaseUtils;
+import uz.dariko.utils.EntityGetter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,25 +30,34 @@ import java.util.UUID;
 
 @Service
 public class NewsService implements BaseService {
-    NewsRepository newsRepository;
+    private final NewsRepository newsRepository;
 
-    BaseUtils baseUtils;
-    SphereRepository sphereRepository;
-    GovSphereRepository govSphereRepository;
+    private final BaseUtils baseUtils;
+    private final SphereRepository sphereRepository;
+    private final GovSphereRepository govSphereRepository;
+
+    private final EntityGetter entityGetter;
+
+    public NewsService(NewsRepository newsRepository, BaseUtils baseUtils, SphereRepository sphereRepository, GovSphereRepository govSphereRepository, EntityGetter entityGetter) {
+        this.newsRepository = newsRepository;
+        this.baseUtils = baseUtils;
+        this.sphereRepository = sphereRepository;
+        this.govSphereRepository = govSphereRepository;
+        this.entityGetter = entityGetter;
+    }
 
 
-
-    public ResponseEntity<?> create(NewsCreateDTO newsCreateDto, MultipartHttpServletRequest multipartFiles) throws Exception {
+    public ResponseEntity<?> create(NewsCreateDTO newsCreateDto) throws Exception {
 
         Optional<Sphere> byId = sphereRepository.findById(UUID.fromString(newsCreateDto.getSphereID()));
         Optional<GovSphere> byGovId = govSphereRepository.findById(UUID.fromString(newsCreateDto.getGovSphereID()));
-
-        List<MultipartFile> multipartFile = multipartFiles.getFiles("image");
+        List<UUID> uuids = baseUtils.parseUUID(newsCreateDto.getImageIDs());
+        List<File> images = entityGetter.getFiles(uuids);
 
         if(byId.isPresent() && byGovId.isPresent()) {
             Sphere sphere = byId.get();
             GovSphere govSphere = byGovId.get();
-            List<File> images = savePhoto(multipartFile);
+
 
             News news = new News(
                     newsCreateDto.getUzTitle(), newsCreateDto.getKrTitle(), newsCreateDto.getRuTitle(),

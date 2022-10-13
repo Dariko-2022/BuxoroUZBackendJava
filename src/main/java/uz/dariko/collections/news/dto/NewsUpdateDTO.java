@@ -22,7 +22,7 @@ public class NewsUpdateDTO extends GenericDTO {
 
     private String govSphereID; //soha yunalishi
 
-    private List<String> imageID;
+    private List<String> imageIDs;
 
     private boolean actual; //dolzarb
 

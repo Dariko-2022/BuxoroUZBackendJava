@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/admin/news")
+@RequestMapping("news/")
 public class NewsController extends AbstractController<NewsService> implements GenericCRUDController<NewsCreateDTO, NewsUpdateDTO, NewsDTO, UUID> {
 
     public NewsController(NewsService service) {
@@ -23,13 +23,7 @@ public class NewsController extends AbstractController<NewsService> implements G
     }
 
 
-    @PostMapping("createWithPhoto")
-    public ResponseEntity<?> create(
-            NewsCreateDTO DTO,
-            @RequestParam("image") MultipartHttpServletRequest multipartFile
-    ) throws Exception {
-        return service.create(DTO,multipartFile);
-    }
+
 
 
     @GetMapping("getById")
@@ -38,8 +32,8 @@ public class NewsController extends AbstractController<NewsService> implements G
     }
 
     @Override
-    public ResponseEntity<?> create(NewsCreateDTO DTO) {
-        return null;
+    public ResponseEntity<?> create (NewsCreateDTO DTO) throws Exception {
+        return service.create(DTO);
     }
 
     @Override
@@ -62,9 +56,6 @@ public class NewsController extends AbstractController<NewsService> implements G
         return null;
     }
 
-    @Override
-    public ResponseEntity<Data<List<NewsDTO>>> listWithId(UUID code) {
-        return null;
-    }
+
 
 }

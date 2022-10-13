@@ -16,7 +16,7 @@ import java.util.List;
 
 public interface GenericCRUDController<CD extends BaseDTO, UD extends GenericDTO, GD extends GenericDTO, K extends Serializable> {
     @RequestMapping(value = BaseUtils.CREATE_PATH, method = RequestMethod.POST)
-    ResponseEntity<?> create(@Valid @RequestBody CD DTO);
+    ResponseEntity<?>  create (@Valid @RequestBody CD DTO) throws Exception ;
 
     @RequestMapping(value = BaseUtils.UPDATE_PATH, method = RequestMethod.PATCH)
     ResponseEntity<?> update(@Valid @RequestBody UD DTO);

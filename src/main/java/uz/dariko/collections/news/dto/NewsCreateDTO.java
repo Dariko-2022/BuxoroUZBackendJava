@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.dto.BaseDTO;
 
+import java.util.List;
+
 
 @Getter
 @Setter
@@ -20,6 +22,7 @@ public class NewsCreateDTO implements BaseDTO {
     private String krBody;
     private String ruBody;
 
+    private List<String> imageIDs;
 
     private String sphereID; //soha
 
