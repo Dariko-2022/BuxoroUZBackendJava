@@ -70,40 +70,10 @@ public class NewsService implements BaseService {
         return ResponseEntity.badRequest().body("sphere not found");
     }
 
-    private List<File> savePhoto(List<MultipartFile> multipartFiles) throws Exception {
-        List<File> list = new ArrayList<>();
-        for(MultipartFile multipartFile : multipartFiles) {
-            long size = multipartFile.getSize();
-            if(size < 1024*1024*100) {
-                String originalName = multipartFile.getOriginalFilename();
-                String extention = FilenameUtils.getExtension(originalName);
-                String generatedName = UUID.randomUUID() + extention;
-                try (InputStream inputStream = multipartFile.getInputStream()) {
-                    Path uploadPath = Paths.get("newsPhotos");
-                    Path filePath = uploadPath.resolve(generatedName);
-                    Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-                    File file = new File(
-                            filePath.toString(),
-                            originalName,
-                            generatedName,
-                            extention,
-                            size,
-                            true,
-                            1
-                            );
-                    list.add(file);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }else {
-                throw new UniversalException("File hajmi 100 mb dan kichik bo'lishi kerak", HttpStatus.BAD_REQUEST);
-            }
-        }
-        return list;
-    }
+
 
     public ResponseEntity<?> getById(String code) {
-        UUID id = UUID.fromString(code);
+        UUID id = baseUtils.parseUUID(code);
 
         Optional<News> byId = newsRepository.findById(id);
 
