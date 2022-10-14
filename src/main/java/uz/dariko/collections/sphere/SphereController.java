@@ -4,11 +4,10 @@ package uz.dariko.collections.sphere;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
-import uz.dariko.base.controller.GenericCRUDController;
 import uz.dariko.collections.sphere.dto.SphereCreateDTO;
 
 @RestController
-@RequestMapping("api/admin/sphere")
+@RequestMapping("sphere/")
 public class SphereController extends AbstractController<SphereService> {
 
 

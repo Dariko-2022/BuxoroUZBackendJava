@@ -1,8 +1,6 @@
 package uz.dariko.collections.file;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,10 +19,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.*;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -43,10 +39,6 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
 
     public ResponseEntity<?> uploads(MultipartHttpServletRequest requests) throws IOException{
 
-        HttpHeaders images = requests.getMultipartHeaders("images");
-
-        MultipartFile image = requests.getFile("images");
-
         List<MultipartFile> multipartFiles = requests.getFiles("images");
 
         List<UUID> uploadIDs=new ArrayList<>();
@@ -61,12 +53,11 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
     public UUID upload( MultipartFile file) throws IOException {
 
         String folder = FILE_PATH;
-        Path path = Path.of(folder);
         File file2 = new File(folder);
         if (!file2.isDirectory()) {
             file2.mkdirs();
         }
-//        MultipartFile file = request.getFile("file");
+
         if (file != null) {
             if (file.getSize() > 100 * 1024 * 1024) {
                 throw new UniversalException("File hajmi 100 mb dan kichik bo'lishi kerak", HttpStatus.BAD_REQUEST);
@@ -115,20 +106,6 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
         return ResponseEntity.ok().headers(headers).contentLength(send.length()).contentType(MediaType.parseMediaType(fileEntity.getExtention())).body(resource);
     }
 
-    public ResponseEntity<?> viewFiles(List<String> generatedNames) throws IOException {
-
-        List<MediaType> contentTypes = new ArrayList<>();
-        List<Byte[]> imagesData = new ArrayList<>();
-
-        for(String generatedName : generatedNames) {
-            contentTypes.add(MediaType.parseMediaType(FilenameUtils.getExtension(generatedName)));
-            uz.dariko.collections.file.File fileEntity = findFile(generatedName);
-            imagesData.add(ArrayUtils.toObject(IOUtils.toByteArray(Objects.requireNonNull(getClass().getResourceAsStream(fileEntity.getFilePath())))));
-
-        }
-
-        return null;
-    }
 
     public ResponseEntity<Data<String>> download(HttpServletResponse response, String generatedName) throws IOException {
         uz.dariko.collections.file.File fileEntity = findFile(generatedName);

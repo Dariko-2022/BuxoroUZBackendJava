@@ -1,11 +1,8 @@
 package uz.dariko.collections.news;
 
 
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.govSphere.GovSphere;
@@ -13,17 +10,9 @@ import uz.dariko.collections.govSphere.GovSphereRepository;
 import uz.dariko.collections.news.dto.NewsCreateDTO;
 import uz.dariko.collections.sphere.Sphere;
 import uz.dariko.collections.sphere.SphereRepository;
-import uz.dariko.exception.exceptions.UniversalException;
 import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -46,6 +35,12 @@ public class NewsService implements BaseService {
         this.entityGetter = entityGetter;
     }
 
+
+    public ResponseEntity<?> getForHome() {
+        List<News> list = newsRepository.findNewsByIdAndActual(true,3);
+        list.addAll(newsRepository.findNewsByIdAndActual(false,4));
+        return ResponseEntity.ok(list);
+    }
 
     public ResponseEntity<?> create(NewsCreateDTO newsCreateDto) throws Exception {
 
@@ -71,9 +66,8 @@ public class NewsService implements BaseService {
     }
 
 
-
     public ResponseEntity<?> getById(String code) {
-        UUID id = baseUtils.parseUUID(code);
+        UUID id = UUID.fromString(code);
 
         Optional<News> byId = newsRepository.findById(id);
 
