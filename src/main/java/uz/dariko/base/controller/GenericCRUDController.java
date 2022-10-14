@@ -22,12 +22,12 @@ public interface GenericCRUDController<CD extends BaseDTO, UD extends GenericDTO
     ResponseEntity<?> update(@Valid @RequestBody UD DTO);
 
     @RequestMapping(value = BaseUtils.DELETE_PATH, method = RequestMethod.DELETE)
-    ResponseEntity<Data<Boolean>> delete(@PathVariable K code);
+    ResponseEntity<?> delete(@PathVariable K code);
 
     @RequestMapping(value = BaseUtils.GET_PATH, method = RequestMethod.GET)
-    ResponseEntity<Data<GD>> get(@PathVariable K code);
+    ResponseEntity<?> get(@PathVariable K code);
 
     @RequestMapping(value = BaseUtils.LIST_PATH, method = RequestMethod.GET)
-    ResponseEntity<Data<List<GD>>> list();
+    ResponseEntity<?> list();
 
 }

@@ -18,6 +18,6 @@ public interface GenericCRUDService<CD extends BaseDTO, UD extends GenericDTO, G
 
     ResponseEntity<?> get(K key);
 
-    ResponseEntity<Data<List<GD>>> list();
+    ResponseEntity<?> list();
 
 }

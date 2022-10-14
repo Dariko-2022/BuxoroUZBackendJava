@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.entity.Auditable;
+import uz.dariko.collections.file.File;
 import uz.dariko.collections.region.Region;
 import uz.dariko.collections.stateEmloyee.StateEmployee;
 
@@ -24,7 +25,8 @@ public class Sector extends Auditable {
     private String krName;
     private String ruName;
 
-    private String imgUrl;
+    @OneToOne
+    private File image;
 
     @OneToOne
     private StateEmployee stateEmployee;
