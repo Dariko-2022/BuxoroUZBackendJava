@@ -18,7 +18,6 @@ import java.util.UUID;
 @RequestMapping("sector")
 public class SectorController extends AbstractController<SectorService> implements GenericCRUDController<SectorCreateDTO, SectorUpdateDTO, SectorDTO, UUID> {
 
-
     public SectorController(SectorService service) {
         super(service);
     }
