@@ -1,11 +1,11 @@
 package uz.dariko.collections.region;
 
-import jdk.jfr.Enabled;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.entity.Auditable;
+import uz.dariko.collections.file.File;
 import uz.dariko.collections.stateEmloyee.StateEmployee;
 
 import javax.persistence.Entity;
@@ -31,6 +31,21 @@ public class Region extends Auditable {
     @OneToOne
     private StateEmployee hokim;
 
+    @OneToOne
+    private File file;
+
     //hokim id sini saqlash kerak;
+
+    private String hotline;//ishonch telefoni
+
+    private String email;
+
+    private String facebookLink;
+
+    private String instagramLink;
+
+    private String youtubeLink;
+
+    private String telegramLink;
 
 }

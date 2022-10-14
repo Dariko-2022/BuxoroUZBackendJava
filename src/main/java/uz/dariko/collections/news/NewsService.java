@@ -1,6 +1,7 @@
 package uz.dariko.collections.news;
 
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.service.BaseService;
@@ -8,11 +9,15 @@ import uz.dariko.collections.file.File;
 import uz.dariko.collections.govSphere.GovSphere;
 import uz.dariko.collections.govSphere.GovSphereRepository;
 import uz.dariko.collections.news.dto.NewsCreateDTO;
+import uz.dariko.collections.news.dto.NewsDTO;
 import uz.dariko.collections.sphere.Sphere;
 import uz.dariko.collections.sphere.SphereRepository;
+import uz.dariko.exception.exceptions.UniversalException;
+import uz.dariko.response.Data;
 import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,6 +25,8 @@ import java.util.UUID;
 @Service
 public class NewsService implements BaseService {
     private final NewsRepository newsRepository;
+
+    NewsMapper newsMapper;
 
     private final BaseUtils baseUtils;
     private final SphereRepository sphereRepository;
@@ -36,9 +43,9 @@ public class NewsService implements BaseService {
     }
 
 
-    public ResponseEntity<?> getForHome() {
-        List<News> list = newsRepository.findNewsByIdAndActual(true,3);
-        list.addAll(newsRepository.findNewsByIdAndActual(false,4));
+    public ResponseEntity<?> getForHome() throws Exception{
+        List<News> list = newsRepository.findNewsByIsActualAndLimit(true,3);
+        list.addAll(newsRepository.findNewsByIsActualAndLimit(false,4));
         return ResponseEntity.ok(list);
     }
 
@@ -66,13 +73,33 @@ public class NewsService implements BaseService {
     }
 
 
-    public ResponseEntity<?> getById(String code) {
-        UUID id = UUID.fromString(code);
+    public ResponseEntity<Data<NewsDTO>> getById(UUID code) {
 
-        Optional<News> byId = newsRepository.findById(id);
+        Optional<News> byId = newsRepository.findById(code);
 
-        return byId.isPresent() ? ResponseEntity.ok(byId.get()) : ResponseEntity.status(404).body("Not Found");
+        if (byId.isEmpty()) {
+            throw new UniversalException("Yangilik Topilmadi", HttpStatus.NOT_FOUND);
+        }
 
+        News news = byId.get();
+        news.setCountView(news.getCountView() + 1);
+        News save = newsRepository.save(news);
+        NewsDTO newsDTO = newsMapper.toDto(save);
+        newsDTO.setGeneratedNames(getImageGeneratedNames(save));
+
+        return ResponseEntity.ok(new Data<>(newsDTO));
+    }
+
+
+
+
+    public List<String> getImageGeneratedNames(News dto) { //getById da ishlatilgan
+        List<File> images = dto.getImages();
+        List<String> res = new ArrayList<>();
+        for(File file : images) {
+            res.add(file.getGeneratedName());
+        }
+        return res;
     }
 
 

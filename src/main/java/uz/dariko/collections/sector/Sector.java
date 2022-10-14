@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.entity.Auditable;
+import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.region.Region;
 import uz.dariko.collections.stateEmloyee.StateEmployee;
@@ -19,14 +20,14 @@ import javax.persistence.OneToOne;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Sector extends Auditable {
+public class Sector extends Auditable implements BaseService {
 
     private String uzName;
     private String krName;
     private String ruName;
 
     @OneToOne
-    private File image;
+    private File file;
 
     @OneToOne
     private StateEmployee stateEmployee;
@@ -34,16 +35,8 @@ public class Sector extends Auditable {
     @ManyToOne
     private Region region;
 
-    private String hotline;//ishonch telefoni
+    private String description;
 
-    private String email;
-
-    private String facebookLink;
-
-    private String instagramLink;
-
-    private String youtubeLink;
-
-    private String telegramLink;
+    private String sectorArea;
 
 }

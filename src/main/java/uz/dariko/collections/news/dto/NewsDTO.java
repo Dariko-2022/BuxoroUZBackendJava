@@ -1,9 +1,19 @@
 package uz.dariko.collections.news.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import uz.dariko.base.dto.GenericDTO;
 
 import java.util.List;
+import java.util.UUID;
 
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class NewsDTO extends GenericDTO {
     private String uzTitle;
     private String krTitle;
@@ -14,15 +24,17 @@ public class NewsDTO extends GenericDTO {
     private String ruBody;
 
 
-    private String sphereID; //soha
+    private UUID sphereID; //soha
 
-    private String govSphereID; //soha yunalishi
+    private UUID govSphereID; //soha yunalishi
 
-    private List<String> imageIDs;
+    private List<String> generatedNames;
 
     private int countView;
 
     private boolean actual; //dolzarb
+
+    private boolean smm; //SMM
 
     private String source; //manba
 }
