@@ -5,8 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.entity.Auditable;
+import uz.dariko.collections.file.File;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 
 @Setter
@@ -18,6 +20,9 @@ public class Links extends Auditable {
     private String uzName;
     private String krName;
     private String ruName;
-    private String imgUrl;
+
+    @OneToOne
+    private File file;
+
     private String url;
 }

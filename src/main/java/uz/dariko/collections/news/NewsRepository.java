@@ -10,7 +10,7 @@ import java.util.UUID;
 @Repository
 public interface NewsRepository extends JpaRepository<News, UUID> {
 
-    @Query(nativeQuery = true, value = "SELECT * FROM News WHERE actual = ?1 ORDER BY CREATED_AT DESC LIMIT ?2;")
-    List<News> findNewsByIdAndActual(boolean actual, int limit);
+    @Query(nativeQuery = true, value = "SELECT * FROM News WHERE actual = ?1 ORDER BY CREATED_AT DESC LIMIT ?2")
+    List<News> findNewsByIsActualAndLimit(boolean actual, int limit);
 
 }

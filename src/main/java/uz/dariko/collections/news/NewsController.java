@@ -24,13 +24,13 @@ public class NewsController extends AbstractController<NewsService> implements G
     }
 
     @GetMapping("getById")
-    public ResponseEntity<?> getById(String uuid) {
+    public ResponseEntity<?> getById(UUID uuid) {
         return service.getById(uuid);
     }
 
 
     @GetMapping("getForHome")
-    public ResponseEntity<?> getForHome() {
+    public ResponseEntity<?> getForHome() throws Exception {
         return service.getForHome();
     }
 
@@ -51,7 +51,7 @@ public class NewsController extends AbstractController<NewsService> implements G
 
     @Override
     public ResponseEntity<Data<NewsDTO>> get(UUID code) {
-        return null;
+        return service.getById(code);
     }
 
     @Override
