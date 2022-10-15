@@ -1,5 +1,6 @@
 package uz.dariko.collections.sector;
 
+import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 import uz.dariko.base.mapper.AbstractMapper;
 import uz.dariko.collections.sector.dto.SectorCreateDTO;
@@ -10,7 +11,7 @@ import uz.dariko.collections.sector.dto.SectorUpdateDTO;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Mapper(componentModel = "spring")
 @Component
 public interface SectorMapper extends AbstractMapper<SectorCreateDTO, SectorUpdateDTO, SectorDTO, Sector> {
 

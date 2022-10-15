@@ -26,7 +26,7 @@ import java.util.UUID;
 public class NewsService implements BaseService {
     private final NewsRepository newsRepository;
 
-    NewsMapper newsMapper;
+    private final NewsMapper newsMapper;
 
     private final BaseUtils baseUtils;
     private final SphereRepository sphereRepository;
@@ -34,8 +34,9 @@ public class NewsService implements BaseService {
 
     private final EntityGetter entityGetter;
 
-    public NewsService(NewsRepository newsRepository, BaseUtils baseUtils, SphereRepository sphereRepository, GovSphereRepository govSphereRepository, EntityGetter entityGetter) {
+    public NewsService(NewsRepository newsRepository, NewsMapper newsMapper, BaseUtils baseUtils, SphereRepository sphereRepository, GovSphereRepository govSphereRepository, EntityGetter entityGetter) {
         this.newsRepository = newsRepository;
+        this.newsMapper = newsMapper;
         this.baseUtils = baseUtils;
         this.sphereRepository = sphereRepository;
         this.govSphereRepository = govSphereRepository;

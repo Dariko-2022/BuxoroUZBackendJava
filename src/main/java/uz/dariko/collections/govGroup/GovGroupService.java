@@ -18,11 +18,12 @@ public class GovGroupService implements BaseService {
 
     private final GovGroupRepository govGroupRepository;
 
-    GovGroupMapper govGroupMapper;
+    private final GovGroupMapper govGroupMapper;
 
 
-    public GovGroupService(GovGroupRepository govGroupRepository) {
+    public GovGroupService(GovGroupRepository govGroupRepository, GovGroupMapper govGroupMapper) {
         this.govGroupRepository = govGroupRepository;
+        this.govGroupMapper = govGroupMapper;
     }
 
     public ResponseEntity<?> create(GovGroupCreateDTO dto) {

@@ -20,7 +20,6 @@ import java.util.Arrays;
 public class BuxoroUzApplication {
 
     public static void main(String[] args) {
-
         SpringApplication.run(BuxoroUzApplication.class, args);
     }
 

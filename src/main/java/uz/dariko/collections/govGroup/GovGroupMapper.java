@@ -1,5 +1,6 @@
 package uz.dariko.collections.govGroup;
 
+import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 import uz.dariko.base.mapper.AbstractMapper;
 import uz.dariko.collections.govGroup.dto.GovGroupCreateDTO;
@@ -9,7 +10,7 @@ import uz.dariko.collections.govGroup.dto.GovGroupUpdateDTO;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Mapper(componentModel = "spring")
 @Component
 public interface GovGroupMapper extends AbstractMapper<GovGroupCreateDTO, GovGroupUpdateDTO, GovGroupDTO, GovGroup> {
 
