@@ -97,6 +97,7 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
 
 
 
+
     public ResponseEntity<InputStreamResource> viewFile(String generatedName) throws FileNotFoundException {
         uz.dariko.collections.file.File fileEntity = findFile(generatedName);
         File send = new File(fileEntity.getFilePath());

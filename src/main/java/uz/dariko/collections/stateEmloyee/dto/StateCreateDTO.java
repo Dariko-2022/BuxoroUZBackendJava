@@ -1,14 +1,13 @@
-package uz.dariko.collections.stateEmloyee;
+package uz.dariko.collections.stateEmloyee.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import uz.dariko.base.entity.Auditable;
+import uz.dariko.base.dto.BaseDTO;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.region.Region;
 
-import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.util.Date;
@@ -17,9 +16,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class StateEmployee extends Auditable {
-
+public class StateCreateDTO implements BaseDTO {
     private String firstName;
     private String lastName;
     private String patronymic;
@@ -27,14 +24,12 @@ public class StateEmployee extends Auditable {
     private String birthPlace;
     private String nation;
 
-    @ManyToOne
-    private Region region;
+    private String regionID;
     private String degree;
     private String phoneNumber;
 
-    @OneToOne
-    private File image;
+
+    private String imageID;
 
     private String responsibility;
-
 }

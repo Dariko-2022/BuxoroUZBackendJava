@@ -9,6 +9,10 @@ import uz.dariko.collections.file.File;
 import uz.dariko.collections.file.FileRepository;
 import uz.dariko.collections.link.Link;
 import uz.dariko.collections.link.LinkRepository;
+import uz.dariko.collections.region.Region;
+import uz.dariko.collections.region.RegionRepository;
+import uz.dariko.collections.stateEmloyee.StateEmployee;
+import uz.dariko.collections.stateEmloyee.StateEmployeeRepository;
 import uz.dariko.exception.exceptions.NotFoundException;
 import uz.dariko.exception.exceptions.UniversalException;
 
@@ -25,6 +29,10 @@ public class EntityGetter {
     private final FileRepository fileRepository;
 
     private final LinkRepository linkRepository;
+
+    private final RegionRepository regionRepository;
+
+    private final StateEmployeeRepository stateEmployeeRepository;
     public Admin getAdmin(String username) {
         Optional<Admin> optional = adminRepository.findByUsername(username);
         return optional.orElseThrow(() -> {
@@ -52,5 +60,19 @@ public class EntityGetter {
             files.add(file);
         }
         return files;
+    }
+
+    public Region getRegion(UUID regionID) {
+        Optional<Region> entityOptional = regionRepository.findByIdAndIsDeleted(regionID, false);
+        return entityOptional.orElseThrow(() -> {
+            throw new NotFoundException("Region IDsi noto'g'ri berildi");
+        });
+    }
+
+    public StateEmployee getStateEmployee(UUID stateEmployeeID){
+        Optional<StateEmployee> entityOptional = stateEmployeeRepository.findByIdAndIsDeleted(stateEmployeeID, false);
+        return entityOptional.orElseThrow(() -> {
+            throw new NotFoundException("StateEmployee IDsi noto'g'ri berildi");
+        });
     }
 }
