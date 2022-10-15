@@ -10,6 +10,7 @@ import uz.dariko.collections.govSphere.GovSphere;
 import uz.dariko.collections.govSphere.GovSphereRepository;
 import uz.dariko.collections.news.dto.NewsCreateDTO;
 import uz.dariko.collections.news.dto.NewsDTO;
+import uz.dariko.collections.news.dto.NewsUpdateDTO;
 import uz.dariko.collections.sphere.Sphere;
 import uz.dariko.collections.sphere.SphereRepository;
 import uz.dariko.exception.exceptions.UniversalException;
@@ -57,16 +58,14 @@ public class NewsService implements BaseService {
         List<UUID> uuids = baseUtils.parseUUID(newsCreateDto.getImageIDs());
         List<File> images = entityGetter.getFiles(uuids);
 
-        if(byId.isPresent() && byGovId.isPresent()) {
+        if(byId.isPresent()) {
             Sphere sphere = byId.get();
             GovSphere govSphere = byGovId.get();
 
-
-            News news = new News(
-                    newsCreateDto.getUzTitle(), newsCreateDto.getKrTitle(), newsCreateDto.getRuTitle(),
-                    newsCreateDto.getUzBody(), newsCreateDto.getKrBody(), newsCreateDto.getRuBody(),
-                    sphere,govSphere,images,newsCreateDto.isActual(),false,0,newsCreateDto.getSource()
-                    );
+            News news = newsMapper.fromCreateDto(newsCreateDto);
+            news.setImages(images);
+            news.setSphere(sphere);
+            news.setGovSphere(govSphere);
             newsRepository.save(news);
             return ResponseEntity.status(201).body("saved");
         }
@@ -75,33 +74,29 @@ public class NewsService implements BaseService {
 
 
     public ResponseEntity<Data<NewsDTO>> getById(UUID code) {
-
         Optional<News> byId = newsRepository.findById(code);
-
         if (byId.isEmpty()) {
             throw new UniversalException("Yangilik Topilmadi", HttpStatus.NOT_FOUND);
         }
-
         News news = byId.get();
         news.setCountView(news.getCountView() + 1);
         News save = newsRepository.save(news);
         NewsDTO newsDTO = newsMapper.toDto(save);
-        newsDTO.setGeneratedNames(getImageGeneratedNames(save));
 
         return ResponseEntity.ok(new Data<>(newsDTO));
     }
 
+//    public ResponseEntity<Data<NewsDTO>> update(NewsUpdateDTO dto) {
+//        Optional<News> byId = newsRepository.findById(dto.getId());
+//        if (byId.isEmpty()) {
+//            throw new UniversalException("Yangilik Topilmadi", HttpStatus.NOT_FOUND);
+//        }
+//
+//    }
 
 
 
-    public List<String> getImageGeneratedNames(News dto) { //getById da ishlatilgan
-        List<File> images = dto.getImages();
-        List<String> res = new ArrayList<>();
-        for(File file : images) {
-            res.add(file.getGeneratedName());
-        }
-        return res;
-    }
+
 
 
 }
