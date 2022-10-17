@@ -40,8 +40,8 @@ public class NewsController extends AbstractController<NewsService> implements G
     }
 
     @Override
-    public ResponseEntity<Data<NewsDTO>> update(NewsUpdateDTO DTO) {
-        return null;
+    public ResponseEntity<Data<NewsDTO>> update(NewsUpdateDTO dto) {
+        return service.update(dto);
     }
 
     @Override

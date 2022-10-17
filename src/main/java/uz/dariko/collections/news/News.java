@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import uz.dariko.base.entity.Auditable;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.govSphere.GovSphere;
@@ -25,8 +26,11 @@ public class News extends Auditable {
     private String krTitle;
     private String ruTitle;
 
+    @Type(type = "text")
     private String uzBody;
+    @Type(type = "text")
     private String krBody;
+    @Type(type = "text")
     private String ruBody;
 
 
