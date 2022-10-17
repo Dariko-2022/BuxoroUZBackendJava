@@ -6,7 +6,9 @@ import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.region.Region;
 import uz.dariko.collections.sector.dto.SectorCreateDTO;
+import uz.dariko.collections.sector.dto.SectorDTO;
 import uz.dariko.collections.sector.dto.SectorDtoForHome;
+import uz.dariko.collections.sector.dto.SectorUpdateDTO;
 import uz.dariko.collections.stateEmloyee.StateEmployee;
 import uz.dariko.response.Data;
 import uz.dariko.utils.BaseUtils;
@@ -25,44 +27,59 @@ public class SectorService implements BaseService {
 
     private final SectorMapper sectorMapper;
 
-    private final BaseUtils baseUtils;
 
-    public SectorService(SectorRepository sectorRepository, EntityGetter entityGetter, SectorMapper sectorMapper, BaseUtils baseUtils) {
+    public SectorService(SectorRepository sectorRepository, EntityGetter entityGetter, SectorMapper sectorMapper) {
         this.sectorRepository = sectorRepository;
         this.entityGetter = entityGetter;
         this.sectorMapper = sectorMapper;
-        this.baseUtils = baseUtils;
     }
 
-    public ResponseEntity<Data<List<SectorDtoForHome>>> getById(String id) {
+    public ResponseEntity<Data<SectorDTO>> create(SectorCreateDTO dto) {
 
-        UUID uuid = baseUtils.parseUUID(id);
+        File file = entityGetter.getFile(dto.getFileId());
+        StateEmployee stateEmployee = entityGetter.getStateEmployee(dto.getStateEmployeeId());
+        Region region = entityGetter.getRegion(dto.getRegionId());
 
-        Optional<List<Sector>> allById = sectorRepository.findAllById(uuid);
-        if(allById.isPresent()){
-            List<Sector> sectors = allById.get();
-            List<SectorDtoForHome> sectorDTOS = sectorMapper.toHomeDto(sectors);
-            return ResponseEntity.ok(new Data<>(sectorDTOS));
-        }
-        return ResponseEntity.badRequest().body(new Data<>(false));
-    }
-
-    public ResponseEntity<?> create(SectorCreateDTO sectorCreateDTO) {
-
-        UUID fileId = baseUtils.parseUUID(sectorCreateDTO.getFileId());
-        UUID leaderId = baseUtils.parseUUID(sectorCreateDTO.getStateEmployeeId());
-        UUID regionId = baseUtils.parseUUID(sectorCreateDTO.getRegionId());
-
-        File file = entityGetter.getFile(fileId);
-        StateEmployee stateEmployee = entityGetter.getStateEmployee(leaderId);
-        Region region = entityGetter.getRegion(regionId);
-        Sector sector = sectorMapper.fromCreateDto(sectorCreateDTO);
+        Sector sector = sectorMapper.fromCreateDto(dto);
         sector.setFile(file);
         sector.setStateEmployee(stateEmployee);
         sector.setRegion(region);
-        sectorRepository.save(sector);
-        return ResponseEntity.status(201).body("success");
+        Sector save = sectorRepository.save(sector);
+        SectorDTO sectorDTO = sectorMapper.toDto(save);
+        return ResponseEntity.status(201).body(new Data<>(sectorDTO));
 
     }
 
+    public ResponseEntity<Data<List<SectorDTO>>> get() {
+        List<Sector> list = sectorRepository.findAllByDeletedNot();
+        List<SectorDTO> sectorDTOS = sectorMapper.toDto(list);
+        return ResponseEntity.ok(new Data<>(sectorDTOS));
+    }
+
+    public ResponseEntity<Data<SectorDTO>> get(UUID id) {
+        Sector sector = entityGetter.getSector(id);
+        SectorDTO sectorDTO = sectorMapper.toDto(sector);
+        return ResponseEntity.ok(new Data<>(sectorDTO));
+    }
+
+    public ResponseEntity<Data<SectorDTO>> update(SectorUpdateDTO dto) {
+        Sector sector0 = entityGetter.getSector(dto.getId());
+        Sector sector = sectorMapper.fromUpdateDto(dto, sector0);
+        Region region = entityGetter.getRegion(dto.getRegionId());
+        StateEmployee stateEmployee = entityGetter.getStateEmployee(dto.getStateEmployeeId());
+        File file = entityGetter.getFile(dto.getFileId());
+        sector.setStateEmployee(stateEmployee);
+        sector.setRegion(region);
+        sector.setFile(file);
+        Sector save = sectorRepository.save(sector);
+        SectorDTO sectorDTO = sectorMapper.toDto(save);
+        return ResponseEntity.ok(new Data<>(sectorDTO));
+    }
+
+    public ResponseEntity<Data<Boolean>> delete(UUID uuid) {
+        Sector sector = entityGetter.getSector(uuid);
+        sector.setDeleted(true);
+        sectorRepository.save(sector);
+        return ResponseEntity.ok(new Data<>(true));
+    }
 }

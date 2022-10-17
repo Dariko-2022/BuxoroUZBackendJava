@@ -58,4 +58,13 @@ public interface SectorMapper extends AbstractMapper<SectorCreateDTO, SectorUpda
 
         return sector;
     }
+
+    default Sector fromUpdateDto(SectorUpdateDTO dto,Sector sector){
+        sector.setDescription(dto.getDescription());
+        sector.setUzName(dto.getUzName());
+        sector.setRuName(dto.getRuName());
+        sector.setKrName(dto.getKrName());
+        sector.setSectorArea(dto.getSectorArea());
+        return sector;
+    }
 }

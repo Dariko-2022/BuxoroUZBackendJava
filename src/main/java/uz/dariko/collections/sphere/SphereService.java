@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.sphere.dto.SphereCreateDTO;
 import uz.dariko.collections.sphere.dto.SphereUpdateDTO;
+import uz.dariko.utils.EntityGetter;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,9 +19,12 @@ public class SphereService implements BaseService{
 
     private final SphereMapper sphereMapper;
 
-    public SphereService(SphereRepository sphereRepository, SphereMapper sphereMapper) {
+    private final EntityGetter entityGetter;
+
+    public SphereService(SphereRepository sphereRepository, SphereMapper sphereMapper, EntityGetter entityGetter) {
         this.sphereRepository = sphereRepository;
         this.sphereMapper = sphereMapper;
+        this.entityGetter = entityGetter;
     }
 
     public ResponseEntity<?> create(SphereCreateDTO sphereCreateDto) {
@@ -39,16 +43,15 @@ public class SphereService implements BaseService{
     }
 
     public ResponseEntity<?> update(SphereUpdateDTO dto) {
-        Optional<Sphere> byId = sphereRepository.findById(dto.getId());
-        if(byId.isPresent()) {
-            Sphere sphere = byId.get();
-            sphere.setUzName(dto.getUzName());
-            sphere.setKrName(dto.getKrName());
-            sphere.setRuName(dto.getRuName());
-            sphereRepository.save(sphere);
-            return ResponseEntity.status(204).body(sphere);
-        }
-        return ResponseEntity.status(404).body("Not Found");
+
+        Sphere sphere = entityGetter.getSphere(dto.getId());
+
+        sphere.setUzName(dto.getUzName());
+        sphere.setKrName(dto.getKrName());
+        sphere.setRuName(dto.getRuName());
+        sphereRepository.save(sphere);
+        return ResponseEntity.status(204).body(sphere);
+
     }
 
     public ResponseEntity<?> delete(UUID id) {

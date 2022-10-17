@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import uz.dariko.base.entity.Auditable;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.file.File;
@@ -35,8 +36,11 @@ public class Sector extends Auditable implements BaseService {
     @ManyToOne
     private Region region;
 
+    @Type(type = "text")
     private String description;
 
+
+    @Type(type = "text")
     private String sectorArea;
 
 }

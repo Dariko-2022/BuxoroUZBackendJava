@@ -29,56 +29,46 @@ public class NewsService implements BaseService {
 
     private final NewsMapper newsMapper;
 
-    private final BaseUtils baseUtils;
-    private final SphereRepository sphereRepository;
-    private final GovSphereRepository govSphereRepository;
-
     private final EntityGetter entityGetter;
 
-    public NewsService(NewsRepository newsRepository, NewsMapper newsMapper, BaseUtils baseUtils, SphereRepository sphereRepository, GovSphereRepository govSphereRepository, EntityGetter entityGetter) {
+    public NewsService(NewsRepository newsRepository, NewsMapper newsMapper,  EntityGetter entityGetter) {
         this.newsRepository = newsRepository;
         this.newsMapper = newsMapper;
-        this.baseUtils = baseUtils;
-        this.sphereRepository = sphereRepository;
-        this.govSphereRepository = govSphereRepository;
         this.entityGetter = entityGetter;
     }
 
 
     public ResponseEntity<?> getForHome() throws Exception{
-        List<News> list = newsRepository.findNewsByIsActualAndLimit(true,3);
-        list.addAll(newsRepository.findNewsByIsActualAndLimit(false,4));
-        return ResponseEntity.ok(list);
+        Optional<List<News>> newsByIsActualAndLimit = newsRepository.findNewsByIsActualAndLimit(true, 3);
+        Optional<List<News>> newsByIsActualAndLimit1 = newsRepository.findNewsByIsActualAndLimit(false, 4);
+        if(newsByIsActualAndLimit1.isPresent() & newsByIsActualAndLimit.isPresent()) {
+            List<News> list = newsByIsActualAndLimit.get();
+            list.addAll(newsByIsActualAndLimit1.get());
+
+            return ResponseEntity.ok(list);
+        }
+        return null;
     }
 
     public ResponseEntity<?> create(NewsCreateDTO newsCreateDto) throws Exception {
 
-        Optional<Sphere> byId = sphereRepository.findById(UUID.fromString(newsCreateDto.getSphereID()));
-        Optional<GovSphere> byGovId = govSphereRepository.findById(UUID.fromString(newsCreateDto.getGovSphereID()));
-        List<UUID> uuids = baseUtils.parseUUID(newsCreateDto.getImageIDs());
-        List<File> images = entityGetter.getFiles(uuids);
+        Sphere sphere = entityGetter.getSphere(newsCreateDto.getSphereID());
+        GovSphere govSphere = entityGetter.getGovSphere(newsCreateDto.getGovSphereID());
+        List<File> images = entityGetter.getFiles(newsCreateDto.getImageIDs());
 
-        if(byId.isPresent()) {
-            Sphere sphere = byId.get();
-            GovSphere govSphere = byGovId.get();
+        News news = newsMapper.fromCreateDto(newsCreateDto);
+        news.setImages(images);
+        news.setSphere(sphere);
+        news.setGovSphere(govSphere);
+        newsRepository.save(news);
+        return ResponseEntity.status(201).body("saved");
 
-            News news = newsMapper.fromCreateDto(newsCreateDto);
-            news.setImages(images);
-            news.setSphere(sphere);
-            news.setGovSphere(govSphere);
-            newsRepository.save(news);
-            return ResponseEntity.status(201).body("saved");
-        }
-        return ResponseEntity.badRequest().body("sphere not found");
     }
 
 
-    public ResponseEntity<Data<NewsDTO>> getById(UUID code) {
-        Optional<News> byId = newsRepository.findById(code);
-        if (byId.isEmpty()) {
-            throw new UniversalException("Yangilik Topilmadi", HttpStatus.NOT_FOUND);
-        }
-        News news = byId.get();
+    public ResponseEntity<Data<NewsDTO>> getById(UUID id) {
+
+        News news = entityGetter.getNews(id);
         news.setCountView(news.getCountView() + 1);
         News save = newsRepository.save(news);
         NewsDTO newsDTO = newsMapper.toDto(save);
@@ -87,26 +77,44 @@ public class NewsService implements BaseService {
     }
 
     public ResponseEntity<Data<NewsDTO>> update(NewsUpdateDTO dto) {
-        Optional<News> byId = newsRepository.findById(dto.getId());
-        if (byId.isEmpty()) {
-            throw new UniversalException("Yangilik Topilmadi", HttpStatus.NOT_FOUND);
-        }
+        News news0 = entityGetter.getNews(dto.getId());
+        News news = newsMapper.fromUpdateDto(dto, news0);
 
-        News news = newsMapper.fromUpdateDto(dto, byId.get());
+        List<File> images = entityGetter.getFiles(dto.getImageIDs());
 
-        List<UUID> uuids = baseUtils.parseUUID(dto.getImageIDs());
-        List<File> images = entityGetter.getFiles(uuids);
-        Optional<Sphere> spById = sphereRepository.findById(UUID.fromString(dto.getSphereID()));
-        Optional<GovSphere> byGovId = govSphereRepository.findById(UUID.fromString(dto.getGovSphereID()));
+        Sphere sphere = entityGetter.getSphere(dto.getGovSphereID());
+        GovSphere govSphere = entityGetter.getGovSphere(dto.getGovSphereID());
         news.setImages(images);
-        if(spById.isPresent()&byGovId.isPresent()) {
-            news.setSphere(spById.get());
-            news.setGovSphere(byGovId.get());
-        }
+        news.setSphere(sphere);
+        news.setGovSphere(govSphere);
         newsRepository.save(news);
-        return null;
+        NewsDTO newsDTO = newsMapper.toDto(news);
+        return ResponseEntity.ok(new Data<>(newsDTO));
 
     }
+    public ResponseEntity<Data<Boolean>> delete(UUID id) {
+        News news = entityGetter.getNews(id);
+        news.setDeleted(true);
+        newsRepository.save(news);
+        return ResponseEntity.ok(new Data<>(true));
+
+    }
+
+    public ResponseEntity<Data<List<NewsDTO>>> get() {
+        Optional<List<News>> allByDeleted = newsRepository.findAllByDeleted(false);
+        if (allByDeleted.isEmpty()) {
+            throw new UniversalException("Yangiliklar Topilmadi", HttpStatus.NOT_FOUND);
+        }
+
+        List<News> list = allByDeleted.get();
+        List<NewsDTO> newsDTOS = newsMapper.toDto(list);
+
+        return ResponseEntity.ok(new Data<>(newsDTOS));
+    }
+
+
+
+
 
 
 

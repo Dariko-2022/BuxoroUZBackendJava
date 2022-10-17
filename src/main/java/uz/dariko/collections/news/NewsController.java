@@ -45,8 +45,8 @@ public class NewsController extends AbstractController<NewsService> implements G
     }
 
     @Override
-    public ResponseEntity<Data<Boolean>> delete(UUID code) {
-        return null;
+    public ResponseEntity<Data<Boolean>> delete(UUID id) {
+        return service.delete(id);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class NewsController extends AbstractController<NewsService> implements G
 
     @Override
     public ResponseEntity<Data<List<NewsDTO>>> list() {
-        return null;
+        return service.get();
     }
 
 

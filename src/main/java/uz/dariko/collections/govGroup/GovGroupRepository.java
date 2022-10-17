@@ -12,11 +12,11 @@ import java.util.UUID;
 @Repository
 public interface GovGroupRepository extends JpaRepository<GovGroup, UUID> {
 
-    @Query(nativeQuery = true,value = "SELECT * from gov_group where name = ?1 and is_deleted = false")
-    Optional<GovGroup> findByNameAndDeletedNot(String name);
+    @Query(nativeQuery = true,value = "SELECT * from gov_group where name = ?1 and is_deleted = ?2")
+    Optional<GovGroup> findByNameAndIsDeleted(String name,boolean isDeleted);
 
-    @Query(nativeQuery = true,value = "SELECT * from gov_group where id = ?1 and is_deleted = false")
-    Optional<GovGroup> findByIdAndDeletedNot(UUID id);
+    @Query(nativeQuery = true,value = "SELECT * from gov_group where id = ?1 and is_deleted = ?2")
+    Optional<GovGroup> findByIdAndIsDeleted(UUID id,boolean isDeleted);
 
     @Query(nativeQuery = true, value = "SELECT * from gov_group where is_deleted = ?")
     List<GovGroup> findAllByDeleted(boolean deleted);

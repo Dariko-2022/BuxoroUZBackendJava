@@ -23,37 +23,27 @@ public class SectorController extends AbstractController<SectorService> implemen
     }
 
     @Override
-    @PostMapping
-    public ResponseEntity<?> create(SectorCreateDTO DTO) throws Exception {
+    public ResponseEntity<?> create(SectorCreateDTO DTO) {
         return service.create(DTO);
     }
 
     @Override
-    @PutMapping
     public ResponseEntity<?> update(SectorUpdateDTO DTO) {
-        return null;
+        return service.update(DTO);
     }
 
     @Override
-    @DeleteMapping
     public ResponseEntity<Data<Boolean>> delete(UUID uuid) {
-        return null;
+        return service.delete(uuid);
     }
 
     @Override
-    @GetMapping
     public ResponseEntity<Data<SectorDTO>> get(UUID uuid) {
-        return null;
+        return service.get(uuid);
     }
 
     @Override
-    @GetMapping("getAll")
     public ResponseEntity<Data<List<SectorDTO>>> list() {
-        return null;
-    }
-
-    @GetMapping("getAllById")
-    public ResponseEntity<Data<List<SectorDtoForHome>>> listById(String regionId) {
-        return service.getById(regionId);
+        return service.get();
     }
 }

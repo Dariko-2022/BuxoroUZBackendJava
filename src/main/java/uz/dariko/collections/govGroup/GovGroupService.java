@@ -8,6 +8,7 @@ import uz.dariko.collections.govGroup.dto.GovGroupCreateDTO;
 import uz.dariko.collections.govGroup.dto.GovGroupDTO;
 import uz.dariko.collections.govGroup.dto.GovGroupUpdateDTO;
 import uz.dariko.response.Data;
+import uz.dariko.utils.EntityGetter;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,10 +21,13 @@ public class GovGroupService implements BaseService {
 
     private final GovGroupMapper govGroupMapper;
 
+    private final EntityGetter entityGetter;
 
-    public GovGroupService(GovGroupRepository govGroupRepository, GovGroupMapper govGroupMapper) {
+
+    public GovGroupService(GovGroupRepository govGroupRepository, GovGroupMapper govGroupMapper, EntityGetter entityGetter) {
         this.govGroupRepository = govGroupRepository;
         this.govGroupMapper = govGroupMapper;
+        this.entityGetter = entityGetter;
     }
 
     public ResponseEntity<?> create(GovGroupCreateDTO dto) {
@@ -43,39 +47,27 @@ public class GovGroupService implements BaseService {
 
     public ResponseEntity<?> update(GovGroupUpdateDTO dto) {
 
-        Optional<GovGroup> byNameAndDeletedNot = govGroupRepository.findByNameAndDeletedNot(dto.getName());
-
-        if(byNameAndDeletedNot.isPresent()) {
-            GovGroup govGroup = byNameAndDeletedNot.get();
-            govGroup.setName(dto.getName());
-            govGroup.setDescription(dto.getDescription());
-            govGroupRepository.save(govGroup);
-            return ResponseEntity.status(204).body("updated");
-        }
-
-        return ResponseEntity.status(404).body("Not Found");
+        GovGroup govGroup = entityGetter.getGovGroup(dto.getId());
+        govGroup.setName(dto.getName());
+        govGroup.setDescription(dto.getDescription());
+        govGroupRepository.save(govGroup);
+        return ResponseEntity.status(204).body("updated");
     }
 
     public ResponseEntity<Data<Boolean>> delete(UUID id) {
-        Optional<GovGroup> byId = govGroupRepository.findById(id);
-        if(byId.isPresent()){
-            GovGroup govGroup = byId.get();
-            govGroup.setDeleted(true);
-            govGroupRepository.save(govGroup);
-            return ResponseEntity.status(204).body(new Data<>(true) );
-        }
-        return ResponseEntity.status(400).body(new Data<>(false) );
+
+        GovGroup govGroup = entityGetter.getGovGroup(id);
+        govGroup.setDeleted(true);
+        govGroupRepository.save(govGroup);
+        return ResponseEntity.status(204).body(new Data<>(true) );
     }
 
     public ResponseEntity<Data<GovGroupDTO>> getById(UUID id) {
 
-        Optional<GovGroup> byIdAndDeletedNot = govGroupRepository.findByIdAndDeletedNot(id);
-        if(byIdAndDeletedNot.isPresent()){
-            GovGroup govGroup = byIdAndDeletedNot.get();
-            GovGroupDTO govGroupDTO = new GovGroupDTO(govGroup.getId(),govGroup.getName(),govGroup.getDescription());
-            return ResponseEntity.status(200).body(new Data<>(govGroupDTO));
-        }
-        return ResponseEntity.status(400).body(new Data<>(false));
+        GovGroup govGroup = entityGetter.getGovGroup(id);
+        GovGroupDTO govGroupDTO = new GovGroupDTO(govGroup.getId(),govGroup.getName(),govGroup.getDescription());
+        return ResponseEntity.status(200).body(new Data<>(govGroupDTO));
+
 
     }
 

@@ -13,4 +13,7 @@ public interface SphereRepository extends JpaRepository<Sphere, UUID> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM sphere where is_deleted = ?1")
     Optional<List<Sphere>> findAllByDeleted(boolean b);
+
+    @Query(nativeQuery = true,value = "SELECT * FROM sphere where id = ?1 AND is_deleted = false")
+    Optional<Sphere> findByIdAndDeletedNot(UUID id);
 }
