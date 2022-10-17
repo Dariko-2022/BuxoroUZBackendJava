@@ -57,8 +57,17 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
         return news;
     }
 
-//    @Override
-//    default News fromUpdateDto(NewsUpdateDTO updateDto){
-//
-//    }
+    default News fromUpdateDto(NewsUpdateDTO updateDto,News news){
+        news.setSmm(updateDto.isSmm());
+        news.setSource(updateDto.getSource());
+        news.setUzTitle(updateDto.getUzTitle());
+        news.setUzBody(updateDto.getUzBody());
+        news.setKrTitle(updateDto.getKrTitle());
+        news.setKrBody(updateDto.getKrBody());
+        news.setRuTitle(updateDto.getRuTitle());
+        news.setRuBody(updateDto.getRuBody());
+        news.setActual(updateDto.isActual());
+
+        return news;
+    }
 }

@@ -1,5 +1,9 @@
 package uz.dariko.collections.news.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import uz.dariko.base.dto.GenericDTO;
 import uz.dariko.collections.govSphere.GovSphere;
 import uz.dariko.collections.sphere.Sphere;
@@ -7,6 +11,10 @@ import uz.dariko.collections.sphere.Sphere;
 import javax.persistence.ManyToOne;
 import java.util.List;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class NewsUpdateDTO extends GenericDTO {
 
     private String uzTitle;
@@ -25,6 +33,8 @@ public class NewsUpdateDTO extends GenericDTO {
     private List<String> imageIDs;
 
     private boolean actual; //dolzarb
+
+    private boolean smm;
 
     private String source; //manba
 

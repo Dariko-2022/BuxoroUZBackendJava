@@ -86,13 +86,27 @@ public class NewsService implements BaseService {
         return ResponseEntity.ok(new Data<>(newsDTO));
     }
 
-//    public ResponseEntity<Data<NewsDTO>> update(NewsUpdateDTO dto) {
-//        Optional<News> byId = newsRepository.findById(dto.getId());
-//        if (byId.isEmpty()) {
-//            throw new UniversalException("Yangilik Topilmadi", HttpStatus.NOT_FOUND);
-//        }
-//
-//    }
+    public ResponseEntity<Data<NewsDTO>> update(NewsUpdateDTO dto) {
+        Optional<News> byId = newsRepository.findById(dto.getId());
+        if (byId.isEmpty()) {
+            throw new UniversalException("Yangilik Topilmadi", HttpStatus.NOT_FOUND);
+        }
+
+        News news = newsMapper.fromUpdateDto(dto, byId.get());
+
+        List<UUID> uuids = baseUtils.parseUUID(dto.getImageIDs());
+        List<File> images = entityGetter.getFiles(uuids);
+        Optional<Sphere> spById = sphereRepository.findById(UUID.fromString(dto.getSphereID()));
+        Optional<GovSphere> byGovId = govSphereRepository.findById(UUID.fromString(dto.getGovSphereID()));
+        news.setImages(images);
+        if(spById.isPresent()&byGovId.isPresent()) {
+            news.setSphere(spById.get());
+            news.setGovSphere(byGovId.get());
+        }
+        newsRepository.save(news);
+        return null;
+
+    }
 
 
 
