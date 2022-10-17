@@ -23,11 +23,6 @@ public class NewsController extends AbstractController<NewsService> implements G
         super(service);
     }
 
-    @GetMapping("getById")
-    public ResponseEntity<?> getById(UUID uuid) {
-        return service.getById(uuid);
-    }
-
 
     @GetMapping("getForHome")
     public ResponseEntity<?> getForHome() throws Exception {
