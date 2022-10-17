@@ -1,13 +1,23 @@
 package uz.dariko.collections.admin.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import uz.dariko.base.dto.GenericDTO;
 
+import java.util.UUID;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AdminUpdateDTO extends GenericDTO {
     private String username;
 
     private String password;
 
-    private String imageID;
+    private UUID imageID;
 
     private String firstName;
 

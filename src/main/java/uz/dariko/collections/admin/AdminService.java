@@ -17,14 +17,17 @@ import java.util.UUID;
 
 @Service
 public class AdminService extends AbstractService<AdminRepository,AdminValidator> implements GenericCRUDService<AdminCreateDTO, AdminUpdateDTO, AdminDTO, UUID> {
-    public AdminService(AdminRepository repository, AdminValidator validator, EntityGetter entityGetter, BaseUtils baseUtils) {
+    public AdminService(AdminRepository repository, AdminValidator validator, EntityGetter entityGetter, BaseUtils baseUtils, AdminMapper adminMapper) {
         super(repository, validator);
         this.entityGetter = entityGetter;
         this.baseUtils = baseUtils;
+        this.mapper = adminMapper;
     }
 
     private final EntityGetter entityGetter;
     private final BaseUtils baseUtils;
+
+    private final AdminMapper mapper;
 
 
     @Override
@@ -40,21 +43,39 @@ public class AdminService extends AbstractService<AdminRepository,AdminValidator
 
     @Override
     public ResponseEntity<?> update(AdminUpdateDTO DTO) {
-        return null;
+        validator.validOnUpdate(DTO);
+        File image = entityGetter.getFile(DTO.getImageID());
+
+        Admin admin = entityGetter.getAdmin(DTO.getUsername());
+        admin.setUsername(DTO.getUsername());
+        admin.setPassword(DTO.getPassword());
+        admin.setImage(image);
+        admin.setFirstName(DTO.getFirstName());
+        admin.setLastName(DTO.getLastName());
+        admin.setEmail(DTO.getEmail());
+        admin.setPhoneNumber(DTO.getPhoneNumber());
+
+        repository.save(admin);
+
+        return ResponseEntity.ok("Successfully updated Admin");
     }
 
     @Override
     public ResponseEntity<?> delete(UUID key) {
-        return null;
+        Admin admin = entityGetter.getAdmin(key);
+        admin.setDeleted(true);
+        return ResponseEntity.ok("Successfully deleted Admin");
     }
 
     @Override
     public ResponseEntity<?> get(UUID key) {
-        return null;
+        Admin admin = entityGetter.getAdmin(key);
+        return ResponseEntity.ok(mapper.toDTO(admin));
     }
 
     @Override
-    public ResponseEntity<Data<List<AdminDTO>>> list() {
-        return null;
+    public ResponseEntity<?> list() {
+        List<Admin> allByDeleted = repository.findAllByDeleted(false);
+        return ResponseEntity.ok(mapper.toDTO(allByDeleted));
     }
 }

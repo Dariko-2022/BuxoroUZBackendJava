@@ -43,6 +43,12 @@ public class EntityGetter {
             throw new UniversalException("Admin topilmadi", HttpStatus.NOT_FOUND);
         });
     }
+    public Admin getAdmin(UUID adminID) {
+        Optional<Admin> optional = adminRepository.findByIdAndDeleted(adminID,false);
+        return optional.orElseThrow(() -> {
+            throw new UniversalException("Admin topilmadi", HttpStatus.NOT_FOUND);
+        });
+    }
 
     public Link getLink(UUID linkID){
         Optional<Link> byIdAndIsDeleted = linkRepository.findByIdAndIsDeleted(linkID, false);
@@ -79,7 +85,6 @@ public class EntityGetter {
             throw new NotFoundException("StateEmployee IDsi noto'g'ri berildi");
         });
     }
-
     public GovGroup getGovGroup(UUID govGroupID){
         Optional<GovGroup> entityOptional = govGroupRepository.findByIdAndDeletedNot(govGroupID);
         return entityOptional.orElseThrow(() -> {

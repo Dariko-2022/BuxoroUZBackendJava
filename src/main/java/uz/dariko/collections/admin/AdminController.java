@@ -27,21 +27,21 @@ public class AdminController extends AbstractController<AdminService> implements
 
     @Override
     public ResponseEntity<?> update(AdminUpdateDTO DTO) {
-        return null;
+        return service.update(DTO);
     }
 
     @Override
-    public ResponseEntity<Data<Boolean>> delete(UUID code) {
-        return null;
+    public ResponseEntity<?> delete(UUID code) {
+        return service.delete(code);
     }
 
     @Override
-    public ResponseEntity<Data<AdminDTO>> get(UUID code) {
-        return null;
+    public ResponseEntity<?> get(UUID code) {
+        return service.get(code);
     }
 
     @Override
-    public ResponseEntity<Data<List<AdminDTO>>> list() {
-        return null;
+    public ResponseEntity<?> list() {
+        return service.list();
     }
 }
