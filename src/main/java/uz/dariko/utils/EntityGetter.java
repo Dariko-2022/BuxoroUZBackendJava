@@ -87,15 +87,8 @@ public class EntityGetter {
     }
 
 
-    public File getFile(String fileId){
-        UUID fileID = baseUtils.parseUUID(fileId);
-        Optional<File> entityOptional = fileRepository.findByIdAndIsDeleted(fileID, false);
-        return entityOptional.orElseThrow(() -> {
-            throw new NotFoundException("File IDsi noto'g'ri berildi");
-        });
-    }
-    public List<File> getFiles(List<String> entitiesID) {
-        List<UUID> list = baseUtils.parseUUID(entitiesID);
+
+    public List<File> getFiles(List<UUID> list) {
         List<File> files = new ArrayList<>();
         for (UUID id : list) {
             File file = getFile(id);
@@ -113,13 +106,7 @@ public class EntityGetter {
         });
     }
 
-    public Region getRegion(String regionId) {
-        UUID regionID = baseUtils.parseUUID(regionId);
-        Optional<Region> entityOptional = regionRepository.findByIdAndIsDeleted(regionID, false);
-        return entityOptional.orElseThrow(() -> {
-            throw new NotFoundException("Region IDsi noto'g'ri berildi");
-        });
-    }
+
 
 
 
@@ -131,13 +118,7 @@ public class EntityGetter {
         });
     }
 
-    public StateEmployee getStateEmployee(String stateEmployeeId){
-        UUID stateEmployeeID = baseUtils.parseUUID(stateEmployeeId);
-        Optional<StateEmployee> entityOptional = stateEmployeeRepository.findByIdAndIsDeleted(stateEmployeeID, false);
-        return entityOptional.orElseThrow(() -> {
-            throw new NotFoundException("StateEmployee IDsi noto'g'ri berildi");
-        });
-    }
+
 
 
 
@@ -159,13 +140,7 @@ public class EntityGetter {
         });
     }
 
-    public GovSphere getGovSphere(String govSphereID){
-        UUID uuid = baseUtils.parseUUID(govSphereID);
-        Optional<GovSphere> byIdAndDeletedNot = govSphereRepository.findByIdAndDeletedNot(uuid);
-        return byIdAndDeletedNot.orElseThrow(() -> {
-            throw new NotFoundException("Govgroup IDsi noto'g'ri berildi");
-        });
-    }
+
 
 
 
@@ -177,13 +152,7 @@ public class EntityGetter {
         });
     }
 
-    public Sphere getSphere(String id) {
-        UUID uuid = baseUtils.parseUUID(id);
-        Optional<Sphere> byIdAndDeletedNot = sphereRepository.findByIdAndDeletedNot(uuid);
-        return byIdAndDeletedNot.orElseThrow(() -> {
-            throw new NotFoundException("Sohani IDsi noto'g'ri berildi");
-        });
-    }
+
 
 
 
@@ -198,13 +167,7 @@ public class EntityGetter {
 
 
 //----------------------------------------------------Sector----------------------------------------------------
-    public Sector getSector(String id) {
-        UUID uuid = baseUtils.parseUUID(id);
-        Optional<Sector> byIdAndDeletedNot = sectorRepository.findByIdAndDeletedNot(uuid);
-        return byIdAndDeletedNot.orElseThrow(() -> {
-            throw new NotFoundException("Sectorni IDsi noto'g'ri berildi");
-        });
-    }
+
     public Sector getSector(UUID uuid) {
         Optional<Sector> byIdAndDeletedNot = sectorRepository.findByIdAndDeletedNot(uuid);
         return byIdAndDeletedNot.orElseThrow(() -> {
