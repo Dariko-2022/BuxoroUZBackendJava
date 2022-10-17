@@ -35,6 +35,9 @@ public class StateEmployee extends Auditable {
     @OneToOne
     private File image;
 
-    private String responsibility;
+
+    private String responsibility; //vazifa va funksiyalari
+
+    private String labor_activity; //mehnat faoliyati
 
 }

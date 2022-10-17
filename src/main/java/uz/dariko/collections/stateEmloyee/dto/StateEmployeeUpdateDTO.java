@@ -28,4 +28,7 @@ public class StateEmployeeUpdateDTO extends GenericDTO {
     private String imageID;
 
     private String responsibility;
+
+    private String labor_activity; //mehnat faoliyati
+
 }

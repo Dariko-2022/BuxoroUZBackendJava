@@ -39,7 +39,7 @@ public class StateEmployeeService extends AbstractService<StateEmployeeRepositor
                         DTO.getPatronymic(), DTO.getBirthDate(),
                         DTO.getBirthPlace(),
                         DTO.getNation(), region, DTO.getDegree(),
-                        DTO.getPhoneNumber(), image, DTO.getResponsibility());
+                        DTO.getPhoneNumber(), image, DTO.getResponsibility(),DTO.getLabor_activity());
         repository.save(stateEmployee);
         return ResponseEntity.ok("Successfully Created StateEmployee");
     }
@@ -63,13 +63,17 @@ public class StateEmployeeService extends AbstractService<StateEmployeeRepositor
         stateEmployee.setPhoneNumber(DTO.getPhoneNumber());
         stateEmployee.setImage(file);
         stateEmployee.setResponsibility(DTO.getResponsibility());
+        stateEmployee.setLabor_activity(DTO.getLabor_activity());
         repository.save(stateEmployee);
         return ResponseEntity.ok("Successfully Updated StateEmployee");
     }
 
     @Override
     public ResponseEntity<?> delete(UUID key) {
-        return null;
+        StateEmployee stateEmployee = entityGetter.getStateEmployee(key);
+        stateEmployee.setDeleted(true);
+        repository.save(stateEmployee);
+        return ResponseEntity.ok("Successfully Deleted StateEmployee");
     }
 
     @Override
