@@ -32,7 +32,7 @@ public class GovGroupService implements BaseService {
 
     public ResponseEntity<?> create(GovGroupCreateDTO dto) {
 
-        Optional<GovGroup> byNameAndDeletedNot = govGroupRepository.findByNameAndDeletedNot(dto.getName());
+        Optional<GovGroup> byNameAndDeletedNot = govGroupRepository.findByNameAndIsDeleted(dto.getName(),false);
 
         if(byNameAndDeletedNot.isPresent()) {
             return ResponseEntity.status(409).body("Bu nom oldin ishlatilgan");

@@ -1,13 +1,15 @@
 package uz.dariko.collections.stateEmloyee;
 
 import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 import uz.dariko.base.mapper.BaseMapper;
 import uz.dariko.collections.stateEmloyee.dto.StateEmployeeDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper
+@Component
+@Mapper(componentModel = "spring")
 public interface StateEmployeeMapper extends BaseMapper {
     default StateEmployeeDTO toStateEmployeeDTO(StateEmployee stateEmployee){
         return new StateEmployeeDTO(stateEmployee.getFirstName(),
