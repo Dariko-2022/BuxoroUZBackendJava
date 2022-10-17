@@ -12,18 +12,22 @@ import uz.dariko.collections.stateEmloyee.dto.StateEmployeeUpdateDTO;
 import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
 public class StateEmployeeService extends AbstractService<StateEmployeeRepository,StateEmployeeValidator> implements GenericCRUDService<StateCreateDTO, StateEmployeeUpdateDTO, StateEmployeeDTO, UUID> {
-    public StateEmployeeService(StateEmployeeRepository repository, StateEmployeeValidator validator, EntityGetter entityGetter, BaseUtils baseUtils) {
+    public StateEmployeeService(StateEmployeeRepository repository, StateEmployeeValidator validator, EntityGetter entityGetter, BaseUtils baseUtils, StateEmployeeMapper mapper) {
         super(repository, validator);
         this.entityGetter = entityGetter;
         this.baseUtils = baseUtils;
+        this.mapper = mapper;
     }
     private final EntityGetter entityGetter;
 
     private final BaseUtils baseUtils;
+
+    private final StateEmployeeMapper mapper;
 
 
     @Override
@@ -78,11 +82,14 @@ public class StateEmployeeService extends AbstractService<StateEmployeeRepositor
 
     @Override
     public ResponseEntity<?> get(UUID key) {
-        return null;
+        StateEmployee stateEmployee = entityGetter.getStateEmployee(key);
+
+        return ResponseEntity.ok(mapper.toStateEmployeeDTO(stateEmployee));
     }
 
     @Override
     public ResponseEntity<?> list() {
-        return null;
+        List<StateEmployee> allByDeleted = repository.findAllByDeleted(false);
+        return ResponseEntity.ok(mapper.toStateEmployeeDTO(allByDeleted));
     }
 }

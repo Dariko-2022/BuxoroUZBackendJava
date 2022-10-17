@@ -21,4 +21,6 @@ public interface GovGroupRepository extends JpaRepository<GovGroup, UUID> {
     @Query(nativeQuery = true, value = "SELECT * from gov_group where is_deleted = ?")
     List<GovGroup> findAllByDeleted(boolean deleted);
 
+
+
 }

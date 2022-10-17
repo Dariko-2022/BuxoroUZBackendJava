@@ -7,6 +7,8 @@ import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.admin.AdminRepository;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.file.FileRepository;
+import uz.dariko.collections.govGroup.GovGroup;
+import uz.dariko.collections.govGroup.GovGroupRepository;
 import uz.dariko.collections.link.Link;
 import uz.dariko.collections.link.LinkRepository;
 import uz.dariko.collections.region.Region;
@@ -31,6 +33,8 @@ public class EntityGetter {
     private final LinkRepository linkRepository;
 
     private final RegionRepository regionRepository;
+
+    private final GovGroupRepository govGroupRepository;
 
     private final StateEmployeeRepository stateEmployeeRepository;
     public Admin getAdmin(String username) {
@@ -73,6 +77,13 @@ public class EntityGetter {
         Optional<StateEmployee> entityOptional = stateEmployeeRepository.findByIdAndIsDeleted(stateEmployeeID, false);
         return entityOptional.orElseThrow(() -> {
             throw new NotFoundException("StateEmployee IDsi noto'g'ri berildi");
+        });
+    }
+
+    public GovGroup getGovGroup(UUID govGroupID){
+        Optional<GovGroup> entityOptional = govGroupRepository.findByIdAndDeletedNot(govGroupID);
+        return entityOptional.orElseThrow(() -> {
+            throw new NotFoundException("Govgroup IDsi noto'g'ri berildi");
         });
     }
 }

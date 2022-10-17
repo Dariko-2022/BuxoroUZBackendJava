@@ -3,9 +3,9 @@ package uz.dariko.collections.stateEmloyee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import uz.dariko.base.repository.BaseRepository;
-import uz.dariko.collections.region.Region;
+import uz.dariko.base.repository.BaseRepository;;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,5 +14,7 @@ public interface StateEmployeeRepository extends JpaRepository<StateEmployee, UU
     @Query(nativeQuery = true, value = "select * from state_employee where id = ?1 and is_deleted = ?2")
     Optional<StateEmployee> findByIdAndIsDeleted(UUID stateEmployeeID, boolean deleted);
 
+    @Query(nativeQuery = true, value = "select * from link where is_deleted = ?1")
+    List<StateEmployee> findAllByDeleted(boolean deleted);
 
 }
