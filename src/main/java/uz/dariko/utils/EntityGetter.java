@@ -62,6 +62,12 @@ public class EntityGetter {
             throw new UniversalException("Admin topilmadi", HttpStatus.NOT_FOUND);
         });
     }
+    public Admin getAdmin(UUID adminID) {
+        Optional<Admin> optional = adminRepository.findByIdAndDeleted(adminID,false);
+        return optional.orElseThrow(() -> {
+            throw new UniversalException("Admin topilmadi", HttpStatus.NOT_FOUND);
+        });
+    }
 
     public Link getLink(UUID linkID){
         Optional<Link> byIdAndIsDeleted = linkRepository.findByIdAndIsDeleted(linkID, false);
