@@ -129,6 +129,15 @@ public class EntityGetter {
             throw new NotFoundException("Govgroup IDsi noto'g'ri berildi");
         });
     }
+    public List<GovGroup> getGovGroup(List<UUID> govGroupIDs){
+        List<GovGroup> govGroups=new ArrayList<>();
+        for (UUID govGroupID : govGroupIDs) {
+            govGroups.add(getGovGroup(govGroupID));
+        }
+        return govGroups;
+    }
+
+
 
 
 

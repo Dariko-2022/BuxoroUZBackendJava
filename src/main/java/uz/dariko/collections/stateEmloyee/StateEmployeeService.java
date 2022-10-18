@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import uz.dariko.base.service.AbstractService;
 import uz.dariko.base.service.GenericCRUDService;
 import uz.dariko.collections.file.File;
+import uz.dariko.collections.govGroup.GovGroup;
 import uz.dariko.collections.region.Region;
 import uz.dariko.collections.stateEmloyee.dto.StateCreateDTO;
 import uz.dariko.collections.stateEmloyee.dto.StateEmployeeDTO;
@@ -33,28 +34,25 @@ public class StateEmployeeService extends AbstractService<StateEmployeeRepositor
     @Override
     public ResponseEntity<?> create(StateCreateDTO DTO) {
         validator.validOnCreate(DTO);
-        UUID imageID = baseUtils.parseUUID(DTO.getImageID());
-        File image = entityGetter.getFile(imageID);
 
-        UUID regionID = baseUtils.parseUUID(DTO.getRegionID());
-        Region region = entityGetter.getRegion(regionID);
+        File image = entityGetter.getFile(DTO.getImageID());
+        Region region = entityGetter.getRegion(DTO.getRegionID());
+        List<GovGroup> govGroups = entityGetter.getGovGroup(DTO.getGovGroupIDs());
         StateEmployee stateEmployee=new StateEmployee
                 (DTO.getFirstName(), DTO.getLastName(),
                         DTO.getPatronymic(), DTO.getBirthDate(),
                         DTO.getBirthPlace(),
                         DTO.getNation(), region, DTO.getDegree(),
-                        DTO.getPhoneNumber(), image, DTO.getResponsibility(),DTO.getLabor_activity());
+                        DTO.getPhoneNumber(), image,govGroups, DTO.getResponsibility(),DTO.getLabor_activity());
         repository.save(stateEmployee);
         return ResponseEntity.ok("Successfully Created StateEmployee");
     }
 
     @Override
     public ResponseEntity<?> update(StateEmployeeUpdateDTO DTO) {
-
-        UUID regionID = baseUtils.parseUUID(DTO.getRegionID());
-        Region region = entityGetter.getRegion(regionID);
-        UUID imageID = baseUtils.parseUUID(DTO.getImageID());
-        File file = entityGetter.getFile(imageID);
+        Region region = entityGetter.getRegion(DTO.getRegionID());
+        File file = entityGetter.getFile(DTO.getImageID());
+        List<GovGroup> govGroups = entityGetter.getGovGroup(DTO.getGovGroupIDs());
         StateEmployee stateEmployee = entityGetter.getStateEmployee(DTO.getId());
         stateEmployee.setFirstName(DTO.getFirstName());
         stateEmployee.setLastName(DTO.getLastName());
@@ -66,6 +64,7 @@ public class StateEmployeeService extends AbstractService<StateEmployeeRepositor
         stateEmployee.setDegree(DTO.getDegree());
         stateEmployee.setPhoneNumber(DTO.getPhoneNumber());
         stateEmployee.setImage(file);
+        stateEmployee.setGovGroups(govGroups);
         stateEmployee.setResponsibility(DTO.getResponsibility());
         stateEmployee.setLabor_activity(DTO.getLabor_activity());
         repository.save(stateEmployee);

@@ -31,7 +31,7 @@ public interface NewsRepository extends JpaRepository<News, UUID> {
     Page<News> findAllByDeleted(boolean deleted, Pageable pageable);
 
 
-    @Query(nativeQuery = true,value = "SELECT * FROM News where is_deleted = ?1 and ")
+    @Query(nativeQuery = true,value = "SELECT * FROM News where is_deleted = ?1 and limit ?2 offset ?3 ")
     List<News> findAllByDeleted(boolean deleted, int size, int offset);
 
 }
