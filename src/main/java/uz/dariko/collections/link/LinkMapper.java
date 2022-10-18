@@ -1,7 +1,6 @@
 package uz.dariko.collections.link;
 
 import org.mapstruct.Mapper;
-import org.springframework.stereotype.Component;
 import uz.dariko.base.mapper.BaseMapper;
 import uz.dariko.collections.link.dto.LinkDTO;
 

@@ -2,6 +2,7 @@ package uz.dariko.collections.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +18,7 @@ import uz.dariko.collections.auth.dto.LoginDto;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
@@ -26,6 +28,9 @@ public class AuthController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
         } catch (AuthenticationException e) {
+            log.warn("Bad Credentials password = {} username = {}", loginDto.getPassword(), loginDto.getUsername());
+
+
             return new ResponseEntity<>("Bad Credentials", HttpStatus.BAD_REQUEST);
         }
         String token = jwtService.createJwt(loginDto.getUsername());
