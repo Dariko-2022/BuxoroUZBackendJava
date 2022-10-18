@@ -7,6 +7,7 @@ import lombok.Setter;
 import uz.dariko.base.dto.BaseDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Getter
@@ -22,11 +23,11 @@ public class NewsCreateDTO implements BaseDTO {
     private String krBody;
     private String ruBody;
 
-    private List<String> imageIDs;
+    private List<UUID> imageIDs;
 
-    private String sphereID; //soha
+    private UUID sphereID; //soha
 
-    private String govSphereID; //soha yunalishi
+    private UUID govSphereID; //soha yunalishi
 
     private boolean actual; //dolzarb
 

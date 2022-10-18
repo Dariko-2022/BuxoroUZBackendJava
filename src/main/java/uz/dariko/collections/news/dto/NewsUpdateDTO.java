@@ -10,6 +10,7 @@ import uz.dariko.collections.sphere.Sphere;
 
 import javax.persistence.ManyToOne;
 import java.util.List;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -26,11 +27,11 @@ public class NewsUpdateDTO extends GenericDTO {
     private String ruBody;
 
 
-    private String sphereID; //soha
+    private UUID sphereID; //soha
 
-    private String govSphereID; //soha yunalishi
+    private UUID govSphereID; //soha yunalishi
 
-    private List<String> imageIDs;
+    private List<UUID> imageIDs;
 
     private boolean actual; //dolzarb
 

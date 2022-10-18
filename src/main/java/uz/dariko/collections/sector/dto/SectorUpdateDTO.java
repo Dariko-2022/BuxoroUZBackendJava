@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.dto.GenericDTO;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,13 +17,13 @@ public class SectorUpdateDTO extends GenericDTO {
     private String krName;
     private String ruName;
 
-    private String fileId;
+    private UUID fileId;
 
 
-    private String stateEmployeeId;
+    private UUID stateEmployeeId;
 
 
-    private String regionId;
+    private UUID regionId;
 
     private String description;
 
