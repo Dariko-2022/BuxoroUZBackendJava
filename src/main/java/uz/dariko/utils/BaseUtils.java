@@ -1,8 +1,10 @@
 package uz.dariko.utils;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import uz.dariko.criteria.ResponsePage;
 import uz.dariko.exception.exceptions.BadRequestException;
 import uz.dariko.exception.exceptions.UniversalException;
 
@@ -100,6 +102,18 @@ public class BaseUtils {
         } catch (Exception e) {
             throw new BadRequestException("ID Long toifasida bo'lishi kerak");
         }
+    }
+
+
+    public <E, D> ResponsePage<D> toResponsePage(Page<E> page, List<D> content) {
+        ResponsePage<D> responsePage = new ResponsePage<>();
+        responsePage.setNumberOfElements(page.getNumberOfElements());
+        responsePage.setNumber(page.getNumber());
+        responsePage.setTotalPages(page.getTotalPages());
+        responsePage.setContent(content);
+        responsePage.setTotalElements(page.getTotalElements());
+        responsePage.setSize(page.getSize());
+        return responsePage;
     }
 
 }

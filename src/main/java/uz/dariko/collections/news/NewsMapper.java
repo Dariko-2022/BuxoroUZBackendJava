@@ -41,6 +41,15 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
         return dto;
     }
 
+
+    default List<NewsDTO> toDto(List<News> list){
+        List<NewsDTO> res = new ArrayList<>();
+        for(News news : list) {
+            res.add(toDto(news));
+        }
+        return res;
+    }
+
     @Override
     default News fromCreateDto(NewsCreateDTO createDto){
         News news = new News();

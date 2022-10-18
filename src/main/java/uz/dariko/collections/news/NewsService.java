@@ -1,24 +1,25 @@
 package uz.dariko.collections.news;
 
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.govSphere.GovSphere;
-import uz.dariko.collections.govSphere.GovSphereRepository;
 import uz.dariko.collections.news.dto.NewsCreateDTO;
 import uz.dariko.collections.news.dto.NewsDTO;
 import uz.dariko.collections.news.dto.NewsUpdateDTO;
 import uz.dariko.collections.sphere.Sphere;
-import uz.dariko.collections.sphere.SphereRepository;
+import uz.dariko.criteria.ResponsePage;
 import uz.dariko.exception.exceptions.UniversalException;
 import uz.dariko.response.Data;
 import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
-import java.util.ArrayList;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,10 +32,13 @@ public class NewsService implements BaseService {
 
     private final EntityGetter entityGetter;
 
-    public NewsService(NewsRepository newsRepository, NewsMapper newsMapper,  EntityGetter entityGetter) {
+    private final BaseUtils baseUtils;
+
+    public NewsService(NewsRepository newsRepository, NewsMapper newsMapper, EntityGetter entityGetter, BaseUtils baseUtils) {
         this.newsRepository = newsRepository;
         this.newsMapper = newsMapper;
         this.entityGetter = entityGetter;
+        this.baseUtils = baseUtils;
     }
 
 
@@ -112,6 +116,27 @@ public class NewsService implements BaseService {
         return ResponseEntity.ok(new Data<>(newsDTOS));
     }
 
+    public ResponseEntity<?> getBySphere(UUID uuid,boolean isDeleted) {
+        entityGetter.getSphere(uuid);
+        Optional<List<News>> bySphereAndDeleted = newsRepository.findBySphereAndDeleted(uuid, isDeleted);
+        if(bySphereAndDeleted.isPresent()){
+            List<News> list = bySphereAndDeleted.get();
+            List<NewsDTO> newsDTOS = newsMapper.toDto(list);
+            return ResponseEntity.ok(new Data<>(newsDTOS));
+        }
+        return ResponseEntity.ok(new Data<>("Bu sohada yangiliklar topilmadi"));
+    }
+
+    public ResponseEntity<?> getAll(Pageable pageable) {
+        int pageNumber = pageable.getPageNumber();
+        int pageSize = pageable.getPageSize();
+        int offset = pageNumber * pageSize;
+        Page<News> page = newsRepository.findAllByDeleted(false, pageable);
+        List<News> news = newsRepository.findAllByDeleted(false, pageSize, offset);
+        List<NewsDTO> newsDTOS = newsMapper.toDto(news);
+        ResponsePage<NewsDTO> responsePage = baseUtils.toResponsePage(page, newsDTOS);
+        return ResponseEntity.ok(new Data<>(responsePage));
+    }
 
 
 
