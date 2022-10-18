@@ -1,6 +1,7 @@
 package uz.dariko.collections.admin;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.service.AbstractService;
 import uz.dariko.base.service.GenericCRUDService;
@@ -17,17 +18,19 @@ import java.util.UUID;
 
 @Service
 public class AdminService extends AbstractService<AdminRepository,AdminValidator> implements GenericCRUDService<AdminCreateDTO, AdminUpdateDTO, AdminDTO, UUID> {
-    public AdminService(AdminRepository repository, AdminValidator validator, EntityGetter entityGetter, BaseUtils baseUtils, AdminMapper adminMapper) {
+    public AdminService(AdminRepository repository, AdminValidator validator, EntityGetter entityGetter, BaseUtils baseUtils, AdminMapper adminMapper, PasswordEncoder passwordEncoder) {
         super(repository, validator);
         this.entityGetter = entityGetter;
         this.baseUtils = baseUtils;
         this.mapper = adminMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     private final EntityGetter entityGetter;
     private final BaseUtils baseUtils;
 
     private final AdminMapper mapper;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -36,7 +39,7 @@ public class AdminService extends AbstractService<AdminRepository,AdminValidator
         UUID imageID = baseUtils.parseUUID(DTO.getImageID());
         File image = entityGetter.getFile(imageID);
 
-        Admin admin=new Admin(DTO.getUsername(),DTO.getPassword(),image,DTO.getFirstName(), DTO.getLastName(), DTO.getEmail(), DTO.getPhoneNumber(), DTO.getIsSuperAdmin());
+        Admin admin=new Admin(DTO.getUsername(),passwordEncoder.encode(DTO.getPassword()),image,DTO.getFirstName(), DTO.getLastName(), DTO.getEmail(), DTO.getPhoneNumber(), DTO.getIsSuperAdmin());
         Admin save = repository.save(admin);
         return ResponseEntity.ok(new Data<>(save));
     }

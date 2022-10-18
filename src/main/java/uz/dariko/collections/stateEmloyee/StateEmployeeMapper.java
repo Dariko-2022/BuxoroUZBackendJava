@@ -7,8 +7,6 @@ import uz.dariko.collections.stateEmloyee.dto.StateEmployeeDTO;
 
 import java.util.ArrayList;
 import java.util.List;
-
-@Component
 @Mapper(componentModel = "spring")
 public interface StateEmployeeMapper extends BaseMapper {
     default StateEmployeeDTO toStateEmployeeDTO(StateEmployee stateEmployee){
