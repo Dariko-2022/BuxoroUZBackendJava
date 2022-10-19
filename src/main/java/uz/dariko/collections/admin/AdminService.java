@@ -38,7 +38,6 @@ public class AdminService extends AbstractService<AdminRepository,AdminValidator
         validator.validOnCreate(DTO);
         UUID imageID = baseUtils.parseUUID(DTO.getImageID());
         File image = entityGetter.getFile(imageID);
-
         Admin admin=new Admin(DTO.getUsername(),passwordEncoder.encode(DTO.getPassword()),image,DTO.getFirstName(), DTO.getLastName(), DTO.getEmail(), DTO.getPhoneNumber(), DTO.getIsSuperAdmin());
         Admin save = repository.save(admin);
         return ResponseEntity.ok(new Data<>(save));

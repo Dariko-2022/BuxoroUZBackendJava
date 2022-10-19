@@ -28,7 +28,7 @@ public class StateEmployeeDTO extends GenericDTO {
 
     private UUID imageID;
 
-    private List<UUID> govGroupIDs;
+    private UUID govGroupID;
 
     private String responsibility;
 
