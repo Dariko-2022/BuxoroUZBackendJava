@@ -97,6 +97,18 @@ public class EntityGetter {
         return files;
     }
 
+    public List<String> getGeneratedNames(List<File> files){
+        List<String> generatedNames=new ArrayList<>();
+        for (File file : files) {
+            generatedNames.add(getGeneratedName(file));
+        }
+        return generatedNames;
+    }
+
+    public String getGeneratedName(File file){
+        return file.getGeneratedName();
+    }
+
 
 //----------------------------------------------------Region----------------------------------------------------
     public Region getRegion(UUID regionID) {

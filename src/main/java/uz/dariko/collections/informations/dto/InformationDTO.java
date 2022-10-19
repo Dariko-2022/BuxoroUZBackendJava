@@ -26,9 +26,9 @@ public class InformationDTO extends GenericDTO {
     private String krDescription;
     private String ruDescription;
 
-    private List<UUID> imageIDs;
+    private List<String> generatedNames;
 
-    private UUID sphereID; //soha
+    private UUID infoGroupID; //soha
 
 
     private String source; //manba

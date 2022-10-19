@@ -28,7 +28,7 @@ public class InformationCreateDTO implements BaseDTO {
 
     private List<UUID> imageIDs;
 
-    private UUID sphereID; //soha
+    private UUID infoGroupID; //yo'nalishi
 
 
     private String source; //manba

@@ -29,7 +29,7 @@ public class InformationUpdateDTO extends GenericDTO {
 
     private List<UUID> imageIDs;
 
-    private UUID sphereID; //soha
+    private UUID infoGroupID; //soha
 
 
     private String source; //manba
