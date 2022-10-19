@@ -189,7 +189,7 @@ public class EntityGetter {
     }
 
 
-//----------------------------------------------------Sector----------------------------------------------------
+//----------------------------------------------------InfoGroup----------------------------------------------------
 
     public InfoGroup getInfoGroup(UUID uuid) {
         Optional<InfoGroup> byIdAndDeletedNot = infoGroupRepository.findByIdAndDeletedNot(uuid);
