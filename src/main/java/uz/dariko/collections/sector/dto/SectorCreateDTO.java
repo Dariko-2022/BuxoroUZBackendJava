@@ -25,8 +25,10 @@ public class SectorCreateDTO implements BaseDTO {
 
     private UUID regionId;
 
+
     private String description;
 
     private String sectorArea;
+
 
 }

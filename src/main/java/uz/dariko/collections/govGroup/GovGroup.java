@@ -25,7 +25,4 @@ public class GovGroup extends Auditable {
 
     private String description;
 
-
-
-
 }

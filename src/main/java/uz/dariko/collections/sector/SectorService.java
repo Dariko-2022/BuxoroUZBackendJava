@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.file.File;
+import uz.dariko.collections.govGroup.GovGroup;
 import uz.dariko.collections.region.Region;
 import uz.dariko.collections.sector.dto.SectorCreateDTO;
 import uz.dariko.collections.sector.dto.SectorDTO;

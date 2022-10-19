@@ -7,6 +7,7 @@ import lombok.Setter;
 import uz.dariko.base.dto.GenericDTO;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -26,6 +27,8 @@ public class StateEmployeeDTO extends GenericDTO {
 
 
     private UUID imageID;
+
+    private List<UUID> govGroupIDs;
 
     private String responsibility;
 
