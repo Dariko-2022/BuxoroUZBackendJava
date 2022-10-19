@@ -36,7 +36,7 @@ public class GovSphereService implements BaseService {
     public ResponseEntity<?> getAll() {
         List<GovSphere> all = govSphereRepository.findAllByDeleted(false);
         List<GovSphereDTO> govSphereDTOS = govSphereMapper.toDtoList(all);
-        return ResponseEntity.ok(new Data<>(govSphereDTOS));
+        return ResponseEntity.ok(govSphereDTOS);
     }
 
     public ResponseEntity<?> update(GovSphereUpdateDTO dto){
