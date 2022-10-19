@@ -2,7 +2,6 @@ package uz.dariko.collections.admin;
 
 import org.springframework.stereotype.Component;
 import uz.dariko.base.validator.AbstractValidator;
-import uz.dariko.base.validator.BaseValidator;
 import uz.dariko.collections.admin.dto.AdminCreateDTO;
 import uz.dariko.collections.admin.dto.AdminUpdateDTO;
 import uz.dariko.exception.exceptions.BadRequestException;

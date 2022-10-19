@@ -9,8 +9,6 @@ import uz.dariko.collections.file.File;
 import uz.dariko.collections.file.FileRepository;
 import uz.dariko.collections.govGroup.GovGroup;
 import uz.dariko.collections.govGroup.GovGroupRepository;
-import uz.dariko.collections.govSphere.GovSphere;
-import uz.dariko.collections.govSphere.GovSphereRepository;
 import uz.dariko.collections.infoGroup.InfoGroup;
 import uz.dariko.collections.infoGroup.InfoGroupRepository;
 import uz.dariko.collections.link.Link;
@@ -45,8 +43,6 @@ public class EntityGetter {
     private final RegionRepository regionRepository;
 
     private final GovGroupRepository govGroupRepository;
-
-    private final GovSphereRepository govSphereRepository;
 
     private final StateEmployeeRepository stateEmployeeRepository;
 
@@ -157,15 +153,6 @@ public class EntityGetter {
 
 
 
-//----------------------------------------------------GovSphere ----------------------------------------------------
-    public GovSphere getGovSphere(UUID govSphereID){
-        Optional<GovSphere> byIdAndDeletedNot = govSphereRepository.findByIdAndDeletedNot(govSphereID);
-        return byIdAndDeletedNot.orElseThrow(() -> {
-            throw new NotFoundException("Govgroup IDsi noto'g'ri berildi");
-        });
-    }
-
-
 
 
 
@@ -206,7 +193,7 @@ public class EntityGetter {
     public InfoGroup getInfoGroup(UUID uuid) {
         Optional<InfoGroup> byIdAndDeletedNot = infoGroupRepository.findByIdAndDeletedNot(uuid);
         return byIdAndDeletedNot.orElseThrow(() -> {
-            throw new NotFoundException("Sectorni IDsi noto'g'ri berildi");
+            throw new NotFoundException("Info groupni IDsi noto'g'ri berildi");
         });
     }
 }

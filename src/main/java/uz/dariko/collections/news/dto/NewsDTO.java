@@ -30,7 +30,6 @@ public class NewsDTO extends GenericDTO {
 
     private UUID sphereID; //soha
 
-    private UUID govSphereID; //soha yunalishi
 
     private List<String> generatedNames;
 

@@ -21,7 +21,6 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
         NewsDTO dto = new NewsDTO();
         dto.setActual(entity.isActual());
         dto.setCountView(entity.getCountView());
-        dto.setGovSphereID(entity.getGovSphere().getId());
         dto.setUzBody(entity.getUzBody());
         dto.setKrBody(entity.getKrBody());
         dto.setRuBody(entity.getRuBody());

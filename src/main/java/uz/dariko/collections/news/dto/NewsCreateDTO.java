@@ -31,7 +31,6 @@ public class NewsCreateDTO implements BaseDTO {
 
     private UUID sphereID; //soha
 
-    private UUID govSphereID; //soha yunalishi
 
     private boolean actual; //dolzarb
 

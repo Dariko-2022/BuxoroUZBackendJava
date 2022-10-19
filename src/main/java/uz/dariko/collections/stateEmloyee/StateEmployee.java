@@ -7,7 +7,6 @@ import lombok.Setter;
 import uz.dariko.base.entity.Auditable;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.govGroup.GovGroup;
-import uz.dariko.collections.govGroup.GovGroupMapperImpl;
 import uz.dariko.collections.region.Region;
 
 import javax.persistence.Entity;
