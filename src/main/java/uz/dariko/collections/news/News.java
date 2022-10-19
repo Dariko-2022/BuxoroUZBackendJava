@@ -26,6 +26,10 @@ public class News extends Auditable {
     private String krTitle;
     private String ruTitle;
 
+    private String uzDescription;
+    private String krDescription;
+    private String ruDescription;
+
     @Type(type = "text")
     private String uzBody;
     @Type(type = "text")

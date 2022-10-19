@@ -1,11 +1,9 @@
 package uz.dariko.collections.news;
 
 
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
 import uz.dariko.collections.news.dto.NewsCreateDTO;
@@ -57,8 +55,11 @@ public class NewsController extends AbstractController<NewsService> implements G
 
 
     @GetMapping("getAll")
-    public ResponseEntity<?> getAll(Pageable pageable) {
-        return  service.getAll(pageable);
+    public ResponseEntity<?> getAll(
+            @RequestParam(name = "size") int size,
+            @RequestParam(name = "page") int page
+    ) {
+        return  service.getAll(PageRequest.of(page,size));
     }
 
 
@@ -66,7 +67,5 @@ public class NewsController extends AbstractController<NewsService> implements G
     public ResponseEntity<?> getBySphere(UUID uuid,boolean isDeleted) {
         return service.getBySphere(uuid,isDeleted);
     }
-
-
 
 }

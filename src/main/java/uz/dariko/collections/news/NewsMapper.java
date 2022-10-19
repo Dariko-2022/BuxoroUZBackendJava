@@ -31,6 +31,11 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
         dto.setSource(entity.getSource());
         dto.setSmm(entity.isSmm());
         dto.setSphereID(entity.getSphere().getId());
+
+        dto.setUzDescription(entity.getUzDescription());
+        dto.setRuDescription(entity.getRuDescription());
+        dto.setKrDescription(entity.getKrDescription());
+
         List<File> images = entity.getImages();
         List<String> res = new ArrayList<>();
         for(File file : images) {
@@ -63,6 +68,11 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
         news.setUzBody(createDto.getUzBody());
         news.setUzTitle(createDto.getUzTitle());
         news.setSource(createDto.getSource());
+
+        news.setUzDescription(createDto.getUzDescription());
+        news.setRuDescription(createDto.getRuDescription());
+        news.setKrDescription(createDto.getKrDescription());
+
         return news;
     }
 
@@ -76,6 +86,10 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
         news.setRuTitle(updateDto.getRuTitle());
         news.setRuBody(updateDto.getRuBody());
         news.setActual(updateDto.isActual());
+
+        news.setUzDescription(updateDto.getUzDescription());
+        news.setRuDescription(updateDto.getRuDescription());
+        news.setKrDescription(updateDto.getKrDescription());
 
         return news;
     }

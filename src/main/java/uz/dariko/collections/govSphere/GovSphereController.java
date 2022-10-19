@@ -41,7 +41,7 @@ public class GovSphereController extends AbstractController<GovSphereService> im
 
     @Override
     public ResponseEntity<?> list() {
-        return null;
+        return service.getAll();
     }
 
     @GetMapping

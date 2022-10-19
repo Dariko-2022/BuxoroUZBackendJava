@@ -26,6 +26,10 @@ public class NewsUpdateDTO extends GenericDTO {
     private String krBody;
     private String ruBody;
 
+    private String uzDescription;
+    private String krDescription;
+    private String ruDescription;
+
 
     private UUID sphereID; //soha
 

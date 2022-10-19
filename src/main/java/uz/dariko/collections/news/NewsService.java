@@ -128,14 +128,15 @@ public class NewsService implements BaseService {
     }
 
     public ResponseEntity<?> getAll(Pageable pageable) {
-        int pageNumber = pageable.getPageNumber();
         int pageSize = pageable.getPageSize();
-        int offset = pageNumber * pageSize;
-        Page<News> page = newsRepository.findAllByDeleted(false, pageable);
+        int pageNumber = pageable.getPageNumber();
+        int offset = pageSize * pageNumber;
+        Page<News> page = newsRepository.findAll(pageable);
         List<News> news = newsRepository.findAllByDeleted(false, pageSize, offset);
         List<NewsDTO> newsDTOS = newsMapper.toDto(news);
         ResponsePage<NewsDTO> responsePage = baseUtils.toResponsePage(page, newsDTOS);
-        return ResponseEntity.ok(new Data<>(responsePage));
+        return ResponseEntity.ok(responsePage);
+//        return null;
     }
 
 
