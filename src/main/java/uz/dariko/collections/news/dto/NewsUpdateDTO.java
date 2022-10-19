@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.dto.GenericDTO;
-import uz.dariko.collections.govSphere.GovSphere;
-import uz.dariko.collections.sphere.Sphere;
 
-import javax.persistence.ManyToOne;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +30,6 @@ public class NewsUpdateDTO extends GenericDTO {
 
     private UUID sphereID; //soha
 
-    private UUID govSphereID; //soha yunalishi
 
     private List<UUID> imageIDs;
 

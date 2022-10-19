@@ -21,7 +21,6 @@ public class InfoGroupService implements BaseService {
     private final EntityGetter entityGetter;
 
 
-
     public InfoGroupService(InfoGroupRepository infoGroupRepository, InfoGroupMapper infoGroupMapper, EntityGetter entityGetter) {
         this.infoGroupRepository = infoGroupRepository;
         this.infoGroupMapper = infoGroupMapper;
@@ -37,8 +36,8 @@ public class InfoGroupService implements BaseService {
 
     public ResponseEntity<?> getAll() {
         List<InfoGroup> all = infoGroupRepository.findAllByDeleted(false);
-        List<InfoGroupDTO> govSphereDTOS = infoGroupMapper.toDtoList(all);
-        return ResponseEntity.ok(govSphereDTOS);
+        List<InfoGroupDTO> infoGroupDTOS = infoGroupMapper.toDtoList(all);
+        return ResponseEntity.ok(infoGroupDTOS);
     }
 
     public ResponseEntity<?> update(InfoGroupUpdateDTO dto){
@@ -66,6 +65,5 @@ public class InfoGroupService implements BaseService {
         return ResponseEntity.ok(true);
 
     }
-
 
 }

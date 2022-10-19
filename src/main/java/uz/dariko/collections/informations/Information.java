@@ -7,9 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import uz.dariko.base.entity.Auditable;
 import uz.dariko.collections.file.File;
-import uz.dariko.collections.govSphere.GovSphere;
 import uz.dariko.collections.infoGroup.InfoGroup;
-import uz.dariko.collections.sphere.Sphere;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
