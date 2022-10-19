@@ -116,4 +116,13 @@ public class BaseUtils {
         return responsePage;
     }
 
+    public <D> ResponsePage<D> toResponsePage(List<D> content, Integer page, Integer size, Integer totalElements) {
+        ResponsePage<D> responsePage = new ResponsePage<>();
+        responsePage.setNumber(page);
+        responsePage.setContent(content);
+        responsePage.setTotalElements(totalElements);
+        responsePage.setSize(size);
+        return responsePage;
+    }
+
 }

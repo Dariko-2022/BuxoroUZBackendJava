@@ -1,6 +1,8 @@
 package uz.dariko.collections.informations;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uz.dariko.base.controller.AbstractController;
@@ -41,5 +43,10 @@ public class InformationController extends AbstractController<InformationService
     @Override
     public ResponseEntity<?> list() {
         return service.list();
+    }
+
+    @GetMapping("listByInfoGroup/{infoGroupID}")
+    public ResponseEntity<?> listByInfoGroup(@PathVariable UUID infoGroupID){
+        return service.listByInfoGroup(infoGroupID);
     }
 }
