@@ -11,7 +11,7 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GenericDTO implements BaseDTO {
+public class GenericDTO implements BaseDTO{
     private UUID id;
 
 

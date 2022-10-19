@@ -35,8 +35,6 @@ public class NewsUpdateDTO extends GenericDTO {
 
     private boolean actual; //dolzarb
 
-    private boolean smm;
-
     private String source; //manba
 
 }
