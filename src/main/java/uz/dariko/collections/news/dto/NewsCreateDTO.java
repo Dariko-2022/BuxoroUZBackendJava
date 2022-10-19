@@ -23,6 +23,10 @@ public class NewsCreateDTO implements BaseDTO {
     private String krBody;
     private String ruBody;
 
+    private String uzDescription;
+    private String krDescription;
+    private String ruDescription;
+
     private List<UUID> imageIDs;
 
     private UUID sphereID; //soha

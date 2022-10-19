@@ -19,6 +19,10 @@ public class NewsDTO extends GenericDTO {
     private String krTitle;
     private String ruTitle;
 
+    private String uzDescription;
+    private String krDescription;
+    private String ruDescription;
+
     private String uzBody;
     private String krBody;
     private String ruBody;
