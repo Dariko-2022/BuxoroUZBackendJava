@@ -11,6 +11,8 @@ import uz.dariko.collections.govGroup.GovGroup;
 import uz.dariko.collections.govGroup.GovGroupRepository;
 import uz.dariko.collections.infoGroup.InfoGroup;
 import uz.dariko.collections.infoGroup.InfoGroupRepository;
+import uz.dariko.collections.informations.Information;
+import uz.dariko.collections.informations.InformationRepository;
 import uz.dariko.collections.link.Link;
 import uz.dariko.collections.link.LinkRepository;
 import uz.dariko.collections.news.News;
@@ -53,6 +55,7 @@ public class EntityGetter {
     private final SectorRepository sectorRepository;
 
     private final InfoGroupRepository infoGroupRepository;
+    private final InformationRepository informationRepository;
 
     private final BaseUtils baseUtils;
 
@@ -194,6 +197,14 @@ public class EntityGetter {
         Optional<InfoGroup> byIdAndDeletedNot = infoGroupRepository.findByIdAndDeletedNot(uuid);
         return byIdAndDeletedNot.orElseThrow(() -> {
             throw new NotFoundException("Info groupni IDsi noto'g'ri berildi");
+        });
+    }
+    //-------------------------------------------------Information---------------------------------------------------
+
+    public Information getInformation(UUID uuid){
+        Optional<Information> byIdAndDeletedNot = informationRepository.findByIdAndDeletedNot(uuid,false);
+        return byIdAndDeletedNot.orElseThrow(() -> {
+            throw new NotFoundException("Information IDsi noto'g'ri berildi");
         });
     }
 }
