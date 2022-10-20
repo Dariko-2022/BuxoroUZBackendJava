@@ -43,8 +43,8 @@ public interface NewsRepository extends JpaRepository<News, UUID> {
     Page<News> findByString(String s,Pageable pageable);
 
 
-    @Query(nativeQuery = true,value = "SELECT * FROM NEWS WHERE document_indx @@ plainto_tsquery(?1) and is_deleted = false")
-    List<News> findByString2(String s);
+    @Query(nativeQuery = true,value = "SELECT * FROM NEWS WHERE document_indx @@ plainto_tsquery(?1) and is_deleted = false limit :size offset:offset")
+    List<News> findByString2(String s,int size,int offset);
 
 
 

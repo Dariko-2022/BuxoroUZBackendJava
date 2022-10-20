@@ -136,7 +136,7 @@ public class NewsService implements BaseService {
 
     public ResponseEntity<?> findByString(String s,Pageable pageable){
         Page<News> byString = newsRepository.findByString(s,pageable);
-        List<News> byString2 = newsRepository.findByString2(s);
+        List<News> byString2 = newsRepository.findByString2(s, pageable.getPageSize(), pageable.getPageSize()* pageable.getPageNumber());
 
         if(byString2.size()>0) {
             List<NewsDTO> newsDTOS = newsMapper.toDto(byString2);
