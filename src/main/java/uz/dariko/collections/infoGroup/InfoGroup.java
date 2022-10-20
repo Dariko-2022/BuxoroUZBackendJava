@@ -6,8 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.entity.Auditable;
+import uz.dariko.collections.menu.Menu;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @Getter
 @Setter
@@ -19,5 +21,10 @@ public class InfoGroup extends Auditable {
     private String uzName;
     private String krName;
     private String ruName;
+
+    @ManyToOne
+    private Menu menu;
+
+    private int rank;
 
 }

@@ -2,8 +2,10 @@ package uz.dariko.collections.sphere;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import uz.dariko.base.dto.SubMenuAdminDTO;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.sphere.dto.SphereCreateDTO;
+import uz.dariko.collections.sphere.dto.SphereDTO;
 import uz.dariko.collections.sphere.dto.SphereUpdateDTO;
 import uz.dariko.utils.EntityGetter;
 
@@ -29,16 +31,14 @@ public class SphereService implements BaseService{
 
     public ResponseEntity<?> create(SphereCreateDTO sphereCreateDto) {
         Sphere sphere = sphereMapper.fromCreateDto(sphereCreateDto);
+        sphere.setMenu(entityGetter.getMenu(sphereCreateDto.getMenuId()));
         sphereRepository.save(sphere);
         return ResponseEntity.status(201).body("saved");
     }
 
     public ResponseEntity<?> getAll() {
-        Optional<List<Sphere>> allByDeleted = sphereRepository.findAllByDeleted(false);
-        if(allByDeleted.isPresent()) {
-            return ResponseEntity.ok(allByDeleted.get());
-        }
-        return ResponseEntity.ok("Not Found");
+        List<Sphere> allByDeleted = sphereRepository.findAllByDeleted(false);
+        return ResponseEntity.ok(allByDeleted);
 
     }
 
@@ -49,6 +49,8 @@ public class SphereService implements BaseService{
         sphere.setUzName(dto.getUzName());
         sphere.setKrName(dto.getKrName());
         sphere.setRuName(dto.getRuName());
+        sphere.setRank(dto.getRank());
+        sphere.setMenu(entityGetter.getMenu(dto.getMenuId()));
         sphereRepository.save(sphere);
         return ResponseEntity.status(204).body(sphere);
 
@@ -67,6 +69,17 @@ public class SphereService implements BaseService{
 
     public ResponseEntity<?> get(UUID id) {
         Optional<Sphere> byId = sphereRepository.findById(id);
-        return byId.isPresent()? ResponseEntity.ok(byId.get()) : ResponseEntity.status(404).body("Not Found");
+        if(byId.isEmpty()) {
+            return ResponseEntity.status(404).body("Not Found");
+        }
+        Sphere sphere = byId.get();
+        SphereDTO sphereDTO = sphereMapper.toDto(sphere);
+        return ResponseEntity.ok(sphereDTO);
     }
+
+    public List<SubMenuAdminDTO> getForAdmin(){
+        List<Sphere> list = sphereRepository.findAllByDeleted(false);
+        return sphereMapper.toAdminDto(list);
+    }
+
 }

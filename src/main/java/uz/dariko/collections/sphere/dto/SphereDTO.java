@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.dto.GenericDTO;
+import uz.dariko.collections.menu.Menu;
+
+import java.util.UUID;
 
 
 @Getter
@@ -15,4 +18,8 @@ public class SphereDTO extends GenericDTO {
     private String uzName;
     private String krName;
     private String ruName;
+
+    private UUID menuId;
+
+    private int rank;
 }

@@ -1,28 +1,24 @@
-package uz.dariko.collections.infoGroup.dto;
+package uz.dariko.collections.menu.dto;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import uz.dariko.base.dto.BaseDTO;
 import uz.dariko.base.dto.GenericDTO;
-import uz.dariko.collections.menu.Menu;
 
-import javax.persistence.ManyToOne;
 import java.util.UUID;
-
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class InfoGroupDTO extends GenericDTO {
+public class MenuDTO extends GenericDTO implements BaseDTO {
+    private UUID id;
     private String uzName;
-    private String krName;
     private String ruName;
-
-
-
-    private UUID menuId;
+    private String krName;
 
     private int rank;
 }

@@ -3,7 +3,9 @@ package uz.dariko.collections.govGroup;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import uz.dariko.base.dto.SubMenuAdminDTO;
 import uz.dariko.base.service.BaseService;
+import uz.dariko.collections.admin.dto.AdminDTO;
 import uz.dariko.collections.govGroup.dto.GovGroupCreateDTO;
 import uz.dariko.collections.govGroup.dto.GovGroupDTO;
 import uz.dariko.collections.govGroup.dto.GovGroupUpdateDTO;
@@ -32,6 +34,7 @@ public class GovGroupService implements BaseService {
 
     public ResponseEntity<?> create(GovGroupCreateDTO dto) {
         GovGroup govGroup = govGroupMapper.fromCreateDto(dto);
+        govGroup.setMenu(entityGetter.getMenu(dto.getMenuId()));
         govGroupRepository.save(govGroup);
         return ResponseEntity.status(201).body("created");
     }
@@ -42,7 +45,10 @@ public class GovGroupService implements BaseService {
         govGroup.setUzName(dto.getUzName());
         govGroup.setKrName(dto.getKrName());
         govGroup.setRuName(dto.getRuName());
-        govGroup.setDescription(dto.getDescription());
+        govGroup.setUzDescription(dto.getUzDescription());
+        govGroup.setRuDescription(dto.getRuDescription());
+        govGroup.setKrDescription(dto.getKrDescription());
+        govGroup.setMenu(entityGetter.getMenu(dto.getMenuId()));
         govGroupRepository.save(govGroup);
         return ResponseEntity.status(204).body("updated");
     }
@@ -69,5 +75,10 @@ public class GovGroupService implements BaseService {
         List<GovGroupDTO> govGroupDTOS = govGroupMapper.toDto(list);
         return ResponseEntity.ok(govGroupDTOS);
 
+    }
+
+    public List<SubMenuAdminDTO> getForAdmin(){
+        List<GovGroup> list = govGroupRepository.findAllByDeleted(false);
+        return govGroupMapper.toAdminDto(list);
     }
 }

@@ -2,10 +2,8 @@ package uz.dariko.collections.news;
 
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.file.File;
@@ -15,13 +13,11 @@ import uz.dariko.collections.news.dto.NewsUpdateDTO;
 import uz.dariko.collections.sphere.Sphere;
 import uz.dariko.criteria.ResponsePage;
 import uz.dariko.exception.exceptions.UniversalException;
-import uz.dariko.response.Data;
 import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
