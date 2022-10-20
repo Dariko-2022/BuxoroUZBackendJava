@@ -39,17 +39,12 @@ public class NewsController extends AbstractController<NewsService> implements G
     }
 
     @Override
-    public ResponseEntity<?> delete(UUID id) {
-        return service.delete(id);
-    }
-
-    @PostMapping("delete/{id}")
-    public ResponseEntity<?> deleted(@PathVariable UUID id){
-        return service.delete(id);
+    public ResponseEntity<?> delete(@PathVariable("code") UUID code) {
+        return service.delete(code);
     }
 
     @Override
-    public ResponseEntity<?> get(UUID code) {
+    public ResponseEntity<?> get(@PathVariable("code") UUID code) {
         return service.getById(code);
     }
 

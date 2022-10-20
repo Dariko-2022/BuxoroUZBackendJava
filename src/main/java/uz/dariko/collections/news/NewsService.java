@@ -19,6 +19,8 @@ import uz.dariko.utils.EntityGetter;
 
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -94,6 +96,7 @@ public class NewsService implements BaseService {
     public ResponseEntity<?> delete(UUID id) {
         News news = entityGetter.getNews(id);
         news.setDeleted(true);
+        news.setDeletedAt(LocalDateTime.now());
         newsRepository.save(news);
         return ResponseEntity.ok(true);
 
