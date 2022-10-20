@@ -20,8 +20,9 @@ import javax.persistence.Entity;
 public class GovGroup extends Auditable {
 
 
-    @Column(unique = true)
-    private String name;
+    private String uzName;
+    private String ruName;
+    private String krName;
 
     private String description;
 

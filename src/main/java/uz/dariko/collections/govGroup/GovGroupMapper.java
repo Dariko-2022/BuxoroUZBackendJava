@@ -17,7 +17,9 @@ public interface GovGroupMapper extends AbstractMapper<GovGroupCreateDTO, GovGro
     @Override
     default GovGroupDTO toDto(GovGroup entity){
         GovGroupDTO govGroupDTO = new GovGroupDTO();
-        govGroupDTO.setName(entity.getName());
+        govGroupDTO.setUzName(entity.getUzName());
+        govGroupDTO.setRuName(entity.getRuName());
+        govGroupDTO.setKrName(entity.getKrName());
         govGroupDTO.setDescription(entity.getDescription());
         govGroupDTO.setId(entity.getId());
         return govGroupDTO;

@@ -31,16 +31,7 @@ public class GovGroupService implements BaseService {
     }
 
     public ResponseEntity<?> create(GovGroupCreateDTO dto) {
-
-        Optional<GovGroup> byNameAndDeletedNot = govGroupRepository.findByNameAndIsDeleted(dto.getName(),false);
-
-        if(byNameAndDeletedNot.isPresent()) {
-            return ResponseEntity.status(409).body("Bu nom oldin ishlatilgan");
-        }
-
-        GovGroup govGroup = new GovGroup();
-        govGroup.setName(dto.getName());
-        govGroup.setDescription(dto.getDescription());
+        GovGroup govGroup = govGroupMapper.fromCreateDto(dto);
         govGroupRepository.save(govGroup);
         return ResponseEntity.status(201).body("created");
     }
@@ -48,13 +39,15 @@ public class GovGroupService implements BaseService {
     public ResponseEntity<?> update(GovGroupUpdateDTO dto) {
 
         GovGroup govGroup = entityGetter.getGovGroup(dto.getId());
-        govGroup.setName(dto.getName());
+        govGroup.setUzName(dto.getUzName());
+        govGroup.setKrName(dto.getKrName());
+        govGroup.setRuName(dto.getRuName());
         govGroup.setDescription(dto.getDescription());
         govGroupRepository.save(govGroup);
         return ResponseEntity.status(204).body("updated");
     }
 
-    public ResponseEntity<Data<Boolean>> delete(UUID id) {
+    public ResponseEntity<?> delete(UUID id) {
 
         GovGroup govGroup = entityGetter.getGovGroup(id);
         govGroup.setDeleted(true);
@@ -62,19 +55,19 @@ public class GovGroupService implements BaseService {
         return ResponseEntity.status(204).body(new Data<>(true) );
     }
 
-    public ResponseEntity<Data<GovGroupDTO>> getById(UUID id) {
+    public ResponseEntity<?> getById(UUID id) {
 
         GovGroup govGroup = entityGetter.getGovGroup(id);
-        GovGroupDTO govGroupDTO = new GovGroupDTO(govGroup.getId(),govGroup.getName(),govGroup.getDescription());
-        return ResponseEntity.status(200).body(new Data<>(govGroupDTO));
+        GovGroupDTO govGroupDTO = govGroupMapper.toDto(govGroup);
+        return ResponseEntity.status(200).body(govGroupDTO);
 
 
     }
 
-    public ResponseEntity<Data<List<GovGroupDTO>>> getList() {
+    public ResponseEntity<?> getList() {
         List<GovGroup> list = govGroupRepository.findAllByDeleted(false);
         List<GovGroupDTO> govGroupDTOS = govGroupMapper.toDto(list);
-        return ResponseEntity.ok(new Data<>(govGroupDTOS));
+        return ResponseEntity.ok(govGroupDTOS);
 
     }
 }

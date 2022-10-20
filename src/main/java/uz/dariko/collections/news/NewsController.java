@@ -9,9 +9,7 @@ import uz.dariko.base.controller.GenericCRUDController;
 import uz.dariko.collections.news.dto.NewsCreateDTO;
 import uz.dariko.collections.news.dto.NewsDTO;
 import uz.dariko.collections.news.dto.NewsUpdateDTO;
-import uz.dariko.response.Data;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -39,12 +37,14 @@ public class NewsController extends AbstractController<NewsService> implements G
     }
 
     @Override
-    public ResponseEntity<?> delete(@PathVariable("code") UUID code) {
+    public ResponseEntity<?> delete(
+            @PathVariable("code") UUID code) {
         return service.delete(code);
     }
 
     @Override
-    public ResponseEntity<?> get(@PathVariable("code") UUID code) {
+    public ResponseEntity<?> get(
+            @PathVariable("code") UUID code) {
         return service.getById(code);
     }
 
@@ -60,6 +60,15 @@ public class NewsController extends AbstractController<NewsService> implements G
             @RequestParam(name = "page") int page
     ) {
         return  service.getAll(PageRequest.of(page,size));
+    }
+
+    @GetMapping("find")
+    public ResponseEntity<?> find(
+            @RequestParam(name = "word") String word,
+            @RequestParam(name = "size") int size,
+            @RequestParam(name = "page") int page
+    ){
+        return service.findByString(word,PageRequest.of(page,size));
     }
 
 
