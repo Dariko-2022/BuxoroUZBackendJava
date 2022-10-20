@@ -1,6 +1,7 @@
 package uz.dariko.collections.link;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.service.AbstractService;
 import uz.dariko.base.service.GenericCRUDService;
@@ -8,33 +9,29 @@ import uz.dariko.collections.file.File;
 import uz.dariko.collections.link.dto.LinkCreateDTO;
 import uz.dariko.collections.link.dto.LinkDTO;
 import uz.dariko.collections.link.dto.LinkUpdateDTO;
-import uz.dariko.response.Data;
 import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
+import uz.dariko.utils.dtos.SessionUser;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class LinkService extends AbstractService<LinkRepository,LinkValidator> implements GenericCRUDService<LinkCreateDTO, LinkUpdateDTO, LinkDTO, UUID> {
-    public LinkService(LinkRepository repository, LinkValidator validator, EntityGetter entityGetter, BaseUtils baseUtils, LinkMapper mapper) {
+    public LinkService(LinkRepository repository, LinkValidator validator, EntityGetter entityGetter,LinkMapper mapper) {
         super(repository, validator);
         this.entityGetter = entityGetter;
-        this.baseUtils = baseUtils;
         this.mapper = mapper;
     }
     private final EntityGetter entityGetter;
-    private final BaseUtils baseUtils;
 
     private final LinkMapper mapper;
 
     @Override
     public ResponseEntity<?> create(LinkCreateDTO DTO) {
         validator.validOnCreate(DTO);
-        UUID uuid = baseUtils.parseUUID(DTO.getImageID());
-        File image = entityGetter.getFile(uuid);
-        Link link=new Link(DTO.getUzName(),DTO.getKrName(),DTO.getRuName(),DTO.getLinkTypeCode(),image,DTO.getUrl());
-
+        Link link = mapper.fromCreatedDTO(DTO);
         repository.save(link);
         return ResponseEntity.ok("Successfully created link");
     }
@@ -42,16 +39,8 @@ public class LinkService extends AbstractService<LinkRepository,LinkValidator> i
     @Override
     public ResponseEntity<?> update(LinkUpdateDTO DTO) {
         validator.validOnUpdate(DTO);
-        UUID uuid = baseUtils.parseUUID(DTO.getImageID());
-        File image = entityGetter.getFile(uuid);
-        Link link1 = entityGetter.getLink(DTO.getId());
-        link1.setUzName(DTO.getUzName());
-        link1.setKrName(DTO.getKrName());
-        link1.setRuName(DTO.getRuName());
-        link1.setLinkTypeCode(DTO.getLinkTypeCode());
-        link1.setImage(image);
-        link1.setUrl(DTO.getUrl());
-        repository.save(link1);
+        Link link = mapper.fromUpdateDTO(DTO);
+        repository.save(link);
         return ResponseEntity.ok("Successfully Updated Link");
     }
 
@@ -59,6 +48,7 @@ public class LinkService extends AbstractService<LinkRepository,LinkValidator> i
     public ResponseEntity<?> delete(UUID key) {
         Link link = entityGetter.getLink(key);
         link.setDeleted(true);
+        link.setDeletedAt(LocalDateTime.now());
         repository.save(link);
         return ResponseEntity.ok("Successfully deleted Link");
     }
@@ -66,17 +56,17 @@ public class LinkService extends AbstractService<LinkRepository,LinkValidator> i
     @Override
     public ResponseEntity<?> get(UUID key) {
         Link link = entityGetter.getLink(key);
-        return ResponseEntity.ok(mapper.toLinkDTO(link));
+        return ResponseEntity.ok(mapper.toDTO(link));
     }
 
     @Override
     public ResponseEntity<?> list() {
         List<Link> links = repository.findAllIsDeleted(false);
-        return ResponseEntity.ok(mapper.toLinkDTO(links));
+        return ResponseEntity.ok(mapper.toDTO(links));
     }
 
     public ResponseEntity<?> listWithType(Integer code) {
         List<Link> links = repository.findAllByLinkTypeCodeIsDeleted(code, false);
-        return ResponseEntity.ok(mapper.toLinkDTO(links));
+        return ResponseEntity.ok(mapper.toDTO(links));
     }
 }

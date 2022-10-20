@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.dto.GenericDTO;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,7 +19,7 @@ public class LinkUpdateDTO extends GenericDTO {
 
     private Integer linkTypeCode;
 
-    private String imageID;
+    private UUID imageID;
 
     private String url;
 }

@@ -8,6 +8,7 @@ import uz.dariko.base.dto.BaseDTO;
 import uz.dariko.collections.file.File;
 
 import javax.persistence.OneToOne;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -20,7 +21,7 @@ public class LinkCreateDTO implements BaseDTO {
 
     private Integer linkTypeCode;
 
-    private String imageID;
+    private UUID imageID;
 
     private String url;
 
