@@ -5,20 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.dto.BaseDTO;
-import uz.dariko.collections.file.File;
-import uz.dariko.collections.region.Region;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class StateCreateDTO implements BaseDTO {
+public class StateEmployeeCreateDTO implements BaseDTO {
     private String firstName;
     private String lastName;
     private String patronymic;
@@ -33,7 +28,7 @@ public class StateCreateDTO implements BaseDTO {
 
     private UUID imageID;
 
-    private List<UUID> govGroupIDs;
+    private UUID govGroupID;
 
     private String responsibility;
 
