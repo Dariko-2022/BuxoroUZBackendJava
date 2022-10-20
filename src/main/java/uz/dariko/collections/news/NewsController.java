@@ -34,22 +34,22 @@ public class NewsController extends AbstractController<NewsService> implements G
     }
 
     @Override
-    public ResponseEntity<Data<NewsDTO>> update(NewsUpdateDTO dto) {
+    public ResponseEntity<?> update(NewsUpdateDTO dto) {
         return service.update(dto);
     }
 
     @Override
-    public ResponseEntity<Data<Boolean>> delete(UUID id) {
-        return service.delete(id);
+    public ResponseEntity<?> delete(@PathVariable("code") UUID code) {
+        return service.delete(code);
     }
 
     @Override
-    public ResponseEntity<Data<NewsDTO>> get(UUID code) {
+    public ResponseEntity<?> get(@PathVariable("code") UUID code) {
         return service.getById(code);
     }
 
     @Override
-    public ResponseEntity<Data<List<NewsDTO>>> list() {
+    public ResponseEntity<?> list() {
         return service.get();
     }
 

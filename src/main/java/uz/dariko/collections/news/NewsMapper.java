@@ -19,6 +19,7 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
     @Override
     default NewsDTO toDto(News entity) {
         NewsDTO dto = new NewsDTO();
+        dto.setId(entity.getId());
         dto.setActual(entity.isActual());
         dto.setCountView(entity.getCountView());
         dto.setUzBody(entity.getUzBody());
@@ -28,7 +29,6 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
         dto.setKrTitle(entity.getKrTitle());
         dto.setRuTitle(entity.getRuTitle());
         dto.setSource(entity.getSource());
-        dto.setSmm(entity.isSmm());
         dto.setSphereID(entity.getSphere().getId());
 
         dto.setUzDescription(entity.getUzDescription());
@@ -59,7 +59,6 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
         News news = new News();
         news.setCountView(0);
         news.setActual(createDto.isActual());
-        news.setSmm(createDto.isSmm());
         news.setKrBody(createDto.getKrBody());
         news.setKrTitle(createDto.getKrTitle());
         news.setRuBody(createDto.getRuBody());
@@ -76,7 +75,6 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
     }
 
     default News fromUpdateDto(NewsUpdateDTO updateDto,News news){
-        news.setSmm(updateDto.isSmm());
         news.setSource(updateDto.getSource());
         news.setUzTitle(updateDto.getUzTitle());
         news.setUzBody(updateDto.getUzBody());
