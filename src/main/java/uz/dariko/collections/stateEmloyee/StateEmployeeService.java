@@ -1,15 +1,20 @@
 package uz.dariko.collections.stateEmloyee;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import uz.dariko.base.dto.BaseOrderDTO;
+import uz.dariko.base.dto.OrderDTO;
 import uz.dariko.base.service.AbstractService;
 import uz.dariko.base.service.GenericCRUDService;
 import uz.dariko.collections.stateEmloyee.dto.StateEmployeeCreateDTO;
 import uz.dariko.collections.stateEmloyee.dto.StateEmployeeDTO;
 import uz.dariko.collections.stateEmloyee.dto.StateEmployeeUpdateDTO;
+import uz.dariko.response.Data;
 import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,5 +67,16 @@ public class StateEmployeeService extends AbstractService<StateEmployeeRepositor
     public ResponseEntity<?> list() {
         List<StateEmployee> allByDeleted = repository.findAllByDeleted(false);
         return ResponseEntity.ok(mapper.toDTO(allByDeleted));
+    }
+
+    public ResponseEntity<Data<List<StateEmployeeDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
+        List<OrderDTO> orderDTOS = baseOrderDTO.getOrders();
+        validator.validOnBaseOrderDTO(orderDTOS);
+        List<StateEmployee> entities = new ArrayList<>();
+        for (OrderDTO order : orderDTOS) {
+            StateEmployee entity = repository.setOrOrderNumber(order.getId(), order.getOrder());
+            entities.add(entity);
+        }
+        return new ResponseEntity<>(new Data<>(mapper.toDTO(entities)), HttpStatus.OK);
     }
 }

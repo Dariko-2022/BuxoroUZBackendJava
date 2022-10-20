@@ -34,4 +34,5 @@ public class StateEmployeeCreateDTO implements BaseDTO {
 
     private String labor_activity; //mehnat faoliyati
 
+
 }
