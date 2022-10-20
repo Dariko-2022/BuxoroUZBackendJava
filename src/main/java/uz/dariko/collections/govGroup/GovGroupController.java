@@ -1,6 +1,7 @@
 package uz.dariko.collections.govGroup;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uz.dariko.base.controller.AbstractController;
@@ -32,17 +33,19 @@ public class GovGroupController extends AbstractController<GovGroupService> impl
     }
 
     @Override
-    public ResponseEntity<Data<Boolean>> delete(UUID code) {
+    public ResponseEntity<?> delete(
+            @PathVariable("code") UUID code) {
         return service.delete(code);
     }
 
     @Override
-    public ResponseEntity<Data<GovGroupDTO>> get(UUID code) {
+    public ResponseEntity<?> get(
+            @PathVariable("code") UUID code) {
         return service.getById(code);
     }
 
     @Override
-    public ResponseEntity<Data<List<GovGroupDTO>>> list() {
+    public ResponseEntity<?> list() {
         return service.getList();
     }
 }

@@ -14,7 +14,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class GovGroupDTO extends GenericDTO {
     private UUID id;
-    private String name;
+    private String uzName;
+    private String ruName;
+    private String krName;
     private String description;
 
 }

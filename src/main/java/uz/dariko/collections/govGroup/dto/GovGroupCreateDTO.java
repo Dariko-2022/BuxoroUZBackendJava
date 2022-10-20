@@ -13,7 +13,9 @@ import uz.dariko.base.dto.BaseDTO;
 @NoArgsConstructor
 public class GovGroupCreateDTO implements BaseDTO {
 
-    private String name;
+    private String uzName;
+    private String ruName;
+    private String krName;
 
     private String description;
 

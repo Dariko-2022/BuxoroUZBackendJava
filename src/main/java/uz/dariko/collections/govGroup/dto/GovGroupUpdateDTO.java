@@ -12,6 +12,8 @@ import uz.dariko.base.dto.GenericDTO;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GovGroupUpdateDTO extends GenericDTO {
-    private String name;
+    private String uzName;
+    private String ruName;
+    private String krName;
     private String description;
 }

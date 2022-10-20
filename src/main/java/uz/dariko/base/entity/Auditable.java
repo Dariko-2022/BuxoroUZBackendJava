@@ -34,7 +34,7 @@ public abstract class Auditable extends BaseEntityID {
 
     @CreatedBy
     @Column(name = "created_by", nullable = false, updatable = false)
-    private UUID createdBy;
+    private Long createdBy=-1L;
 
     @LastModifiedDate
     @Column(name = "updated_at")
@@ -42,18 +42,18 @@ public abstract class Auditable extends BaseEntityID {
 
     @LastModifiedBy
     @Column(name = "updated_by")
-    private UUID updatedBy;
+    private Long updatedBy;
 
     public Auditable(UUID id) {
         super(id);
     }
 
-    public Auditable(UUID id, UUID createdBy) {
+    public Auditable(UUID id, Long createdBy) {
         super(id);
         this.createdBy = createdBy;
     }
 
-    public Auditable(UUID id, boolean isDeleted, LocalDateTime createdAt, UUID createdBy, LocalDateTime updatedAt, UUID updatedBy) {
+    public Auditable(UUID id, boolean isDeleted, LocalDateTime createdAt, Long createdBy, LocalDateTime updatedAt, Long updatedBy) {
         super(id);
         this.isDeleted = isDeleted;
         this.createdAt = createdAt;
@@ -62,5 +62,7 @@ public abstract class Auditable extends BaseEntityID {
         this.updatedBy = updatedBy;
     }
 
-
+    public Auditable(Long createdBy) {
+        this.createdBy = createdBy;
+    }
 }

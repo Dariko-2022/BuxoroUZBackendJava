@@ -2,8 +2,10 @@ package uz.dariko.collections.news;
 
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.file.File;
@@ -59,7 +61,6 @@ public class NewsService implements BaseService {
 
         Sphere sphere = entityGetter.getSphere(newsCreateDto.getSphereID());
         List<File> images = entityGetter.getFiles(newsCreateDto.getImageIDs());
-
         News news = newsMapper.fromCreateDto(newsCreateDto);
         news.setImages(images);
         news.setSphere(sphere);
@@ -133,9 +134,19 @@ public class NewsService implements BaseService {
     }
 
 
+    public ResponseEntity<?> findByString(String s,Pageable pageable){
+        Page<News> byString = newsRepository.findByString(s,pageable);
+        List<News> byString2 = newsRepository.findByString2(s, pageable.getPageSize(), pageable.getPageSize()* pageable.getPageNumber());
 
+        if(byString2.size()>0) {
+            List<NewsDTO> newsDTOS = newsMapper.toDto(byString2);
+            ResponsePage<NewsDTO> responsePage = baseUtils.toResponsePage(byString, newsDTOS);
 
+            return ResponseEntity.ok(responsePage);
+        }
+        return ResponseEntity.status(404).body("Not found");
 
+    }
 
 
 
