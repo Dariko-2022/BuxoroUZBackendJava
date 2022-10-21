@@ -1,8 +1,11 @@
 package uz.dariko.collections.menu;
 
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import uz.dariko.base.dto.BaseOrderDTO;
+import uz.dariko.base.dto.OrderDTO;
 import uz.dariko.base.dto.SubMenuAdminDTO;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.govGroup.GovGroupService;
@@ -12,8 +15,10 @@ import uz.dariko.collections.menu.dto.MenuDTO;
 import uz.dariko.collections.menu.dto.MenuDtoForAdmin;
 import uz.dariko.collections.menu.dto.MenuUpdateDTO;
 import uz.dariko.collections.sphere.SphereService;
+import uz.dariko.response.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -40,6 +45,7 @@ public class MenuService implements BaseService {
 
     public ResponseEntity<?> create(MenuCreateDTO menuCreateDTO) {
         Menu menu = menuMapper.fromCreateDto(menuCreateDTO);
+        menu.setRank(menuRepository.getTotalCount()+1);
         Menu save = menuRepository.save(menu);
         MenuDTO menuDTO = menuMapper.toDto(save);
         return ResponseEntity.status(201).body(menuDTO);
@@ -101,4 +107,13 @@ public class MenuService implements BaseService {
     }
 
 
+    public ResponseEntity<Data<List<MenuDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
+        List<OrderDTO> orderDTOS = baseOrderDTO.getOrders();
+        List<Menu> entities = new ArrayList<>();
+        for (OrderDTO order : orderDTOS) {
+            Menu entity = menuRepository.setOrOrderNumber(order.getId(), order.getOrder());
+            entities.add(entity);
+        }
+        return new ResponseEntity<>(new Data<>(menuMapper.toDto(entities)), HttpStatus.OK);
+    }
 }
