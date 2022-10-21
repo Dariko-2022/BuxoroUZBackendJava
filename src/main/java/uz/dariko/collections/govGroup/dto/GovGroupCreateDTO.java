@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.dto.BaseDTO;
+import uz.dariko.collections.menu.Menu;
+
+import javax.persistence.ManyToOne;
+import java.util.UUID;
 
 
 @Getter
@@ -17,6 +21,12 @@ public class GovGroupCreateDTO implements BaseDTO {
     private String ruName;
     private String krName;
 
-    private String description;
+    private String uzDescription;
+    private String ruDescription;
+    private String krDescription;
+
+    private UUID menuId;
+
+    private int rank;
 
 }

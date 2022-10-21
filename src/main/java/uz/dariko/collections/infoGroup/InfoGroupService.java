@@ -2,7 +2,9 @@ package uz.dariko.collections.infoGroup;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import uz.dariko.base.dto.SubMenuAdminDTO;
 import uz.dariko.base.service.BaseService;
+import uz.dariko.collections.govGroup.GovGroup;
 import uz.dariko.collections.infoGroup.dto.InfoGroupCreateDTO;
 import uz.dariko.collections.infoGroup.dto.InfoGroupDTO;
 import uz.dariko.collections.infoGroup.dto.InfoGroupUpdateDTO;
@@ -29,7 +31,7 @@ public class InfoGroupService implements BaseService {
 
     public ResponseEntity<?> create(InfoGroupCreateDTO infoGroupCreateDto) {
         InfoGroup infoGroup = infoGroupMapper.fromCreateDto(infoGroupCreateDto);
-
+        infoGroup.setMenu(entityGetter.getMenu(infoGroupCreateDto.getMenuId()));
         infoGroupRepository.save(infoGroup);
         return ResponseEntity.status(201).body("saved");
     }
@@ -46,6 +48,8 @@ public class InfoGroupService implements BaseService {
         infoGroup.setUzName(dto.getUzName());
         infoGroup.setKrName(dto.getKrName());
         infoGroup.setRuName(dto.getRuName());
+        infoGroup.setRank(dto.getRank());
+        infoGroup.setMenu(entityGetter.getMenu(dto.getMenuId()));
         InfoGroup save = infoGroupRepository.save(infoGroup);
         InfoGroupDTO infoGroupDTO = infoGroupMapper.toDto(save);
         return ResponseEntity.ok(infoGroupDTO);
@@ -64,6 +68,11 @@ public class InfoGroupService implements BaseService {
         infoGroupRepository.save(infoGroup);
         return ResponseEntity.ok(true);
 
+    }
+
+    public List<SubMenuAdminDTO> getForAdmin(){
+        List<InfoGroup> list = infoGroupRepository.findAllByDeleted(false);
+        return infoGroupMapper.toAdminDto(list);
     }
 
 }

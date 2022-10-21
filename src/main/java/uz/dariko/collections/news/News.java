@@ -10,7 +10,6 @@ import uz.dariko.base.entity.Auditable;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.sphere.Sphere;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;

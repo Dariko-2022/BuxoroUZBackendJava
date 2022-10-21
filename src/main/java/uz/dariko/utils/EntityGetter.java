@@ -15,6 +15,8 @@ import uz.dariko.collections.informations.Information;
 import uz.dariko.collections.informations.InformationRepository;
 import uz.dariko.collections.link.Link;
 import uz.dariko.collections.link.LinkRepository;
+import uz.dariko.collections.menu.Menu;
+import uz.dariko.collections.menu.MenuRepository;
 import uz.dariko.collections.news.News;
 import uz.dariko.collections.news.NewsRepository;
 import uz.dariko.collections.region.Region;
@@ -56,6 +58,8 @@ public class EntityGetter {
 
     private final InfoGroupRepository infoGroupRepository;
     private final InformationRepository informationRepository;
+
+    private final MenuRepository menuRepository;
 
     private final BaseUtils baseUtils;
 
@@ -207,6 +211,17 @@ public class EntityGetter {
             throw new NotFoundException("Information IDsi noto'g'ri berildi");
         });
     }
+
+    //-------------------------------------------------Menu---------------------------------------------------
+
+    public Menu getMenu(UUID uuid){
+        Optional<Menu> byIdAndDeletedNot = menuRepository.findByIdAndDeletedNot(uuid);
+        return byIdAndDeletedNot.orElseThrow(() -> {
+            throw new NotFoundException("Information IDsi noto'g'ri berildi");
+        });
+    }
+
+
 }
 
 
