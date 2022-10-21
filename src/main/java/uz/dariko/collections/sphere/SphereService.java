@@ -44,7 +44,6 @@ public class SphereService implements BaseService{
     public ResponseEntity<?> getAll() {
         List<Sphere> allByDeleted = sphereRepository.findAllByDeleted(false);
         return ResponseEntity.ok(allByDeleted);
-
     }
 
     public ResponseEntity<?> update(SphereUpdateDTO dto) {

@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
+import uz.dariko.base.dto.BaseOrderDTO;
 import uz.dariko.collections.sector.dto.SectorCreateDTO;
 import uz.dariko.collections.sector.dto.SectorDTO;
 import uz.dariko.collections.sector.dto.SectorDtoForHome;
@@ -45,5 +46,10 @@ public class SectorController extends AbstractController<SectorService> implemen
     @Override
     public ResponseEntity<Data<List<SectorDTO>>> list() {
         return service.get();
+    }
+
+    @RequestMapping("changeOrder")
+    public ResponseEntity<Data<List<SectorDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
+        return service.changeOrder(baseOrderDTO);
     }
 }

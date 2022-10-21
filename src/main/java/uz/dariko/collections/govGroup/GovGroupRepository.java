@@ -2,6 +2,7 @@ package uz.dariko.collections.govGroup;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -22,5 +23,10 @@ public interface GovGroupRepository extends JpaRepository<GovGroup, UUID> {
     List<GovGroup> findAllByDeleted(boolean deleted);
 
 
+    @Modifying
+    @Query(nativeQuery = true, value = "update gov_group set order_number=?2 where id=?1 returning *")
+    GovGroup setOrOrderNumber(UUID id, Integer order);
 
+    @Query(nativeQuery = true,value = "select count(*) from state_employee where is_deleted=false and menu_id= ?1")
+    Integer getTotalCount(UUID id);
 }
