@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
+import uz.dariko.base.dto.BaseOrderDTO;
 import uz.dariko.collections.menu.dto.MenuCreateDTO;
 import uz.dariko.collections.menu.dto.MenuDTO;
 import uz.dariko.collections.menu.dto.MenuUpdateDTO;
+import uz.dariko.collections.stateEmloyee.dto.StateEmployeeDTO;
+import uz.dariko.response.Data;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -51,5 +55,10 @@ public class MenuController extends AbstractController<MenuService> implements G
     @GetMapping("/getForAdmin")
     public ResponseEntity<?> getForAdmin(){
         return service.getForAdmin();
+    }
+
+    @RequestMapping("changeOrder")
+    public ResponseEntity<Data<List<MenuDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
+        return service.changeOrder(baseOrderDTO);
     }
 }

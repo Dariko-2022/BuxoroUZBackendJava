@@ -35,7 +35,6 @@ public interface MenuMapper  extends AbstractMapper<MenuCreateDTO, MenuUpdateDTO
     @Override
     default Menu fromCreateDto(MenuCreateDTO createDto){
         Menu menu = new Menu();
-        menu.setRank(createDto.getRank());
         menu.setKrName(createDto.getKrName());
         menu.setRuName(createDto.getRuName());
         menu.setUzName(createDto.getUzName());

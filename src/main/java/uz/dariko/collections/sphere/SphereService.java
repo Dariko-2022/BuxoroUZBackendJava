@@ -3,9 +3,9 @@ package uz.dariko.collections.sphere;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import uz.dariko.base.dto.SubMenuAdminDTO;
 import uz.dariko.base.dto.BaseOrderDTO;
 import uz.dariko.base.dto.OrderDTO;
+import uz.dariko.base.dto.SubMenuAdminDTO;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.sphere.dto.SphereCreateDTO;
 import uz.dariko.collections.sphere.dto.SphereDTO;
@@ -87,7 +87,6 @@ public class SphereService implements BaseService{
         return sphereMapper.toAdminDto(list);
     }
 
-
     public ResponseEntity<Data<List<SphereDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
         List<OrderDTO> orderDTOS = baseOrderDTO.getOrders();
         List<Sphere> entities = new ArrayList<>();
@@ -97,4 +96,5 @@ public class SphereService implements BaseService{
         }
         return new ResponseEntity<>(new Data<>(sphereMapper.toDto(entities)), HttpStatus.OK);
     }
+
 }
