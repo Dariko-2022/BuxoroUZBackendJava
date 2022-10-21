@@ -20,9 +20,10 @@ public class InfoGroupDTO extends GenericDTO {
     private String krName;
     private String ruName;
 
-
+    private String type;
 
     private UUID menuId;
 
     private int rank;
+    private boolean visible;
 }

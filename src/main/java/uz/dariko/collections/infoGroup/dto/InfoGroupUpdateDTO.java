@@ -25,4 +25,5 @@ public class InfoGroupUpdateDTO extends GenericDTO {
     private UUID menuId;
 
     private int rank;
+    private boolean visible;
 }

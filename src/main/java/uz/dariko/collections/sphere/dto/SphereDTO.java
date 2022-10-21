@@ -21,5 +21,8 @@ public class SphereDTO extends GenericDTO {
 
     private UUID menuId;
 
+    private String type;
+
     private int rank;
+    private boolean visible;
 }

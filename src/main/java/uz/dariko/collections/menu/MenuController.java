@@ -1,6 +1,6 @@
 package uz.dariko.collections.menu;
 
-import lombok.AllArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +12,6 @@ import uz.dariko.base.dto.BaseOrderDTO;
 import uz.dariko.collections.menu.dto.MenuCreateDTO;
 import uz.dariko.collections.menu.dto.MenuDTO;
 import uz.dariko.collections.menu.dto.MenuUpdateDTO;
-import uz.dariko.collections.stateEmloyee.dto.StateEmployeeDTO;
 import uz.dariko.response.Data;
 
 import java.util.List;

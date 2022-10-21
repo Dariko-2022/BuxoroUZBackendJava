@@ -13,7 +13,7 @@ import uz.dariko.collections.infoGroup.dto.InfoGroupUpdateDTO;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("infoGroup/")
+@RequestMapping("infoGroup")
 public class InfoGroupController extends AbstractController<InfoGroupService> implements GenericCRUDController<InfoGroupCreateDTO, InfoGroupUpdateDTO, InfoGroupDTO, UUID> {
     public InfoGroupController(InfoGroupService service) {
         super(service);

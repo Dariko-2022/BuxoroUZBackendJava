@@ -28,5 +28,6 @@ public class GovGroupCreateDTO implements BaseDTO {
     private UUID menuId;
 
     private int rank;
+    private boolean visible;
 
 }

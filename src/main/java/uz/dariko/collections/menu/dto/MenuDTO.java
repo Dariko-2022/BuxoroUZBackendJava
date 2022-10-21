@@ -21,4 +21,5 @@ public class MenuDTO extends GenericDTO implements BaseDTO {
     private String krName;
 
     private int rank;
+    private boolean visible;
 }

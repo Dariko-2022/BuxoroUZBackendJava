@@ -23,8 +23,11 @@ public class GovGroupDTO extends GenericDTO {
     private String ruDescription;
     private String krDescription;
 
+    private String type;
+
     private UUID menuId;
 
     private int rank;
+    private boolean visible;
 
 }

@@ -33,12 +33,12 @@ public abstract class Auditable extends BaseEntityID {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @CreatedBy
-    @Column(name = "created_by", nullable = false, updatable = false)
+    @Column(name = "created_by",  updatable = false)
     private UUID createdBy;
 
     @LastModifiedDate
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     @LastModifiedBy
     @Column(name = "updated_by")

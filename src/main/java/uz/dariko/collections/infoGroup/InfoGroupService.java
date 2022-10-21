@@ -32,8 +32,9 @@ public class InfoGroupService implements BaseService {
     public ResponseEntity<?> create(InfoGroupCreateDTO infoGroupCreateDto) {
         InfoGroup infoGroup = infoGroupMapper.fromCreateDto(infoGroupCreateDto);
         infoGroup.setMenu(entityGetter.getMenu(infoGroupCreateDto.getMenuId()));
-        infoGroupRepository.save(infoGroup);
-        return ResponseEntity.status(201).body("saved");
+        InfoGroup save = infoGroupRepository.save(infoGroup);
+        InfoGroupDTO infoGroupDTO = infoGroupMapper.toDto(save);
+        return ResponseEntity.status(201).body(infoGroupDTO);
     }
 
     public ResponseEntity<?> getAll() {

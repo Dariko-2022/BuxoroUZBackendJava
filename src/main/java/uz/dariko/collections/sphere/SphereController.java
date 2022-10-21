@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("sphere/")
+@RequestMapping("sphere")
 public class SphereController extends AbstractController<SphereService> implements GenericCRUDController<SphereCreateDTO, SphereUpdateDTO, SphereDTO, UUID>
 {
 

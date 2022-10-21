@@ -21,6 +21,7 @@ public interface MenuMapper  extends AbstractMapper<MenuCreateDTO, MenuUpdateDTO
         menuDTO.setKrName(entity.getKrName());
         menuDTO.setRuName(entity.getRuName());
         menuDTO.setUzName(entity.getUzName());
+        menuDTO.setVisible(entity.isVisible());
         return menuDTO;
     }
 
@@ -38,6 +39,7 @@ public interface MenuMapper  extends AbstractMapper<MenuCreateDTO, MenuUpdateDTO
         menu.setKrName(createDto.getKrName());
         menu.setRuName(createDto.getRuName());
         menu.setUzName(createDto.getUzName());
+        menu.setVisible(createDto.isVisible());
         return menu;
     }
 
@@ -47,6 +49,7 @@ public interface MenuMapper  extends AbstractMapper<MenuCreateDTO, MenuUpdateDTO
         menu.setRank(updateDto.getRank());
         menu.setRuName(updateDto.getRuName());
         menu.setKrName(updateDto.getKrName());
+        menu.setVisible(updateDto.isVisible());
         return menu;
     }
 }

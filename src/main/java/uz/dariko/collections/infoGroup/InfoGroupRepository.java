@@ -13,10 +13,10 @@ import java.util.UUID;
 public interface InfoGroupRepository extends JpaRepository<InfoGroup, UUID> {
 
 
-    @Query(nativeQuery = true,value = "SELECT * FROM infogroup where is_deleted = ?")
+    @Query(nativeQuery = true,value = "SELECT * FROM info_group where is_deleted = ?")
     List<InfoGroup> findAllByDeleted(boolean deleted);
 
 
-    @Query(nativeQuery = true,value = "Select * from infogroup where id = ?1 and is_deleted = false")
+    @Query(nativeQuery = true,value = "Select * from info_group where id = ?1 and is_deleted = false")
     Optional<InfoGroup> findByIdAndDeletedNot(UUID uuid);
 }

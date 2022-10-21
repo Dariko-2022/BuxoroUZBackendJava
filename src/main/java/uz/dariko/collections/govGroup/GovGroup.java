@@ -34,4 +34,6 @@ public class GovGroup extends Auditable {
 
     private int rank;
 
+    private boolean visible;
+
 }
