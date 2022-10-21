@@ -27,11 +27,6 @@ public abstract class AbstractValidator<CD extends BaseDTO, UD extends GenericDT
 //        }
     }
 
-    public void checkSectorCode(Integer sectorCode) {
-        if (sectorCode == null || sectorCode < 1 || sectorCode > 4) {
-            throw new InvalidValidationException("Sector Code 1 va 4 oralig'ida bo'lishi kerak.");
-        }
-    }
 
     public void checkForPositiveNumber(Integer number, String message) {
         if (number < 1) {
@@ -39,11 +34,6 @@ public abstract class AbstractValidator<CD extends BaseDTO, UD extends GenericDT
         }
     }
 
-    public void checkCitizentTypeCode(Integer citizenTypeCode) {
-        if (citizenTypeCode < 0 || citizenTypeCode > 2) {
-            throw new InvalidValidationException("Fuqaro turi 1 va 2 bo'lishi mumkin holos. Iltimos fuqaro turini qayta ko'rib chiqing");
-        }
-    }
 
     public void validOnBaseOrderDTO(List<OrderDTO> orderDTOS) {
         if (orderDTOS == null) {

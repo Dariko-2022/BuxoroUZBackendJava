@@ -1,6 +1,7 @@
 package uz.dariko.collections.informations;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.service.AbstractService;
 import uz.dariko.base.service.GenericCRUDService;
@@ -8,7 +9,9 @@ import uz.dariko.collections.informations.dto.InformationCreateDTO;
 import uz.dariko.collections.informations.dto.InformationDTO;
 import uz.dariko.collections.informations.dto.InformationUpdateDTO;
 import uz.dariko.utils.EntityGetter;
+import uz.dariko.utils.dtos.SessionUser;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,9 +43,13 @@ public class InformationService extends AbstractService<InformationRepository,In
 
     @Override
     public ResponseEntity<?> delete(UUID key) {
+        SessionUser sessionUser= (SessionUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         validator.validOnKey(key);
         Information information = entityGetter.getInformation(key);
         information.setDeleted(true);
+        information.setDeletedAt(LocalDateTime.now());
+        information.setUpdatedBy(sessionUser.getId());
+        information.setUpdatedAt(LocalDateTime.now());
         repository.save(information);
         return ResponseEntity.ok("Successfully Deleted");
     }
@@ -56,7 +63,7 @@ public class InformationService extends AbstractService<InformationRepository,In
 
     @Override
     public ResponseEntity<?> list() {
-        return ResponseEntity.ok(repository.findAllByDeleted(false));
+        return ResponseEntity.ok(mapper.toDto(repository.findAllByDeleted(false)));
     }
 
     public ResponseEntity<?> listByInfoGroup(UUID infoGroupID){

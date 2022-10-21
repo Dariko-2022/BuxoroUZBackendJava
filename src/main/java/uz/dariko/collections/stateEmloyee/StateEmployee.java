@@ -45,4 +45,6 @@ public class StateEmployee extends Auditable {
 
     private String labor_activity; //mehnat faoliyati
 
+    private int orderNumber;
+
 }

@@ -34,4 +34,5 @@ public class StateEmployeeDTO extends GenericDTO {
 
     private String labor_activity; //mehnat faoliyati
 
+    private Integer orderNumber;
 }

@@ -1,6 +1,7 @@
 package uz.dariko.collections.informations;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import uz.dariko.base.mapper.BaseMapper;
 import uz.dariko.collections.file.File;
@@ -9,7 +10,9 @@ import uz.dariko.collections.informations.dto.InformationCreateDTO;
 import uz.dariko.collections.informations.dto.InformationDTO;
 import uz.dariko.collections.informations.dto.InformationUpdateDTO;
 import uz.dariko.utils.EntityGetter;
+import uz.dariko.utils.dtos.SessionUser;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +34,10 @@ public class InformationMapper implements BaseMapper {
                 entityGetter.getGeneratedNames(entity.getImages()),
                 entity.getInfoGroup().getId(),
                 entity.getSource());
-    };
-
-
+    }
     Information fromCreateDto(InformationCreateDTO createDto){
-        return new Information(createDto.getUzTitle(),
+        SessionUser sessionUser= (SessionUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Information information= new Information(createDto.getUzTitle(),
                 createDto.getKrTitle(),
                 createDto.getRuTitle(),
                 createDto.getUzDescription(),
@@ -47,10 +49,16 @@ public class InformationMapper implements BaseMapper {
                 entityGetter.getInfoGroup(createDto.getInfoGroupID()),
                 entityGetter.getFiles(createDto.getImageIDs()),
                 createDto.getSource());
+        information.setCreatedBy(sessionUser.getId());
+        information.setCreatedAt(LocalDateTime.now());
+        information.setUpdatedBy(sessionUser.getId());
+        information.setUpdatedAt(LocalDateTime.now());
+        return information;
     };
 
 
     Information fromUpdateDto(InformationUpdateDTO updateDto){
+        SessionUser sessionUser= (SessionUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Information information = entityGetter.getInformation(updateDto.getId());
         List<File> images = entityGetter.getFiles(updateDto.getImageIDs());
         InfoGroup infoGroup = entityGetter.getInfoGroup(updateDto.getInfoGroupID());
@@ -66,6 +74,9 @@ public class InformationMapper implements BaseMapper {
         information.setInfoGroup(infoGroup);
         information.setImages(images);
         information.setSource(updateDto.getSource());
+        information.setUpdatedBy(sessionUser.getId());
+        information.setUpdatedAt(LocalDateTime.now());
+
         return information;
     };
 

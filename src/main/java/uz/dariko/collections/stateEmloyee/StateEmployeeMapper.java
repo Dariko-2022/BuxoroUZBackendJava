@@ -18,6 +18,9 @@ import java.util.List;
 public class StateEmployeeMapper implements BaseMapper {
     @Autowired
     EntityGetter entityGetter;
+
+    @Autowired
+    StateEmployeeRepository repository;
      StateEmployeeDTO toDTO(StateEmployee stateEmployee){
         return new StateEmployeeDTO(stateEmployee.getFirstName(),
                 stateEmployee.getLastName(),
@@ -31,7 +34,8 @@ public class StateEmployeeMapper implements BaseMapper {
                 stateEmployee.getImage().getId(),
                 stateEmployee.getGovGroup().getId(),
                 stateEmployee.getResponsibility(),
-                stateEmployee.getLabor_activity());
+                stateEmployee.getLabor_activity(),
+                stateEmployee.getOrderNumber());
     }
 
     StateEmployee fromCreateDTO(StateEmployeeCreateDTO DTO){
@@ -42,7 +46,7 @@ public class StateEmployeeMapper implements BaseMapper {
                         DTO.getPatronymic(), DTO.getBirthDate(),
                         DTO.getBirthPlace(),
                         DTO.getNation(), region, DTO.getDegree(),
-                        DTO.getPhoneNumber(), image,entityGetter.getGovGroup(DTO.getGovGroupID()), DTO.getResponsibility(),DTO.getLabor_activity());
+                        DTO.getPhoneNumber(), image,entityGetter.getGovGroup(DTO.getGovGroupID()), DTO.getResponsibility(),DTO.getLabor_activity(),repository.getTotalCount(DTO.getGovGroupID())+1);
 
     }
 
