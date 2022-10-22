@@ -34,8 +34,7 @@ public interface SphereMapper extends AbstractMapper<SphereCreateDTO, SphereUpda
         sphere.setKrName(createDto.getKrName());
         sphere.setRuName(createDto.getRuName());
         sphere.setUzName(createDto.getUzName());
-        sphere.setRank(createDto.getRank());
-        sphere.setVisible(true);
+        sphere.setVisible(createDto.isVisible());
         return sphere;
     }
 
