@@ -2,6 +2,7 @@ package uz.dariko.collections.infoGroup;
 
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uz.dariko.base.controller.AbstractController;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("infoGroup/")
+@RequestMapping("infoGroup")
 public class InfoGroupController extends AbstractController<InfoGroupService> implements GenericCRUDController<InfoGroupCreateDTO, InfoGroupUpdateDTO, InfoGroupDTO, UUID> {
     public InfoGroupController(InfoGroupService service) {
         super(service);
@@ -33,7 +34,8 @@ public class InfoGroupController extends AbstractController<InfoGroupService> im
     }
 
     @Override
-    public ResponseEntity<?> delete(UUID uuid) {
+    public ResponseEntity<?> delete(
+            @PathVariable("code") UUID uuid) {
         return service.delete(uuid);
     }
 

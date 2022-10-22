@@ -28,6 +28,8 @@ public interface GovGroupMapper extends AbstractMapper<GovGroupCreateDTO, GovGro
         govGroupDTO.setId(entity.getId());
         govGroupDTO.setRank(entity.getRank());
         govGroupDTO.setMenuId(entity.getMenu().getId());
+        govGroupDTO.setType("stateEmployee");
+        govGroupDTO.setVisible(entity.isVisible());
         return govGroupDTO;
     }
 
@@ -50,6 +52,7 @@ public interface GovGroupMapper extends AbstractMapper<GovGroupCreateDTO, GovGro
         govGroup.setUzName(createDto.getUzName());
         govGroup.setKrName(createDto.getKrName());
         govGroup.setRuName(createDto.getRuName());
+        govGroup.setVisible(true);
         return govGroup;
     }
 
@@ -71,6 +74,9 @@ public interface GovGroupMapper extends AbstractMapper<GovGroupCreateDTO, GovGro
         subMenuAdminDTO.setKrName(govGroup.getKrName());
         subMenuAdminDTO.setUzName(govGroup.getUzName());
         subMenuAdminDTO.setRuName(govGroup.getRuName());
+        subMenuAdminDTO.setMenuId(govGroup.getMenu().getId());
+        subMenuAdminDTO.setType("stateEmployee");
+        subMenuAdminDTO.setVisible(govGroup.isVisible());
         return subMenuAdminDTO;
     }
 }

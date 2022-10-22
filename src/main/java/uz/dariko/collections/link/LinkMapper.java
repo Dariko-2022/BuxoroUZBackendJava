@@ -29,9 +29,7 @@ public class LinkMapper implements BaseMapper {
         File image = entityGetter.getFile(DTO.getImageID());
         Link link=new Link(DTO.getUzName(),DTO.getKrName(),DTO.getRuName(),DTO.getLinkTypeCode(),image,DTO.getUrl());
         link.setCreatedBy(sessionUser.getId());
-        link.setCreatedAt(LocalDateTime.now());
         link.setUpdatedBy(sessionUser.getId());
-        link.setUpdatedAt(LocalDateTime.now());
         return link;
     }
 

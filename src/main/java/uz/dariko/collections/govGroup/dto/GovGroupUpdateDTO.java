@@ -27,4 +27,5 @@ public class GovGroupUpdateDTO extends GenericDTO {
     private UUID menuId;
 
     private int rank;
+    private boolean visible;
 }

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("link/")
+@RequestMapping("link")
 public class LinkController extends AbstractController<LinkService> implements GenericCRUDController<LinkCreateDTO, LinkUpdateDTO, LinkDTO, UUID> {
     public LinkController(LinkService service) {
         super(service);

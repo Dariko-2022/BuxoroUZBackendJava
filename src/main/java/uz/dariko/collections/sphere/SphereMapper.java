@@ -23,6 +23,8 @@ public interface SphereMapper extends AbstractMapper<SphereCreateDTO, SphereUpda
         sphereDTO.setRuName(entity.getRuName());
         sphereDTO.setMenuId(entity.getMenu().getId());
         sphereDTO.setRank(entity.getRank());
+        sphereDTO.setType("news");
+        sphereDTO.setVisible(entity.isVisible());
         return sphereDTO;
     }
 
@@ -33,6 +35,7 @@ public interface SphereMapper extends AbstractMapper<SphereCreateDTO, SphereUpda
         sphere.setRuName(createDto.getRuName());
         sphere.setUzName(createDto.getUzName());
         sphere.setRank(createDto.getRank());
+        sphere.setVisible(true);
         return sphere;
     }
 
@@ -51,6 +54,9 @@ public interface SphereMapper extends AbstractMapper<SphereCreateDTO, SphereUpda
         subMenuAdminDTO.setKrName(sphere.getKrName());
         subMenuAdminDTO.setUzName(sphere.getUzName());
         subMenuAdminDTO.setRuName(sphere.getRuName());
+        subMenuAdminDTO.setMenuId(sphere.getMenu().getId());
+        subMenuAdminDTO.setType("news");
+        subMenuAdminDTO.setVisible(sphere.isVisible());
         return subMenuAdminDTO;
     }
 }

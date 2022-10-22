@@ -37,8 +37,9 @@ public class SphereService implements BaseService{
     public ResponseEntity<?> create(SphereCreateDTO sphereCreateDto) {
         Sphere sphere = sphereMapper.fromCreateDto(sphereCreateDto);
         sphere.setMenu(entityGetter.getMenu(sphereCreateDto.getMenuId()));
-        sphereRepository.save(sphere);
-        return ResponseEntity.status(201).body("saved");
+        Sphere save = sphereRepository.save(sphere);
+        SphereDTO sphereDTO = sphereMapper.toDto(save);
+        return ResponseEntity.status(201).body(sphereDTO);
     }
 
     public ResponseEntity<?> getAll() {
@@ -54,6 +55,7 @@ public class SphereService implements BaseService{
         sphere.setKrName(dto.getKrName());
         sphere.setRuName(dto.getRuName());
         sphere.setRank(dto.getRank());
+        sphere.setVisible(dto.isVisible());
         sphere.setMenu(entityGetter.getMenu(dto.getMenuId()));
         sphereRepository.save(sphere);
         return ResponseEntity.status(204).body(sphere);

@@ -27,4 +27,6 @@ public class InfoGroup extends Auditable {
 
     private int rank;
 
+    private boolean visible;
+
 }

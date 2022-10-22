@@ -13,7 +13,7 @@ import uz.dariko.collections.news.dto.NewsUpdateDTO;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("news/")
+@RequestMapping("news")
 public class NewsController extends AbstractController<NewsService> implements GenericCRUDController<NewsCreateDTO, NewsUpdateDTO, NewsDTO, UUID> {
 
     public NewsController(NewsService service) {
@@ -21,7 +21,7 @@ public class NewsController extends AbstractController<NewsService> implements G
     }
 
 
-    @GetMapping("getForHome")
+    @GetMapping("/getForHome")
     public ResponseEntity<?> getForHome() throws Exception {
         return service.getForHome();
     }
@@ -54,7 +54,7 @@ public class NewsController extends AbstractController<NewsService> implements G
     }
 
 
-    @GetMapping("getAll")
+    @GetMapping("/getAll")
     public ResponseEntity<?> getAll(
             @RequestParam(name = "size") int size,
             @RequestParam(name = "page") int page
@@ -62,7 +62,7 @@ public class NewsController extends AbstractController<NewsService> implements G
         return  service.getAll(PageRequest.of(page,size));
     }
 
-    @GetMapping("find")
+    @GetMapping("/find")
     public ResponseEntity<?> find(
             @RequestParam(name = "word") String word,
             @RequestParam(name = "size") int size,
@@ -72,7 +72,7 @@ public class NewsController extends AbstractController<NewsService> implements G
     }
 
 
-    @GetMapping("getBySphere")
+    @GetMapping("/getBySphere")
     public ResponseEntity<?> getBySphere(UUID uuid,boolean isDeleted) {
         return service.getBySphere(uuid,isDeleted);
     }

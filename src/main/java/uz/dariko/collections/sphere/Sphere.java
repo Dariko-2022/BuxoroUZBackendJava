@@ -26,5 +26,7 @@ public class Sphere extends Auditable { //soha
 
     private int rank;
 
+    private boolean visible;
+
 
 }

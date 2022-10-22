@@ -20,4 +20,5 @@ public class MenuUpdateDTO extends GenericDTO {
     private String krName;
 
     private int rank;
+    private boolean visible;
 }

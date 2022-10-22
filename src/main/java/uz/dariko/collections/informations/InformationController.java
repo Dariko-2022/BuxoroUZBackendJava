@@ -14,7 +14,7 @@ import uz.dariko.collections.informations.dto.InformationUpdateDTO;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("information/")
+@RequestMapping("information")
 public class InformationController extends AbstractController<InformationService> implements GenericCRUDController<InformationCreateDTO, InformationUpdateDTO, InformationDTO, UUID> {
     public InformationController(InformationService service) {
         super(service);

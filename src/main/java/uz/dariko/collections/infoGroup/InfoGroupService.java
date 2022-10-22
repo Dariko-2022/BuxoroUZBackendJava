@@ -37,8 +37,9 @@ public class InfoGroupService implements BaseService {
     public ResponseEntity<?> create(InfoGroupCreateDTO infoGroupCreateDto) {
         InfoGroup infoGroup = infoGroupMapper.fromCreateDto(infoGroupCreateDto);
         infoGroup.setMenu(entityGetter.getMenu(infoGroupCreateDto.getMenuId()));
-        infoGroupRepository.save(infoGroup);
-        return ResponseEntity.status(201).body("saved");
+        InfoGroup save = infoGroupRepository.save(infoGroup);
+        InfoGroupDTO infoGroupDTO = infoGroupMapper.toDto(save);
+        return ResponseEntity.status(201).body(infoGroupDTO);
     }
 
     public ResponseEntity<?> getAll() {
@@ -54,6 +55,7 @@ public class InfoGroupService implements BaseService {
         infoGroup.setKrName(dto.getKrName());
         infoGroup.setRuName(dto.getRuName());
         infoGroup.setRank(dto.getRank());
+        infoGroup.setVisible(dto.isVisible());
         infoGroup.setMenu(entityGetter.getMenu(dto.getMenuId()));
         InfoGroup save = infoGroupRepository.save(infoGroup);
         InfoGroupDTO infoGroupDTO = infoGroupMapper.toDto(save);

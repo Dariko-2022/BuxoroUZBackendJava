@@ -18,7 +18,7 @@ import java.util.List;
 public interface InfoGroupMapper extends AbstractMapper<InfoGroupCreateDTO, InfoGroupUpdateDTO, InfoGroupDTO, InfoGroup> {
     @Override
     default InfoGroupDTO toDto(InfoGroup entity) {
-        InfoGroupDTO infoGroupDTO = new InfoGroupDTO(entity.getUzName(), entity.getKrName(), entity.getRuName(),entity.getMenu().getId(),entity.getRank());
+        InfoGroupDTO infoGroupDTO = new InfoGroupDTO(entity.getUzName(), entity.getKrName(), entity.getRuName(),"information",entity.getMenu().getId(),entity.getRank(),entity.isVisible());
         infoGroupDTO.setId(entity.getId());
         return infoGroupDTO;
 
@@ -39,6 +39,7 @@ public interface InfoGroupMapper extends AbstractMapper<InfoGroupCreateDTO, Info
         infoGroup.setUzName(createDto.getUzName());
         infoGroup.setKrName(createDto.getKrName());
         infoGroup.setRuName(createDto.getRuName());
+        infoGroup.setVisible(true);
         return infoGroup;
     }
 
@@ -57,6 +58,9 @@ public interface InfoGroupMapper extends AbstractMapper<InfoGroupCreateDTO, Info
         subMenuAdminDTO.setKrName(infoGroup.getKrName());
         subMenuAdminDTO.setUzName(infoGroup.getUzName());
         subMenuAdminDTO.setRuName(infoGroup.getRuName());
+        subMenuAdminDTO.setMenuId(infoGroup.getMenu().getId());
+        subMenuAdminDTO.setType("information");
+        subMenuAdminDTO.setVisible(infoGroup.isVisible());
         return subMenuAdminDTO;
     }
 

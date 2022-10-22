@@ -21,4 +21,6 @@ public class Menu extends Auditable {
 
     private int rank;
 
+    private boolean visible;
+
 }

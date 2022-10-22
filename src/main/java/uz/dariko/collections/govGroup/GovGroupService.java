@@ -40,8 +40,9 @@ public class GovGroupService implements BaseService {
     public ResponseEntity<?> create(GovGroupCreateDTO dto) {
         GovGroup govGroup = govGroupMapper.fromCreateDto(dto);
         govGroup.setMenu(entityGetter.getMenu(dto.getMenuId()));
-        govGroupRepository.save(govGroup);
-        return ResponseEntity.status(201).body("created");
+        GovGroup save = govGroupRepository.save(govGroup);
+        GovGroupDTO govGroupDTO = govGroupMapper.toDto(save);
+        return ResponseEntity.status(201).body(govGroupDTO);
     }
 
     public ResponseEntity<?> update(GovGroupUpdateDTO dto) {
@@ -53,6 +54,8 @@ public class GovGroupService implements BaseService {
         govGroup.setUzDescription(dto.getUzDescription());
         govGroup.setRuDescription(dto.getRuDescription());
         govGroup.setKrDescription(dto.getKrDescription());
+        govGroup.setRank(dto.getRank());
+        govGroup.setVisible(dto.isVisible());
         govGroup.setMenu(entityGetter.getMenu(dto.getMenuId()));
         govGroupRepository.save(govGroup);
         return ResponseEntity.status(204).body("updated");

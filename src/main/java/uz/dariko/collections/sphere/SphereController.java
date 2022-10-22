@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("sphere/")
+@RequestMapping("sphere")
 public class SphereController extends AbstractController<SphereService> implements GenericCRUDController<SphereCreateDTO, SphereUpdateDTO, SphereDTO, UUID>
 {
 
@@ -34,7 +34,8 @@ public class SphereController extends AbstractController<SphereService> implemen
     }
 
     @Override
-    public ResponseEntity<?> delete(UUID id) {
+    public ResponseEntity<?> delete(
+            @PathVariable("code") UUID id) {
         return service.delete(id);
     }
 
