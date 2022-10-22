@@ -22,7 +22,7 @@ public interface SphereRepository extends JpaRepository<Sphere, UUID> {
     @Query(nativeQuery = true, value = "update sphere set order_number=?2 where id=?1 returning *")
     Sphere setOrOrderNumber(UUID id, Integer order);
 
-    @Query(nativeQuery = true,value = "select count(*) from sphere where is_deleted=false and gov_sphere_id= ?1")
+    @Query(nativeQuery = true,value = "select count(*) from sphere where is_deleted=false and menu_id= ?1")
     Integer getTotalCount(UUID id);
 
 }

@@ -51,9 +51,6 @@ public class GovGroupService implements BaseService {
         govGroup.setUzName(dto.getUzName());
         govGroup.setKrName(dto.getKrName());
         govGroup.setRuName(dto.getRuName());
-        govGroup.setUzDescription(dto.getUzDescription());
-        govGroup.setRuDescription(dto.getRuDescription());
-        govGroup.setKrDescription(dto.getKrDescription());
         govGroup.setRank(dto.getRank());
         govGroup.setVisible(dto.isVisible());
         govGroup.setMenu(entityGetter.getMenu(dto.getMenuId()));
