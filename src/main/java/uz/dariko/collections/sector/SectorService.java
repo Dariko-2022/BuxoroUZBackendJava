@@ -1,7 +1,10 @@
 package uz.dariko.collections.sector;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import uz.dariko.base.dto.BaseOrderDTO;
+import uz.dariko.base.dto.OrderDTO;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.govGroup.GovGroup;
@@ -15,6 +18,7 @@ import uz.dariko.response.Data;
 import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -82,5 +86,15 @@ public class SectorService implements BaseService {
         sector.setDeleted(true);
         sectorRepository.save(sector);
         return ResponseEntity.ok(new Data<>(true));
+    }
+
+    public ResponseEntity<Data<List<SectorDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
+        List<OrderDTO> orderDTOS = baseOrderDTO.getOrders();
+        List<Sector> entities = new ArrayList<>();
+        for (OrderDTO order : orderDTOS) {
+            Sector entity = sectorRepository.setOrOrderNumber(order.getId(), order.getOrder());
+            entities.add(entity);
+        }
+        return new ResponseEntity<>(new Data<>(sectorMapper.toDto(entities)), HttpStatus.OK);
     }
 }

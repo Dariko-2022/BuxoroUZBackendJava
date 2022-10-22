@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
+import uz.dariko.base.dto.BaseOrderDTO;
 import uz.dariko.collections.govGroup.dto.GovGroupCreateDTO;
 import uz.dariko.collections.govGroup.dto.GovGroupDTO;
 import uz.dariko.collections.govGroup.dto.GovGroupUpdateDTO;
@@ -47,5 +48,11 @@ public class GovGroupController extends AbstractController<GovGroupService> impl
     @Override
     public ResponseEntity<?> list() {
         return service.getList();
+    }
+
+
+    @RequestMapping("changeOrder")
+    public ResponseEntity<Data<List<GovGroupDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
+        return service.changeOrder(baseOrderDTO);
     }
 }

@@ -17,7 +17,7 @@ public class MenuCreateDTO implements BaseDTO {
     private String uzName;
     private String ruName;
     private String krName;
-
     private int rank;
-    private boolean visible;
+    private boolean visible=true;
 }
+

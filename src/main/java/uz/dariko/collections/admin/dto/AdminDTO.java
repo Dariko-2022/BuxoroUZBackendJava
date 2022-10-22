@@ -20,7 +20,7 @@ public class AdminDTO extends GenericDTO {
     private String password;
 
 
-    private String imageID;
+    private String generatedName;
 
     private String firstName;
 
@@ -32,11 +32,11 @@ public class AdminDTO extends GenericDTO {
 
     private Boolean isSuperAdmin;
 
-    public AdminDTO(UUID id, String username, String password, String imageID, String firstName, String lastName, String email, String phoneNumber, Boolean isSuperAdmin) {
+    public AdminDTO(UUID id, String username, String password, String generatedName, String firstName, String lastName, String email, String phoneNumber, Boolean isSuperAdmin) {
         super(id);
         this.username = username;
         this.password = password;
-        this.imageID = imageID;
+        this.generatedName = generatedName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

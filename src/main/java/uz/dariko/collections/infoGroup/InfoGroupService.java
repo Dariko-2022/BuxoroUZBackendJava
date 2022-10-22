@@ -1,15 +1,20 @@
 package uz.dariko.collections.infoGroup;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import uz.dariko.base.dto.BaseOrderDTO;
+import uz.dariko.base.dto.OrderDTO;
 import uz.dariko.base.dto.SubMenuAdminDTO;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.govGroup.GovGroup;
 import uz.dariko.collections.infoGroup.dto.InfoGroupCreateDTO;
 import uz.dariko.collections.infoGroup.dto.InfoGroupDTO;
 import uz.dariko.collections.infoGroup.dto.InfoGroupUpdateDTO;
+import uz.dariko.response.Data;
 import uz.dariko.utils.EntityGetter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -77,4 +82,13 @@ public class InfoGroupService implements BaseService {
         return infoGroupMapper.toAdminDto(list);
     }
 
+    public ResponseEntity<Data<List<InfoGroupDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
+        List<OrderDTO> orderDTOS = baseOrderDTO.getOrders();
+        List<InfoGroup> entities = new ArrayList<>();
+        for (OrderDTO order : orderDTOS) {
+            InfoGroup entity = infoGroupRepository.setOrOrderNumber(order.getId(), order.getOrder());
+            entities.add(entity);
+        }
+        return new ResponseEntity<>(new Data<>(infoGroupMapper.toDto(entities)), HttpStatus.OK);
+    }
 }

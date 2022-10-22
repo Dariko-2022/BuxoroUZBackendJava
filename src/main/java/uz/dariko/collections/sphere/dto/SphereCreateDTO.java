@@ -22,7 +22,6 @@ public class SphereCreateDTO implements BaseDTO {
 
     private UUID menuId;
 
-    private int rank;
-    private boolean visible;
+    private boolean visible=true;
 
 }

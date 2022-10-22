@@ -7,10 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
+import uz.dariko.base.dto.BaseOrderDTO;
 import uz.dariko.collections.infoGroup.dto.InfoGroupCreateDTO;
 import uz.dariko.collections.infoGroup.dto.InfoGroupDTO;
 import uz.dariko.collections.infoGroup.dto.InfoGroupUpdateDTO;
+import uz.dariko.response.Data;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -44,5 +47,10 @@ public class InfoGroupController extends AbstractController<InfoGroupService> im
     @Override
     public ResponseEntity<?> list() {
         return service.getAll();
+    }
+
+    @RequestMapping("changeOrder")
+    public ResponseEntity<Data<List<InfoGroupDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
+        return service.changeOrder(baseOrderDTO);
     }
 }
