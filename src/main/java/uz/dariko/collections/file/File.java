@@ -21,6 +21,7 @@ public class File extends Auditable {
     private String generatedName;
     private String extention;
     private Long size;
+    private Boolean main;
     private Boolean isActive = true;
     private Integer orderNumber;
 

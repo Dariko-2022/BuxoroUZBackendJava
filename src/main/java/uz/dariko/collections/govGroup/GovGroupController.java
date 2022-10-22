@@ -1,15 +1,14 @@
 package uz.dariko.collections.govGroup;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
 import uz.dariko.base.dto.BaseOrderDTO;
 import uz.dariko.collections.govGroup.dto.GovGroupCreateDTO;
 import uz.dariko.collections.govGroup.dto.GovGroupDTO;
 import uz.dariko.collections.govGroup.dto.GovGroupUpdateDTO;
+import uz.dariko.collections.sphere.dto.ChangeMenuDTO;
 import uz.dariko.response.Data;
 
 import java.util.List;
@@ -54,5 +53,10 @@ public class GovGroupController extends AbstractController<GovGroupService> impl
     @RequestMapping("changeOrder")
     public ResponseEntity<Data<List<GovGroupDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
         return service.changeOrder(baseOrderDTO);
+    }
+
+    @RequestMapping(value = "changeMenu",method = RequestMethod.PATCH)
+    public ResponseEntity<?> changeMenu(@RequestBody ChangeMenuDTO dto) {
+        return service.changeMenu(dto.getSubmenuId(),dto.getMenuId());
     }
 }

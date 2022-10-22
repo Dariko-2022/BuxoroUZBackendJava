@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
 import uz.dariko.base.dto.BaseOrderDTO;
+import uz.dariko.collections.sphere.dto.ChangeMenuDTO;
 import uz.dariko.collections.sphere.dto.SphereCreateDTO;
 import uz.dariko.collections.sphere.dto.SphereDTO;
 import uz.dariko.collections.sphere.dto.SphereUpdateDTO;
@@ -53,6 +54,11 @@ public class SphereController extends AbstractController<SphereService> implemen
     @RequestMapping("changeOrder")
     public ResponseEntity<Data<List<SphereDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
         return service.changeOrder(baseOrderDTO);
+    }
+
+    @RequestMapping(value = "changeMenu",method = RequestMethod.PATCH)
+    public ResponseEntity<?> changeMenu(@RequestBody ChangeMenuDTO dto) {
+        return service.changeMenu(dto.getSubmenuId(),dto.getMenuId());
     }
 
 

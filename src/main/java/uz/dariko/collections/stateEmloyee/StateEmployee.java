@@ -8,6 +8,7 @@ import uz.dariko.base.entity.Auditable;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.govGroup.GovGroup;
 import uz.dariko.collections.region.Region;
+import uz.dariko.collections.subGovGroup.SubGovGroup;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;

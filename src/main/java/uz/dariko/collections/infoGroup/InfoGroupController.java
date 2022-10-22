@@ -2,15 +2,14 @@ package uz.dariko.collections.infoGroup;
 
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
 import uz.dariko.base.dto.BaseOrderDTO;
 import uz.dariko.collections.infoGroup.dto.InfoGroupCreateDTO;
 import uz.dariko.collections.infoGroup.dto.InfoGroupDTO;
 import uz.dariko.collections.infoGroup.dto.InfoGroupUpdateDTO;
+import uz.dariko.collections.sphere.dto.ChangeMenuDTO;
 import uz.dariko.response.Data;
 
 import java.util.List;
@@ -47,6 +46,11 @@ public class InfoGroupController extends AbstractController<InfoGroupService> im
     @Override
     public ResponseEntity<?> list() {
         return service.getAll();
+    }
+
+    @RequestMapping(value = "changeMenu",method = RequestMethod.PATCH)
+    public ResponseEntity<?> changeMenu(@RequestBody ChangeMenuDTO dto) {
+        return service.changeMenu(dto.getSubmenuId(),dto.getMenuId());
     }
 
     @RequestMapping("changeOrder")

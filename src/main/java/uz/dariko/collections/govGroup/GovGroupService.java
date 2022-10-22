@@ -12,6 +12,8 @@ import uz.dariko.collections.admin.dto.AdminDTO;
 import uz.dariko.collections.govGroup.dto.GovGroupCreateDTO;
 import uz.dariko.collections.govGroup.dto.GovGroupDTO;
 import uz.dariko.collections.govGroup.dto.GovGroupUpdateDTO;
+import uz.dariko.collections.infoGroup.InfoGroup;
+import uz.dariko.collections.menu.Menu;
 import uz.dariko.collections.stateEmloyee.StateEmployee;
 import uz.dariko.response.Data;
 import uz.dariko.utils.EntityGetter;
@@ -95,5 +97,13 @@ public class GovGroupService implements BaseService {
             entities.add(entity);
         }
         return new ResponseEntity<>(new Data<>(govGroupMapper.toDto(entities)), HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> changeMenu(UUID submenuId,UUID menuId){
+        GovGroup govGroup = entityGetter.getGovGroup(submenuId);
+        Menu menu = entityGetter.getMenu(menuId);
+        govGroup.setMenu(menu);
+        GovGroup save = govGroupRepository.save(govGroup);
+        return ResponseEntity.ok(save);
     }
 }

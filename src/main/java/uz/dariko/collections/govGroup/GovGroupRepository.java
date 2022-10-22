@@ -22,6 +22,9 @@ public interface GovGroupRepository extends JpaRepository<GovGroup, UUID> {
     @Query(nativeQuery = true, value = "SELECT * from gov_group where is_deleted = ?")
     List<GovGroup> findAllByDeleted(boolean deleted);
 
+    @Query(nativeQuery = true,value = "SELECT * FROM gov_group where menu_id = ?1 and is_deleted = ?2")
+    List<GovGroup> findByMenuAndDeleted(UUID uuid,boolean deleted);
+
 
     @Modifying
     @Query(nativeQuery = true, value = "update gov_group set order_number=?2 where id=?1 returning *")

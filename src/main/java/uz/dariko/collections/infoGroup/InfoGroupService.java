@@ -11,6 +11,7 @@ import uz.dariko.collections.govGroup.GovGroup;
 import uz.dariko.collections.infoGroup.dto.InfoGroupCreateDTO;
 import uz.dariko.collections.infoGroup.dto.InfoGroupDTO;
 import uz.dariko.collections.infoGroup.dto.InfoGroupUpdateDTO;
+import uz.dariko.collections.menu.Menu;
 import uz.dariko.response.Data;
 import uz.dariko.utils.EntityGetter;
 
@@ -36,6 +37,7 @@ public class InfoGroupService implements BaseService {
 
     public ResponseEntity<?> create(InfoGroupCreateDTO infoGroupCreateDto) {
         InfoGroup infoGroup = infoGroupMapper.fromCreateDto(infoGroupCreateDto);
+        infoGroup.setRank(infoGroupRepository.getTotalCount(infoGroupCreateDto.getMenuId())+1);
         infoGroup.setMenu(entityGetter.getMenu(infoGroupCreateDto.getMenuId()));
         InfoGroup save = infoGroupRepository.save(infoGroup);
         InfoGroupDTO infoGroupDTO = infoGroupMapper.toDto(save);
@@ -54,9 +56,7 @@ public class InfoGroupService implements BaseService {
         infoGroup.setUzName(dto.getUzName());
         infoGroup.setKrName(dto.getKrName());
         infoGroup.setRuName(dto.getRuName());
-        infoGroup.setRank(dto.getRank());
         infoGroup.setVisible(dto.isVisible());
-        infoGroup.setMenu(entityGetter.getMenu(dto.getMenuId()));
         InfoGroup save = infoGroupRepository.save(infoGroup);
         InfoGroupDTO infoGroupDTO = infoGroupMapper.toDto(save);
         return ResponseEntity.ok(infoGroupDTO);
@@ -90,5 +90,13 @@ public class InfoGroupService implements BaseService {
             entities.add(entity);
         }
         return new ResponseEntity<>(new Data<>(infoGroupMapper.toDto(entities)), HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> changeMenu(UUID submenuId,UUID menuId){
+        InfoGroup infoGroup = entityGetter.getInfoGroup(submenuId);
+        Menu menu = entityGetter.getMenu(menuId);
+        infoGroup.setMenu(menu);
+        InfoGroup save = infoGroupRepository.save(infoGroup);
+        return ResponseEntity.ok(save);
     }
 }

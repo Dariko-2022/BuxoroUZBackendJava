@@ -7,6 +7,8 @@ import uz.dariko.base.dto.BaseOrderDTO;
 import uz.dariko.base.dto.OrderDTO;
 import uz.dariko.base.dto.SubMenuAdminDTO;
 import uz.dariko.base.service.BaseService;
+import uz.dariko.collections.infoGroup.InfoGroup;
+import uz.dariko.collections.menu.Menu;
 import uz.dariko.collections.sphere.dto.SphereCreateDTO;
 import uz.dariko.collections.sphere.dto.SphereDTO;
 import uz.dariko.collections.sphere.dto.SphereUpdateDTO;
@@ -95,6 +97,14 @@ public class SphereService implements BaseService{
             entities.add(entity);
         }
         return new ResponseEntity<>(new Data<>(sphereMapper.toDto(entities)), HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> changeMenu(UUID submenuId,UUID menuId){
+        Sphere sphere = entityGetter.getSphere(submenuId);
+        Menu menu = entityGetter.getMenu(menuId);
+        sphere.setMenu(menu);
+        Sphere save = sphereRepository.save(sphere);
+        return ResponseEntity.ok(save);
     }
 
 }

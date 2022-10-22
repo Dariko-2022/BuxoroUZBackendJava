@@ -225,7 +225,7 @@ public class EntityGetter {
         });
     }
 
-    //-------------------------------------------------Menu---------------------------------------------------
+    //-------------------------------------------------GetSubGovGroup---------------------------------------------------
 
     public SubGovGroup getSubGovGroup(UUID uuid){
         Optional<SubGovGroup> byIdAndDeletedNot = subGovGroupRepository.findByIdAndDeletedNot(uuid);

@@ -22,7 +22,7 @@ public class NewsController extends AbstractController<NewsService> implements G
 
 
     @GetMapping("/getForHome")
-    public ResponseEntity<?> getForHome() throws Exception {
+    public ResponseEntity<?> getForHome() {
         return service.getForHome();
     }
 

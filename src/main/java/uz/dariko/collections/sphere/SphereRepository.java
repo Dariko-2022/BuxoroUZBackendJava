@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import uz.dariko.collections.govGroup.GovGroup;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,5 +25,8 @@ public interface SphereRepository extends JpaRepository<Sphere, UUID> {
 
     @Query(nativeQuery = true,value = "select count(*) from sphere where is_deleted=false and menu_id= ?1")
     Integer getTotalCount(UUID id);
+
+    @Query(nativeQuery = true,value = "SELECT * FROM sphere where menu_id = ?1 and is_deleted = ?2")
+    List<Sphere> findByMenuAndDeleted(UUID uuid, boolean deleted);
 
 }

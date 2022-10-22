@@ -8,14 +8,21 @@ import uz.dariko.base.dto.BaseOrderDTO;
 import uz.dariko.base.dto.OrderDTO;
 import uz.dariko.base.dto.SubMenuAdminDTO;
 import uz.dariko.base.service.BaseService;
+import uz.dariko.collections.govGroup.GovGroup;
+import uz.dariko.collections.govGroup.GovGroupRepository;
 import uz.dariko.collections.govGroup.GovGroupService;
+import uz.dariko.collections.infoGroup.InfoGroup;
+import uz.dariko.collections.infoGroup.InfoGroupRepository;
 import uz.dariko.collections.infoGroup.InfoGroupService;
 import uz.dariko.collections.menu.dto.MenuCreateDTO;
 import uz.dariko.collections.menu.dto.MenuDTO;
 import uz.dariko.collections.menu.dto.MenuDtoForAdmin;
 import uz.dariko.collections.menu.dto.MenuUpdateDTO;
+import uz.dariko.collections.sphere.Sphere;
+import uz.dariko.collections.sphere.SphereRepository;
 import uz.dariko.collections.sphere.SphereService;
 import uz.dariko.response.Data;
+import uz.dariko.utils.EntityGetter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,18 +35,28 @@ public class MenuService implements BaseService {
 
     private final MenuMapper menuMapper;
     private final MenuRepository menuRepository;
+
+    private final SphereRepository sphereRepository;
+    private final GovGroupRepository govGroupRepository;
+    private final InfoGroupRepository infoGroupRepository;
     private final GovGroupService govGroupService;
     private final InfoGroupService infoGroupService;
     private final SphereService sphereService;
 
-    public MenuService(MenuMapper menuMapper, MenuRepository menuRepository, GovGroupService govGroupService, InfoGroupService infoGroupService, SphereService sphereService) {
+    private final EntityGetter entityGetter;
+
+    public MenuService(MenuMapper menuMapper, MenuRepository menuRepository, SphereRepository sphereRepository, GovGroupRepository govGroupRepository, InfoGroupRepository infoGroupRepository, GovGroupService govGroupService, InfoGroupService infoGroupService, SphereService sphereService, EntityGetter entityGetter) {
         this.menuMapper = menuMapper;
         this.menuRepository = menuRepository;
+        this.sphereRepository = sphereRepository;
+        this.govGroupRepository = govGroupRepository;
+        this.infoGroupRepository = infoGroupRepository;
 
         this.govGroupService = govGroupService;
 
         this.infoGroupService = infoGroupService;
         this.sphereService = sphereService;
+        this.entityGetter = entityGetter;
     }
 
 
@@ -52,27 +69,28 @@ public class MenuService implements BaseService {
 
     }
 
+
     public ResponseEntity<?> update(MenuUpdateDTO dto) {
-        Optional<Menu> byId = menuRepository.findById(dto.getId());
-        if(byId.isEmpty()) {
-            return ResponseEntity.status(404).body(false);
-        }
-        Menu menu = menuMapper.fromUpdateDto(dto, byId.get());
-        Menu save = menuRepository.save(menu);
+        Menu menu = entityGetter.getMenu(dto.getId());
+        Menu menu1 = menuMapper.fromUpdateDto(dto, menu);
+        Menu save = menuRepository.save(menu1);
         MenuDTO menuDTO = menuMapper.toDto(save);
         return ResponseEntity.status(202).body(menuDTO);
     }
 
     public ResponseEntity<?> delete(UUID uuid){
-        Optional<Menu> byId = menuRepository.findById(uuid);
-        if(byId.isEmpty()) {
-            return ResponseEntity.status(404).body(false);
+
+        Menu menu = entityGetter.getMenu(uuid);
+        List<Sphere> list1 = sphereRepository.findByMenuAndDeleted(uuid, false);
+        List<GovGroup> list2 = govGroupRepository.findByMenuAndDeleted(uuid, false);
+        List<InfoGroup> list3 = infoGroupRepository.findByMenuAndDeleted(uuid, false);
+        if(list1.isEmpty()&list2.isEmpty()&list3.isEmpty()) {
+            menu.setDeleted(true);
+            menu.setDeletedAt(LocalDateTime.now());
+            menuRepository.save(menu);
+            return ResponseEntity.status(200).body(true);
         }
-        Menu menu = byId.get();
-        menu.setDeleted(true);
-        menu.setDeletedAt(LocalDateTime.now());
-        menuRepository.save(menu);
-        return ResponseEntity.status(200).body(true);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Menu o'chirib bo'lmaydi!!! Avval menu ostilarini o'chiring!");
     }
 
     public ResponseEntity<?> get(UUID uuid) {
@@ -105,6 +123,8 @@ public class MenuService implements BaseService {
         menuDtoForAdmin.setMenuDTOS(menuDTOS);
         return ResponseEntity.ok(menuDtoForAdmin);
     }
+
+
 
 
     public ResponseEntity<Data<List<MenuDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {

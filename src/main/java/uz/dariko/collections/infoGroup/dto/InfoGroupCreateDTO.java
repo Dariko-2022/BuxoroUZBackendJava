@@ -23,6 +23,5 @@ public class InfoGroupCreateDTO implements BaseDTO {
 
     private UUID menuId;
 
-    private int rank;
     private boolean visible;
 }

@@ -41,14 +41,14 @@ public class NewsService implements BaseService {
     }
 
 
-    public ResponseEntity<?> getForHome() throws Exception{
+    public ResponseEntity<?> getForHome() {
         Optional<List<News>> newsByIsActualAndLimit = newsRepository.findNewsByIsActualAndLimit(true, 3);
         Optional<List<News>> newsByIsActualAndLimit1 = newsRepository.findNewsByIsActualAndLimit(false, 4);
         if(newsByIsActualAndLimit1.isPresent() & newsByIsActualAndLimit.isPresent()) {
             List<News> list = newsByIsActualAndLimit.get();
             list.addAll(newsByIsActualAndLimit1.get());
-
-            return ResponseEntity.ok(list);
+            List<NewsDTO> newsDTOS = newsMapper.toDto(list);
+            return ResponseEntity.ok(newsDTOS);
         }
         return null;
     }

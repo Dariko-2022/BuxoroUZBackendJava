@@ -35,7 +35,6 @@ public interface InfoGroupMapper extends AbstractMapper<InfoGroupCreateDTO, Info
     @Override
     default InfoGroup fromCreateDto(InfoGroupCreateDTO createDto) {
         InfoGroup infoGroup = new InfoGroup();
-        infoGroup.setRank(createDto.getRank());
         infoGroup.setUzName(createDto.getUzName());
         infoGroup.setKrName(createDto.getKrName());
         infoGroup.setRuName(createDto.getRuName());

@@ -32,6 +32,7 @@ public class NewsDTO extends GenericDTO {
 
 
     private List<String> generatedNames;
+    private String generatedName;
 
     private int countView;
 

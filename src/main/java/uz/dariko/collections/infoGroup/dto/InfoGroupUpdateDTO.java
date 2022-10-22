@@ -21,9 +21,5 @@ public class InfoGroupUpdateDTO extends GenericDTO {
     private String krName;
     private String ruName;
 
-
-    private UUID menuId;
-
-    private int rank;
     private boolean visible;
 }
