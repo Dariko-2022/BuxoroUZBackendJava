@@ -36,8 +36,7 @@ public class AdminService extends AbstractService<AdminRepository,AdminValidator
     @Override
     public ResponseEntity<?> create(AdminCreateDTO DTO) {
         validator.validOnCreate(DTO);
-        UUID imageID = baseUtils.parseUUID(DTO.getImageID());
-        File image = entityGetter.getFile(imageID);
+        File image = entityGetter.getFile(DTO.getImageID());
         Admin admin=new Admin(DTO.getUsername(),passwordEncoder.encode(DTO.getPassword()),image,DTO.getFirstName(), DTO.getLastName(), DTO.getEmail(), DTO.getPhoneNumber(), DTO.getIsSuperAdmin());
         Admin save = repository.save(admin);
         return ResponseEntity.ok(new Data<>(save));
@@ -47,7 +46,6 @@ public class AdminService extends AbstractService<AdminRepository,AdminValidator
     public ResponseEntity<?> update(AdminUpdateDTO DTO) {
         validator.validOnUpdate(DTO);
         File image = entityGetter.getFile(DTO.getImageID());
-
         Admin admin = entityGetter.getAdmin(DTO.getUsername());
         admin.setUsername(DTO.getUsername());
         admin.setPassword(DTO.getPassword());
@@ -56,9 +54,7 @@ public class AdminService extends AbstractService<AdminRepository,AdminValidator
         admin.setLastName(DTO.getLastName());
         admin.setEmail(DTO.getEmail());
         admin.setPhoneNumber(DTO.getPhoneNumber());
-
         repository.save(admin);
-
         return ResponseEntity.ok("Successfully updated Admin");
     }
 

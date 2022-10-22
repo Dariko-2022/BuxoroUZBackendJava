@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.dto.BaseDTO;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,7 +18,7 @@ public class AdminCreateDTO implements BaseDTO {
     private String password;
 
 
-    private String imageID;
+    private UUID imageID;
 
     private String firstName;
 
