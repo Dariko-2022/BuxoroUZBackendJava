@@ -29,11 +29,8 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
     //    private static final String FILE_PATH = "/home/database/files/citizen-appeal";
     private static final String FILE_PATH = "D:\\database\\files";
 
-    private final BaseUtils baseUtils;
-
-    public FileService(FileRepository repository, FileValidator validator, BaseUtils baseUtils, ServletContext servletContext) {
+    public FileService(FileRepository repository, FileValidator validator, ServletContext servletContext) {
         super(repository, validator);
-        this.baseUtils = baseUtils;
         this.servletContext = servletContext;
     }
 
