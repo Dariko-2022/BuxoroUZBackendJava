@@ -3,6 +3,8 @@ package uz.dariko.utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import uz.dariko.collections.subGovGroup.SubGovGroup;
+import uz.dariko.collections.subGovGroup.SubGovGroupRepository;
 import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.admin.AdminRepository;
 import uz.dariko.collections.file.File;
@@ -60,6 +62,8 @@ public class EntityGetter {
     private final InformationRepository informationRepository;
 
     private final MenuRepository menuRepository;
+
+    private final SubGovGroupRepository subGovGroupRepository;
 
     private final BaseUtils baseUtils;
 
@@ -219,6 +223,23 @@ public class EntityGetter {
         return byIdAndDeletedNot.orElseThrow(() -> {
             throw new NotFoundException("Information IDsi noto'g'ri berildi");
         });
+    }
+
+    //-------------------------------------------------Menu---------------------------------------------------
+
+    public SubGovGroup getSubGovGroup(UUID uuid){
+        Optional<SubGovGroup> byIdAndDeletedNot = subGovGroupRepository.findByIdAndDeletedNot(uuid);
+        return byIdAndDeletedNot.orElseThrow(() -> {
+            throw new NotFoundException("SubGovGroup IDsi noto'g'ri berildi");
+        });
+    }
+
+    public List<SubGovGroup> getSubGovGroupList(List<UUID> list) {
+        List<SubGovGroup> res = new ArrayList<>();
+        for(UUID temp : list) {
+            res.add(getSubGovGroup(temp));
+        }
+        return res;
     }
 
 

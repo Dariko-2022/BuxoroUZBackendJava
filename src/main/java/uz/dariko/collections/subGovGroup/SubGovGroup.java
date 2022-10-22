@@ -1,4 +1,4 @@
-package uz.dariko.collections.govGroup;
+package uz.dariko.collections.subGovGroup;
 
 
 import lombok.AllArgsConstructor;
@@ -6,10 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.entity.Auditable;
+import uz.dariko.collections.govGroup.GovGroup;
 import uz.dariko.collections.menu.Menu;
-import uz.dariko.collections.subGovGroup.SubGovGroup;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.List;
 
 
@@ -18,19 +21,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class GovGroup extends Auditable {
+public class SubGovGroup extends Auditable {
 
 
     private String uzName;
     private String ruName;
     private String krName;
 
+    private String uzDescription;
+    private String ruDescription;
+    private String krDescription;
 
     @ManyToOne
-    private Menu menu;
+    private GovGroup govGroup;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<SubGovGroup> subGovGroupList;
 
     private int rank;
 

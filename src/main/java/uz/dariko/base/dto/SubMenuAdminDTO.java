@@ -21,10 +21,6 @@ public class SubMenuAdminDTO extends GenericDTO {
     private String ruName;
     private String krName;
 
-    private String uzDescription;
-    private String ruDescription;
-    private String krDescription;
-
     private UUID menuId;
 
     private String type;

@@ -8,6 +8,7 @@ import uz.dariko.base.dto.GenericDTO;
 import uz.dariko.collections.menu.Menu;
 
 import javax.persistence.ManyToOne;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -20,11 +21,10 @@ public class GovGroupUpdateDTO extends GenericDTO {
     private String uzName;
     private String ruName;
     private String krName;
-    private String uzDescription;
-    private String ruDescription;
-    private String krDescription;
 
     private UUID menuId;
+
+    private List<UUID> subGovGroupID;
 
     private int rank;
     private boolean visible;

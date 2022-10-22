@@ -39,7 +39,7 @@ public interface MenuMapper  extends AbstractMapper<MenuCreateDTO, MenuUpdateDTO
         menu.setKrName(createDto.getKrName());
         menu.setRuName(createDto.getRuName());
         menu.setUzName(createDto.getUzName());
-        menu.setVisible(createDto.isVisible());
+        menu.setVisible(true);
         return menu;
     }
 

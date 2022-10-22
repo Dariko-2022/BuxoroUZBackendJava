@@ -22,9 +22,6 @@ public interface GovGroupMapper extends AbstractMapper<GovGroupCreateDTO, GovGro
         govGroupDTO.setUzName(entity.getUzName());
         govGroupDTO.setRuName(entity.getRuName());
         govGroupDTO.setKrName(entity.getKrName());
-        govGroupDTO.setUzDescription(entity.getUzDescription());
-        govGroupDTO.setRuDescription(entity.getRuDescription());
-        govGroupDTO.setKrDescription(entity.getKrDescription());
         govGroupDTO.setId(entity.getId());
         govGroupDTO.setRank(entity.getRank());
         govGroupDTO.setMenuId(entity.getMenu().getId());
@@ -46,9 +43,6 @@ public interface GovGroupMapper extends AbstractMapper<GovGroupCreateDTO, GovGro
     default GovGroup fromCreateDto(GovGroupCreateDTO createDto){
         GovGroup govGroup = new GovGroup();
         govGroup.setRank(createDto.getRank());
-        govGroup.setKrDescription(createDto.getKrDescription());
-        govGroup.setUzDescription(createDto.getUzDescription());
-        govGroup.setRuDescription(createDto.getRuDescription());
         govGroup.setUzName(createDto.getUzName());
         govGroup.setKrName(createDto.getKrName());
         govGroup.setRuName(createDto.getRuName());
@@ -67,15 +61,12 @@ public interface GovGroupMapper extends AbstractMapper<GovGroupCreateDTO, GovGro
     default SubMenuAdminDTO toAdminDto(GovGroup govGroup) {
         SubMenuAdminDTO subMenuAdminDTO = new SubMenuAdminDTO();
         subMenuAdminDTO.setId(govGroup.getId());
-        subMenuAdminDTO.setKrDescription(govGroup.getKrDescription());
-        subMenuAdminDTO.setRuDescription(govGroup.getRuDescription());
-        subMenuAdminDTO.setUzDescription(govGroup.getUzDescription());
         subMenuAdminDTO.setRank(govGroup.getRank());
         subMenuAdminDTO.setKrName(govGroup.getKrName());
         subMenuAdminDTO.setUzName(govGroup.getUzName());
         subMenuAdminDTO.setRuName(govGroup.getRuName());
         subMenuAdminDTO.setMenuId(govGroup.getMenu().getId());
-        subMenuAdminDTO.setType("stateEmployee");
+        subMenuAdminDTO.setType("subGovGroup");
         subMenuAdminDTO.setVisible(govGroup.isVisible());
         return subMenuAdminDTO;
     }
