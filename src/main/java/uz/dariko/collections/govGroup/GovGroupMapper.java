@@ -52,7 +52,7 @@ public interface GovGroupMapper extends AbstractMapper<GovGroupCreateDTO, GovGro
         govGroup.setUzName(createDto.getUzName());
         govGroup.setKrName(createDto.getKrName());
         govGroup.setRuName(createDto.getRuName());
-        govGroup.setVisible(createDto.isVisible());
+        govGroup.setVisible(true);
         return govGroup;
     }
 

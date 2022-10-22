@@ -49,6 +49,8 @@ public class GovGroupService implements BaseService {
         govGroup.setUzDescription(dto.getUzDescription());
         govGroup.setRuDescription(dto.getRuDescription());
         govGroup.setKrDescription(dto.getKrDescription());
+        govGroup.setRank(dto.getRank());
+        govGroup.setVisible(dto.isVisible());
         govGroup.setMenu(entityGetter.getMenu(dto.getMenuId()));
         govGroupRepository.save(govGroup);
         return ResponseEntity.status(204).body("updated");

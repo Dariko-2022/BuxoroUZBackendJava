@@ -34,7 +34,8 @@ public class SphereController extends AbstractController<SphereService> implemen
     }
 
     @Override
-    public ResponseEntity<?> delete(UUID id) {
+    public ResponseEntity<?> delete(
+            @PathVariable("code") UUID id) {
         return service.delete(id);
     }
 

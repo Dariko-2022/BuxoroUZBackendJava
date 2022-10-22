@@ -56,6 +56,7 @@ public class SphereService implements BaseService{
         sphere.setKrName(dto.getKrName());
         sphere.setRuName(dto.getRuName());
         sphere.setRank(dto.getRank());
+        sphere.setVisible(dto.isVisible());
         sphere.setMenu(entityGetter.getMenu(dto.getMenuId()));
         sphereRepository.save(sphere);
         return ResponseEntity.status(204).body(sphere);

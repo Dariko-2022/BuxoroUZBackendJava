@@ -39,7 +39,7 @@ public interface InfoGroupMapper extends AbstractMapper<InfoGroupCreateDTO, Info
         infoGroup.setUzName(createDto.getUzName());
         infoGroup.setKrName(createDto.getKrName());
         infoGroup.setRuName(createDto.getRuName());
-        infoGroup.setVisible(createDto.isVisible());
+        infoGroup.setVisible(true);
         return infoGroup;
     }
 
