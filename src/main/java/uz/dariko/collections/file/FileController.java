@@ -29,7 +29,7 @@ public class FileController extends AbstractController<FileService> {
     public UUID uploadAll(
             MultipartHttpServletRequest multipartHttpServletRequest
     ) throws IOException {
-        return service.upload(multipartHttpServletRequest.getFile("image"));
+        return service.upload(multipartHttpServletRequest.getFile("image"),true);
     }
 
 

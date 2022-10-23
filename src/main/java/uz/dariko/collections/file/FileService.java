@@ -39,15 +39,17 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
         List<MultipartFile> multipartFiles = requests.getFiles("images");
 
         List<UUID> uploadIDs=new ArrayList<>();
+        boolean b =true;
         for (MultipartFile request : multipartFiles) {
-            UUID upload = upload(request);
+            UUID upload = upload(request,b);
             uploadIDs.add(upload);
+            b=false;
         }
         return ResponseEntity.ok(uploadIDs);
 
     }
 
-    public UUID upload( MultipartFile file) throws IOException {
+    public UUID upload( MultipartFile file,boolean b) throws IOException {
 
         String folder = FILE_PATH;
         File file2 = new File(folder);
@@ -84,7 +86,7 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
             fileEntity.setSize(size);
             fileEntity.setOriginalName(originalFilename);
             fileEntity.setGeneratedName(generatedName);
-
+            fileEntity.setMain(b);
             uz.dariko.collections.file.File save = repository.save(fileEntity);
             return save.getId();
         } else {
