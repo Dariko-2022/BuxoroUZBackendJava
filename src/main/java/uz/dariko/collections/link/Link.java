@@ -22,8 +22,10 @@ public class Link extends Auditable {
     private String ruName;
 
     private Integer linkTypeCode;
+
     @OneToOne
     private File image;
+
     private String url;
 
 

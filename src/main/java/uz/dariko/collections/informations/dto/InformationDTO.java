@@ -26,7 +26,7 @@ public class InformationDTO extends GenericDTO {
     private String krDescription;
     private String ruDescription;
 
-    private List<String> generatedNames;
+    private List<UUID> generatedNames;
 
     private UUID infoGroupID; //soha
 

@@ -4,8 +4,10 @@ package uz.dariko.collections.news;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.service.BaseService;
+import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.news.dto.NewsCreateDTO;
 import uz.dariko.collections.news.dto.NewsDTO;
@@ -17,8 +19,10 @@ import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
 import org.springframework.data.domain.Pageable;
+import uz.dariko.utils.dtos.SessionUser;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -60,8 +64,9 @@ public class NewsService implements BaseService {
         News news = newsMapper.fromCreateDto(newsCreateDto);
         news.setImages(images);
         news.setSphere(sphere);
-        newsRepository.save(news);
-        return ResponseEntity.status(201).body("saved");
+        News save = newsRepository.save(news);
+        NewsDTO newsDTO = newsMapper.toDto(save);
+        return ResponseEntity.status(201).body(newsDTO);
 
     }
 
@@ -79,12 +84,13 @@ public class NewsService implements BaseService {
     public ResponseEntity<?> update(NewsUpdateDTO dto) {
         News news0 = entityGetter.getNews(dto.getId());
         News news = newsMapper.fromUpdateDto(dto, news0);
-
         List<File> images = entityGetter.getFiles(dto.getImageIDs());
-
         Sphere sphere = entityGetter.getSphere(dto.getSphereID());
         news.setImages(images);
         news.setSphere(sphere);
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        news.setUpdatedBy(sessionUser.getId());
+        news.setUpdatedAt(LocalDateTime.now());
         newsRepository.save(news);
         NewsDTO newsDTO = newsMapper.toDto(news);
         return ResponseEntity.ok(newsDTO);
@@ -93,6 +99,8 @@ public class NewsService implements BaseService {
     public ResponseEntity<?> delete(UUID id) {
         News news = entityGetter.getNews(id);
         news.setDeleted(true);
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        news.setDeletedBy(sessionUser.getId());
         news.setDeletedAt(LocalDateTime.now());
         newsRepository.save(news);
         return ResponseEntity.ok(true);
@@ -126,6 +134,18 @@ public class NewsService implements BaseService {
         List<News> news = newsRepository.findAllByDeleted(false, pageSize, offset);
         List<NewsDTO> newsDTOS = newsMapper.toDto(news);
         ResponsePage<NewsDTO> responsePage = baseUtils.toResponsePage(page, newsDTOS);
+        return ResponseEntity.ok(responsePage);
+    }
+
+
+    public ResponseEntity<?> getBySubmenuId(Pageable pageable,UUID id) {
+        int offset = pageable.getPageSize()* pageable.getPageNumber();
+        int size = pageable.getPageSize();
+        Page<News> page = newsRepository.findBySubmenuIdAndIsDeleted(id,pageable,false);
+        List<News> allBySubmenuIdAndDeletedNot = newsRepository.findAllBySubmenuIdAndDeletedNot(id, size, offset,false);
+        List<NewsDTO> newsDTOS = newsMapper.toDto(allBySubmenuIdAndDeletedNot);
+        ResponsePage<NewsDTO> responsePage = baseUtils.toResponsePage(page, newsDTOS);
+
         return ResponseEntity.ok(responsePage);
     }
 

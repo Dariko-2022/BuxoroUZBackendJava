@@ -2,15 +2,19 @@ package uz.dariko.collections.news;
 
 
 import org.mapstruct.Mapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import uz.dariko.base.mapper.AbstractMapper;
+import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.news.dto.NewsCreateDTO;
 import uz.dariko.collections.news.dto.NewsDTO;
 import uz.dariko.collections.news.dto.NewsUpdateDTO;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Mapper(componentModel = "spring")
 @Component
@@ -36,9 +40,9 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
         dto.setKrDescription(entity.getKrDescription());
 
         List<File> images = entity.getImages();
-        List<String> res = new ArrayList<>();
+        List<UUID> res = new ArrayList<>();
         for(File file : images) {
-            res.add(file.getGeneratedName());
+            res.add(file.getId());
         }
         dto.setGeneratedNames(res);
 
@@ -71,6 +75,10 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
         news.setRuDescription(createDto.getRuDescription());
         news.setKrDescription(createDto.getKrDescription());
 
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        news.setCreatedBy(sessionUser.getId());
+        news.setCreatedAt(LocalDateTime.now());
+
         return news;
     }
 
@@ -87,6 +95,10 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
         news.setUzDescription(updateDto.getUzDescription());
         news.setRuDescription(updateDto.getRuDescription());
         news.setKrDescription(updateDto.getKrDescription());
+
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        news.setUpdatedBy(sessionUser.getId());
+        news.setUpdatedAt(LocalDateTime.now());
 
         return news;
     }

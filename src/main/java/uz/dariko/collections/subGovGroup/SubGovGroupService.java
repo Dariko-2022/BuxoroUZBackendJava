@@ -2,8 +2,10 @@ package uz.dariko.collections.subGovGroup;
 
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.dto.SubMenuAdminDTO;
+import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupCreateDTO;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupDTO;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupUpdateDTO;
@@ -11,6 +13,7 @@ import uz.dariko.base.service.BaseService;
 import uz.dariko.response.Data;
 import uz.dariko.utils.EntityGetter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,8 +50,12 @@ public class SubGovGroupService implements BaseService {
         govGroup.setUzDescription(dto.getUzDescription());
         govGroup.setRuDescription(dto.getRuDescription());
         govGroup.setKrDescription(dto.getKrDescription());
+        //
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        govGroup.setUpdatedBy(sessionUser.getId());
+        govGroup.setUpdatedAt(LocalDateTime.now());
+        //
         govGroup.setRank(dto.getRank());
-        govGroup.setVisible(dto.isVisible());
         govGroup.setGovGroup(entityGetter.getGovGroup(dto.getGovGroupId()));
         subGovGroupRepository.save(govGroup);
         return ResponseEntity.status(204).body("updated");
@@ -57,6 +64,11 @@ public class SubGovGroupService implements BaseService {
     public ResponseEntity<?> delete(UUID id) {
 
         SubGovGroup subGovGroup = entityGetter.getSubGovGroup(id);
+        //
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        subGovGroup.setDeletedBy(sessionUser.getId());
+        subGovGroup.setDeletedAt(LocalDateTime.now());
+        //
         subGovGroup.setDeleted(true);
         subGovGroupRepository.save(subGovGroup);
         return ResponseEntity.status(204).body(new Data<>(true) );

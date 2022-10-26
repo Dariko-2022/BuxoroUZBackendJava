@@ -46,8 +46,8 @@ public class StateEmployeeController extends AbstractController<StateEmployeeSer
         return service.list();
     }
 
-    @RequestMapping("changeOrder")
-    public ResponseEntity<Data<List<StateEmployeeDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
-        return service.changeOrder(baseOrderDTO);
-    }
+//    @RequestMapping("changeOrder")
+//    public ResponseEntity<Data<List<StateEmployeeDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
+//        return service.changeOrder(baseOrderDTO);
+//    }
 }

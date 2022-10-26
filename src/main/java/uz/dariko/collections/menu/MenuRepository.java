@@ -20,6 +20,7 @@ public interface MenuRepository extends JpaRepository<Menu, UUID> {
     @Query(nativeQuery = true,value = "SELECT * from menu where is_deleted = false")
     List<Menu> findAllByDeletedNot();
 
+
     @Modifying
     @Query(nativeQuery = true, value = "update menu set order_number=?2 where id=?1 returning *")
     Menu setOrOrderNumber(UUID id, Integer order);

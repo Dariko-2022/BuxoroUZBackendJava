@@ -31,16 +31,14 @@ public class StateEmployee extends Auditable {
 
     @ManyToOne
     private Region region;
+
     private String degree;
     private String phoneNumber;
 
+    private String additionalInformation;
 
     @OneToOne
     private File image;
-
-    @ManyToOne
-    private GovGroup govGroup;
-
 
     private String responsibility; //vazifa va funksiyalari
 

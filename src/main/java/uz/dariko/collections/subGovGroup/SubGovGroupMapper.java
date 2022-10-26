@@ -1,13 +1,16 @@
 package uz.dariko.collections.subGovGroup;
 
 import org.mapstruct.Mapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import uz.dariko.base.dto.SubMenuAdminDTO;
+import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupCreateDTO;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupDTO;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupUpdateDTO;
 import uz.dariko.base.mapper.AbstractMapper;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +31,6 @@ public interface SubGovGroupMapper extends AbstractMapper<SubGovGroupCreateDTO, 
         govGroupDTO.setRank(entity.getRank());
         govGroupDTO.setGovGroupId(entity.getGovGroup().getId());
         govGroupDTO.setType("stateEmployee");
-        govGroupDTO.setVisible(entity.isVisible());
         return govGroupDTO;
     }
 
@@ -51,7 +53,11 @@ public interface SubGovGroupMapper extends AbstractMapper<SubGovGroupCreateDTO, 
         govGroup.setUzName(createDto.getUzName());
         govGroup.setKrName(createDto.getKrName());
         govGroup.setRuName(createDto.getRuName());
-        govGroup.setVisible(true);
+        //
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        govGroup.setUpdatedBy(sessionUser.getId());
+        govGroup.setUpdatedAt(LocalDateTime.now());
+        //
         return govGroup;
     }
 

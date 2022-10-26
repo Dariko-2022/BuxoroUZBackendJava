@@ -27,6 +27,8 @@ public abstract class Auditable extends BaseEntityID {
     private boolean isDeleted;
 
     private LocalDateTime deletedAt;
+
+    private UUID deletedBy;
     @CreatedDate
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

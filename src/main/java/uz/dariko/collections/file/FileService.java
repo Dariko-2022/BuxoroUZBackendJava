@@ -13,7 +13,7 @@ import uz.dariko.base.service.AbstractService;
 import uz.dariko.exception.exceptions.BadRequestException;
 import uz.dariko.exception.exceptions.UniversalException;
 import uz.dariko.response.Data;
-import uz.dariko.utils.BaseUtils;
+import uz.dariko.utils.EntityGetter;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
@@ -26,12 +26,14 @@ import java.util.UUID;
 @Service
 public class FileService extends AbstractService<FileRepository, FileValidator> {
     private final ServletContext servletContext;
+    private final EntityGetter entityGetter;
     //    private static final String FILE_PATH = "/home/database/files/citizen-appeal";
     private static final String FILE_PATH = "D:\\database\\files";
 
-    public FileService(FileRepository repository, FileValidator validator, ServletContext servletContext) {
+    public FileService(FileRepository repository, FileValidator validator, ServletContext servletContext, EntityGetter entityGetter) {
         super(repository, validator);
         this.servletContext = servletContext;
+        this.entityGetter = entityGetter;
     }
 
     public ResponseEntity<?> uploads(MultipartHttpServletRequest requests) throws IOException{
@@ -99,6 +101,17 @@ public class FileService extends AbstractService<FileRepository, FileValidator> 
 
     public ResponseEntity<InputStreamResource> viewFile(String generatedName) throws FileNotFoundException {
         uz.dariko.collections.file.File fileEntity = findFile(generatedName);
+        File send = new File(fileEntity.getFilePath());
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("content-disposition", "inline;filename=" + fileEntity.getOriginalName());
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(send));
+        return ResponseEntity.ok().headers(headers).contentLength(send.length()).contentType(MediaType.parseMediaType(fileEntity.getExtention())).body(resource);
+    }
+
+
+    public ResponseEntity<InputStreamResource> viewFileById(UUID id) throws FileNotFoundException {
+
+        uz.dariko.collections.file.File fileEntity = entityGetter.getFile(id);
         File send = new File(fileEntity.getFilePath());
         HttpHeaders headers = new HttpHeaders();
         headers.add("content-disposition", "inline;filename=" + fileEntity.getOriginalName());

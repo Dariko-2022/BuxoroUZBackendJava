@@ -48,6 +48,15 @@ public class NewsController extends AbstractController<NewsService> implements G
         return service.getById(code);
     }
 
+
+    @GetMapping("/getBySubmenuId")
+    public ResponseEntity<?> getBySphereID(
+            @RequestParam(name = "size") int size,
+            @RequestParam(name = "page") int page,
+            @RequestParam(name = "code") UUID code) {
+        return service.getBySubmenuId(PageRequest.of(page,size),code);
+    }
+
     @Override
     public ResponseEntity<?> list() {
         return service.get();

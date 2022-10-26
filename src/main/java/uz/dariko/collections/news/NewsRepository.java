@@ -21,6 +21,7 @@ public interface NewsRepository extends JpaRepository<News, UUID> {
     Optional<List<News>> findAllByDeleted(boolean isDeleted);
 
 
+
     @Query(nativeQuery = true,value = "SELECT * FROM news where id = ?1 and is_deleted = false")
     Optional<News> findByIdAndDeletedNot(UUID id);
 
@@ -36,6 +37,15 @@ public interface NewsRepository extends JpaRepository<News, UUID> {
 
     @Query(nativeQuery = true,value = "SELECT * FROM News where is_deleted = :deleted limit :size offset :offset")
     List<News> findAllByDeleted(boolean deleted, int size, int offset);
+
+
+    @Query(nativeQuery = true,value = "SELECT * FROM News WHERE is_deleted = :deleted and sphere_id = :uuid limit :size offset :offset")
+    List<News> findAllBySubmenuIdAndDeletedNot(UUID uuid,int size, int offset,boolean deleted);
+
+    @Query(nativeQuery = true,
+            value = "SELECT * FROM News WHERE is_deleted = :deleted and sphere_id = :uuid",
+            countQuery = "SELECT count(*) FROM news WHERE is_deleted = :deleted and sphere_id = :uuid")
+    Page<News> findBySubmenuIdAndIsDeleted(UUID uuid,Pageable pageable,boolean deleted);
 
 
     @Query(nativeQuery = true,value = "SELECT * FROM NEWS WHERE document_indx @@ plainto_tsquery(?1) and is_deleted = false",

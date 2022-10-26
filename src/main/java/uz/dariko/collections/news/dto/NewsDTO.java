@@ -31,7 +31,7 @@ public class NewsDTO extends GenericDTO {
     private UUID sphereID; //soha
 
 
-    private List<String> generatedNames;
+    private List<UUID> generatedNames;
     private String generatedName;
 
     private int countView;

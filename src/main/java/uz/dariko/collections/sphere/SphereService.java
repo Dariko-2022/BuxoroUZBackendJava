@@ -2,11 +2,13 @@ package uz.dariko.collections.sphere;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.dto.BaseOrderDTO;
 import uz.dariko.base.dto.OrderDTO;
 import uz.dariko.base.dto.SubMenuAdminDTO;
 import uz.dariko.base.service.BaseService;
+import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.infoGroup.InfoGroup;
 import uz.dariko.collections.menu.Menu;
 import uz.dariko.collections.sphere.dto.SphereCreateDTO;
@@ -14,7 +16,9 @@ import uz.dariko.collections.sphere.dto.SphereDTO;
 import uz.dariko.collections.sphere.dto.SphereUpdateDTO;
 import uz.dariko.response.Data;
 import uz.dariko.utils.EntityGetter;
+import uz.dariko.utils.dtos.SessionUser;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +44,7 @@ public class SphereService implements BaseService{
         Sphere sphere = sphereMapper.fromCreateDto(sphereCreateDto);
         sphere.setMenu(entityGetter.getMenu(sphereCreateDto.getMenuId()));
         sphere.setRank(sphereRepository.getTotalCount(sphereCreateDto.getMenuId())+1);
+
         Sphere save = sphereRepository.save(sphere);
         SphereDTO sphereDTO = sphereMapper.toDto(save);
         return ResponseEntity.status(201).body(sphereDTO);
@@ -58,8 +63,14 @@ public class SphereService implements BaseService{
         sphere.setKrName(dto.getKrName());
         sphere.setRuName(dto.getRuName());
         sphere.setVisible(dto.isVisible());
-        sphereRepository.save(sphere);
-        return ResponseEntity.status(204).body(sphere);
+        //
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        sphere.setUpdatedBy(sessionUser.getId());
+        sphere.setUpdatedAt(LocalDateTime.now());
+        //
+        Sphere save = sphereRepository.save(sphere);
+        SphereDTO res = sphereMapper.toDto(save);
+        return ResponseEntity.status(204).body(res);
 
     }
 
@@ -67,7 +78,11 @@ public class SphereService implements BaseService{
         Optional<Sphere> byId = sphereRepository.findById(id);
         if(byId.isPresent()){
             Sphere sphere = byId.get();
+            Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            sphere.setDeletedBy(sessionUser.getId());
+            sphere.setDeletedAt(LocalDateTime.now());
             sphere.setDeleted(true);
+            sphere.setDeletedAt(LocalDateTime.now());
             sphereRepository.save(sphere);
             return ResponseEntity.status(204).body("Deleted");
         }

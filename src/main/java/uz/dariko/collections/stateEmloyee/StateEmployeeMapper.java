@@ -1,8 +1,10 @@
 package uz.dariko.collections.stateEmloyee;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import uz.dariko.base.mapper.BaseMapper;
+import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.govGroup.GovGroup;
 import uz.dariko.collections.region.Region;
@@ -11,17 +13,22 @@ import uz.dariko.collections.stateEmloyee.dto.StateEmployeeDTO;
 import uz.dariko.collections.stateEmloyee.dto.StateEmployeeUpdateDTO;
 import uz.dariko.utils.EntityGetter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class StateEmployeeMapper implements BaseMapper {
-    @Autowired
-    EntityGetter entityGetter;
+    private final EntityGetter entityGetter;
 
-    @Autowired
-    StateEmployeeRepository repository;
-     StateEmployeeDTO toDTO(StateEmployee stateEmployee){
+    private final StateEmployeeRepository repository;
+
+    public StateEmployeeMapper(EntityGetter entityGetter, StateEmployeeRepository repository) {
+        this.entityGetter = entityGetter;
+        this.repository = repository;
+    }
+
+    StateEmployeeDTO toDTO(StateEmployee stateEmployee){
         return new StateEmployeeDTO(stateEmployee.getFirstName(),
                 stateEmployee.getLastName(),
                 stateEmployee.getPatronymic(),
@@ -32,7 +39,6 @@ public class StateEmployeeMapper implements BaseMapper {
                 stateEmployee.getDegree(),
                 stateEmployee.getPhoneNumber(),
                 stateEmployee.getImage().getId(),
-                stateEmployee.getGovGroup().getId(),
                 stateEmployee.getResponsibility(),
                 stateEmployee.getLabor_activity(),
                 stateEmployee.getOrderNumber());
@@ -41,19 +47,30 @@ public class StateEmployeeMapper implements BaseMapper {
     StateEmployee fromCreateDTO(StateEmployeeCreateDTO DTO){
         File image = entityGetter.getFile(DTO.getImageID());
         Region region = entityGetter.getRegion(DTO.getRegionID());
-        return new StateEmployee
-                (DTO.getFirstName(), DTO.getLastName(),
-                        DTO.getPatronymic(), DTO.getBirthDate(),
-                        DTO.getBirthPlace(),
-                        DTO.getNation(), region, DTO.getDegree(),
-                        DTO.getPhoneNumber(), image,entityGetter.getGovGroup(DTO.getGovGroupID()), DTO.getResponsibility(),DTO.getLabor_activity(),repository.getTotalCount(DTO.getGovGroupID())+1);
-
+        StateEmployee stateEmployee = new StateEmployee();
+        stateEmployee.setFirstName(DTO.getFirstName());
+        stateEmployee.setLastName(DTO.getLastName());
+        stateEmployee.setPatronymic(DTO.getPatronymic());
+        stateEmployee.setBirthDate(DTO.getBirthDate());
+        stateEmployee.setBirthPlace(DTO.getBirthPlace());
+        stateEmployee.setNation(DTO.getNation());
+        stateEmployee.setRegion(region);
+        stateEmployee.setDegree(DTO.getDegree());
+        stateEmployee.setPhoneNumber(DTO.getPhoneNumber());
+        stateEmployee.setImage(image);
+        stateEmployee.setResponsibility(DTO.getResponsibility());
+        stateEmployee.setLabor_activity(DTO.getLabor_activity());
+        //
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        stateEmployee.setCreatedBy(sessionUser.getId());
+        stateEmployee.setCreatedAt(LocalDateTime.now());
+        //
+        return stateEmployee;
     }
 
     StateEmployee fromUpdateDTO(StateEmployeeUpdateDTO DTO){
         Region region = entityGetter.getRegion(DTO.getRegionID());
         File file = entityGetter.getFile(DTO.getImageID());
-        GovGroup govGroups = entityGetter.getGovGroup(DTO.getGovGroupID());
         StateEmployee stateEmployee = entityGetter.getStateEmployee(DTO.getId());
         stateEmployee.setFirstName(DTO.getFirstName());
         stateEmployee.setLastName(DTO.getLastName());
@@ -65,9 +82,13 @@ public class StateEmployeeMapper implements BaseMapper {
         stateEmployee.setDegree(DTO.getDegree());
         stateEmployee.setPhoneNumber(DTO.getPhoneNumber());
         stateEmployee.setImage(file);
-        stateEmployee.setGovGroup(govGroups);
         stateEmployee.setResponsibility(DTO.getResponsibility());
         stateEmployee.setLabor_activity(DTO.getLabor_activity());
+        //
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        stateEmployee.setUpdatedBy(sessionUser.getId());
+        stateEmployee.setUpdatedAt(LocalDateTime.now());
+        //
         return stateEmployee;
     }
 

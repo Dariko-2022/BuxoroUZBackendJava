@@ -28,7 +28,6 @@ public class StateEmployeeCreateDTO implements BaseDTO {
 
     private UUID imageID;
 
-    private UUID govGroupID;
 
     private String responsibility;
 

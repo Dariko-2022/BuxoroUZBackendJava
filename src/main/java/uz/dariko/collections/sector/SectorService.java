@@ -2,10 +2,12 @@ package uz.dariko.collections.sector;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.dto.BaseOrderDTO;
 import uz.dariko.base.dto.OrderDTO;
 import uz.dariko.base.service.BaseService;
+import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.govGroup.GovGroup;
 import uz.dariko.collections.region.Region;
@@ -17,7 +19,9 @@ import uz.dariko.collections.stateEmloyee.StateEmployee;
 import uz.dariko.response.Data;
 import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
+import uz.dariko.utils.dtos.SessionUser;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,8 +48,10 @@ public class SectorService implements BaseService {
         File file = entityGetter.getFile(dto.getFileId());
         StateEmployee stateEmployee = entityGetter.getStateEmployee(dto.getStateEmployeeId());
         Region region = entityGetter.getRegion(dto.getRegionId());
-
         Sector sector = sectorMapper.fromCreateDto(dto);
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        sector.setCreatedBy(sessionUser.getId());
+        sector.setCreatedAt(LocalDateTime.now());
         sector.setFile(file);
         sector.setStateEmployee(stateEmployee);
         sector.setRegion(region);
@@ -76,6 +82,9 @@ public class SectorService implements BaseService {
         sector.setStateEmployee(stateEmployee);
         sector.setRegion(region);
         sector.setFile(file);
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        sector.setUpdatedBy(sessionUser.getId());
+        sector.setUpdatedAt(LocalDateTime.now());
         Sector save = sectorRepository.save(sector);
         SectorDTO sectorDTO = sectorMapper.toDto(save);
         return ResponseEntity.ok(new Data<>(sectorDTO));
@@ -84,6 +93,9 @@ public class SectorService implements BaseService {
     public ResponseEntity<Data<Boolean>> delete(UUID uuid) {
         Sector sector = entityGetter.getSector(uuid);
         sector.setDeleted(true);
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        sector.setDeletedBy(sessionUser.getId());
+        sector.setDeletedAt(LocalDateTime.now());
         sectorRepository.save(sector);
         return ResponseEntity.ok(new Data<>(true));
     }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import uz.dariko.base.mapper.BaseMapper;
+import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.infoGroup.InfoGroup;
 import uz.dariko.collections.informations.dto.InformationCreateDTO;
@@ -22,33 +23,37 @@ public class InformationMapper implements BaseMapper {
     @Autowired
     EntityGetter entityGetter;
      InformationDTO toDto(Information entity){
-        return new InformationDTO(entity.getUzTitle(),
-                entity.getKrTitle(),
-                entity.getRuTitle(),
-                entity.getUzDescription(),
-                entity.getKrDescription(),
-                entity.getRuDescription(),
-                entity.getUzBody(),
-                entity.getKrBody(),
-                entity.getRuBody(),
-                entityGetter.getGeneratedNames(entity.getImages()),
-                entity.getInfoGroup().getId(),
-                entity.getSource());
+        InformationDTO dto = new InformationDTO();
+        dto.setId(entity.getId());
+        dto.setUzTitle(entity.getUzTitle());
+        dto.setKrTitle(entity.getKrTitle());
+        dto.setRuTitle(entity.getRuTitle());
+        dto.setUzBody(entity.getUzBody());
+        dto.setKrBody(entity.getKrBody());
+        dto.setRuBody(entity.getRuBody());
+        dto.setUzDescription(entity.getUzDescription());
+        dto.setKrDescription(entity.getKrDescription());
+        dto.setRuDescription(entity.getRuDescription());
+        dto.setGeneratedNames(entityGetter.getIDs(entity.getImages()));
+        dto.setInfoGroupID(entity.getInfoGroup().getId());
+        dto.setSource(entity.getSource());
+        return dto;
     }
     Information fromCreateDto(InformationCreateDTO createDto){
-        SessionUser sessionUser= (SessionUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Information information= new Information(createDto.getUzTitle(),
-                createDto.getKrTitle(),
-                createDto.getRuTitle(),
-                createDto.getUzDescription(),
-                createDto.getKrDescription(),
-                createDto.getRuDescription(),
-                createDto.getUzBody(),
-                createDto.getKrBody(),
-                createDto.getRuBody(),
-                entityGetter.getInfoGroup(createDto.getInfoGroupID()),
-                entityGetter.getFiles(createDto.getImageIDs()),
-                createDto.getSource());
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Information information= new Information();
+        information.setUzTitle(createDto.getUzTitle());
+        information.setKrTitle(createDto.getKrTitle());
+        information.setRuTitle(createDto.getRuTitle());
+        information.setUzDescription(createDto.getUzDescription());
+        information.setKrDescription(createDto.getKrDescription());
+        information.setRuDescription(createDto.getRuDescription());
+        information.setUzBody(createDto.getUzBody());
+        information.setKrBody(createDto.getKrBody());
+        information.setRuBody(createDto.getRuBody());
+        information.setInfoGroup(entityGetter.getInfoGroup(createDto.getInfoGroupID()));
+        information.setImages(entityGetter.getFiles(createDto.getImageIDs()));
+        information.setSource(createDto.getSource());
         information.setCreatedBy(sessionUser.getId());
         information.setCreatedAt(LocalDateTime.now());
         information.setUpdatedBy(sessionUser.getId());
@@ -58,7 +63,7 @@ public class InformationMapper implements BaseMapper {
 
 
     Information fromUpdateDto(InformationUpdateDTO updateDto){
-        SessionUser sessionUser= (SessionUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Information information = entityGetter.getInformation(updateDto.getId());
         List<File> images = entityGetter.getFiles(updateDto.getImageIDs());
         InfoGroup infoGroup = entityGetter.getInfoGroup(updateDto.getInfoGroupID());

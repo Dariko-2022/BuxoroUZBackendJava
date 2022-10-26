@@ -1,10 +1,8 @@
 package uz.dariko.collections.informations;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
 import uz.dariko.collections.informations.dto.InformationCreateDTO;
@@ -31,18 +29,28 @@ public class InformationController extends AbstractController<InformationService
     }
 
     @Override
-    public ResponseEntity<?> delete(UUID code) {
+    public ResponseEntity<?> delete(@PathVariable("code") UUID code) {
         return service.delete(code);
     }
 
     @Override
-    public ResponseEntity<?> get(UUID code) {
+    public ResponseEntity<?> get(@PathVariable("code") UUID code) {
         return service.get(code);
     }
 
     @Override
     public ResponseEntity<?> list() {
         return service.list();
+    }
+
+
+    @GetMapping("getBySubmenuId")
+    public ResponseEntity<?> getPageable(
+            @RequestParam(name = "size") int size,
+            @RequestParam(name = "page") int page,
+            @RequestParam(name = "code") UUID id
+    ){
+        return service.getBySubmenuId(PageRequest.of(page,size),id);
     }
 
     @GetMapping("listByInfoGroup/{infoGroupID}")

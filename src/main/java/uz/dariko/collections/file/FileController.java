@@ -38,6 +38,11 @@ public class FileController extends AbstractController<FileService> {
         return service.viewFile(generatedName);
     }
 
+    @GetMapping("/byID/{Id}")
+    private ResponseEntity<InputStreamResource> viewFile(@PathVariable UUID Id) throws FileNotFoundException {
+        return service.viewFileById(Id);
+    }
+
 
     @GetMapping("/download/{generatedName}")
     private ResponseEntity<Data<String>> download(HttpServletResponse response, @PathVariable String generatedName) throws IOException {

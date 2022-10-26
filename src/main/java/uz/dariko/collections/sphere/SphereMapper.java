@@ -1,13 +1,16 @@
 package uz.dariko.collections.sphere;
 
 import org.mapstruct.Mapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import uz.dariko.base.dto.SubMenuAdminDTO;
 import uz.dariko.base.mapper.AbstractMapper;
+import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.sphere.dto.SphereUpdateDTO;
 import uz.dariko.collections.sphere.dto.SphereCreateDTO;
 import uz.dariko.collections.sphere.dto.SphereDTO;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +34,11 @@ public interface SphereMapper extends AbstractMapper<SphereCreateDTO, SphereUpda
     @Override
     default Sphere fromCreateDto(SphereCreateDTO createDto){
         Sphere sphere = new Sphere();
+        //
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        sphere.setCreatedBy(sessionUser.getId());
+        sphere.setCreatedAt(LocalDateTime.now());
+        //
         sphere.setKrName(createDto.getKrName());
         sphere.setRuName(createDto.getRuName());
         sphere.setUzName(createDto.getUzName());

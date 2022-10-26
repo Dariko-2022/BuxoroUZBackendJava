@@ -1,4 +1,4 @@
-package uz.dariko.collections.sphere;
+package uz.dariko.collections.employeeGroup;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,9 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.entity.Auditable;
 import uz.dariko.collections.menu.Menu;
-
+import uz.dariko.collections.stateEmloyee.StateEmployee;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import java.util.List;
 
 
 @Setter
@@ -16,17 +18,15 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Sphere extends Auditable { //soha
+public class EmployeeGroup extends Auditable {
 
     private String uzName;
-    private String krName;
     private String ruName;
+    private String krName;
+
+    @ManyToMany
+    List<StateEmployee> stateEmployeeList;
 
     @ManyToOne
     private Menu menu;
-
-    private int rank;
-
-    private boolean visible;
-
 }

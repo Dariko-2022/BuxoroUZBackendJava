@@ -3,11 +3,13 @@ package uz.dariko.collections.menu;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.dto.BaseOrderDTO;
 import uz.dariko.base.dto.OrderDTO;
 import uz.dariko.base.dto.SubMenuAdminDTO;
 import uz.dariko.base.service.BaseService;
+import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.govGroup.GovGroup;
 import uz.dariko.collections.govGroup.GovGroupRepository;
 import uz.dariko.collections.govGroup.GovGroupService;
@@ -23,6 +25,7 @@ import uz.dariko.collections.sphere.SphereRepository;
 import uz.dariko.collections.sphere.SphereService;
 import uz.dariko.response.Data;
 import uz.dariko.utils.EntityGetter;
+import uz.dariko.utils.dtos.SessionUser;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -86,6 +89,8 @@ public class MenuService implements BaseService {
         List<InfoGroup> list3 = infoGroupRepository.findByMenuAndDeleted(uuid, false);
         if(list1.isEmpty()&list2.isEmpty()&list3.isEmpty()) {
             menu.setDeleted(true);
+            Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            menu.setDeletedBy(sessionUser.getId());
             menu.setDeletedAt(LocalDateTime.now());
             menuRepository.save(menu);
             return ResponseEntity.status(200).body(true);
@@ -123,9 +128,6 @@ public class MenuService implements BaseService {
         menuDtoForAdmin.setMenuDTOS(menuDTOS);
         return ResponseEntity.ok(menuDtoForAdmin);
     }
-
-
-
 
     public ResponseEntity<Data<List<MenuDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
         List<OrderDTO> orderDTOS = baseOrderDTO.getOrders();

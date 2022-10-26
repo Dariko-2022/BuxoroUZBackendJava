@@ -1,9 +1,12 @@
 package uz.dariko.collections.informations;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import uz.dariko.base.repository.BaseRepository;
 import uz.dariko.collections.infoGroup.InfoGroup;
+import uz.dariko.collections.news.News;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +22,13 @@ public interface InformationRepository extends JpaRepository<Information, UUID>,
 
     @Query(nativeQuery = true,value = "Select * from information where infoGroupid = ?1 and is_deleted = ?2")
     List<Information> findAllByInfoGroup(UUID uuid,boolean deleted);
+
+    @Query(nativeQuery = true,
+            value = "SELECT * FROM information WHERE is_deleted = :deleted and info_group_id = :uuid",
+            countQuery = "SELECT count(*) FROM information WHERE is_deleted = :deleted and info_group_id = :uuid")
+    Page<Information> findBySubmenuIdAndIsDeleted(UUID uuid, Pageable pageable, boolean deleted);
+
+    @Query(nativeQuery = true,value = "SELECT * FROM information WHERE is_deleted = :deleted and info_group_id = :uuid limit :size offset :offset")
+    List<Information> findAllBySubmenuIdAndDeletedNot(UUID uuid, int size, int offset, boolean deleted);
+
 }

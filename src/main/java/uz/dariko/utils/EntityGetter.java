@@ -97,6 +97,21 @@ public class EntityGetter {
         });
     }
 
+    public File getFileByName(String fileName){
+        Optional<File> entityOptional = fileRepository.findByName(fileName);
+        return entityOptional.orElseThrow(() -> {
+            throw new NotFoundException("File IDsi noto'g'ri berildi");
+        });
+    }
+
+    public List<File> getFilesByName(List<String> list) {
+        List<File> files = new ArrayList<>();
+        for (String name : list) {
+            File file = getFileByName(name);
+            files.add(file);
+        }
+        return files;
+    }
 
 
     public List<File> getFiles(List<UUID> list) {
@@ -112,6 +127,14 @@ public class EntityGetter {
         List<String> generatedNames=new ArrayList<>();
         for (File file : files) {
             generatedNames.add(getGeneratedName(file));
+        }
+        return generatedNames;
+    }
+
+    public List<UUID> getIDs(List<File> files){
+        List<UUID> generatedNames=new ArrayList<>();
+        for (File file : files) {
+            generatedNames.add(file.getId());
         }
         return generatedNames;
     }
@@ -139,6 +162,14 @@ public class EntityGetter {
         return entityOptional.orElseThrow(() -> {
             throw new NotFoundException("StateEmployee IDsi noto'g'ri berildi");
         });
+    }
+
+    public List<StateEmployee> getStateEmployee(List<UUID> stateEmployeeIDs){
+        List<StateEmployee> res = new ArrayList<>();
+        for(UUID uuid : stateEmployeeIDs) {
+            res.add(getStateEmployee(uuid));
+        }
+        return res;
     }
 
 

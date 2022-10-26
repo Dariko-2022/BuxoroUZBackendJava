@@ -12,7 +12,6 @@ import uz.dariko.collections.subGovGroup.SubGovGroup;
 import javax.persistence.*;
 import java.util.List;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,17 +19,13 @@ import java.util.List;
 @Entity
 public class GovGroup extends Auditable {
 
-
     private String uzName;
     private String ruName;
     private String krName;
 
-
     @ManyToOne
     private Menu menu;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<SubGovGroup> subGovGroupList;
 
     private int rank;
 
