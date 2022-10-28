@@ -1,7 +1,10 @@
 package uz.dariko.collections.stateEmloyee;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
@@ -45,6 +48,22 @@ public class StateEmployeeController extends AbstractController<StateEmployeeSer
     public ResponseEntity<?> list() {
         return service.list();
     }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<?> getAll(
+            @RequestParam(name = "size") int size,
+            @RequestParam(name = "page") int page
+    ) {
+        return  service.getAll(PageRequest.of(page,size));
+    }
+
+
+
+
+
+
+
+
 
 //    @RequestMapping("changeOrder")
 //    public ResponseEntity<Data<List<StateEmployeeDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {

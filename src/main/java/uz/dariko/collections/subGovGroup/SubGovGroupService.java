@@ -4,8 +4,9 @@ package uz.dariko.collections.subGovGroup;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import uz.dariko.base.dto.SubMenuAdminDTO;
 import uz.dariko.collections.admin.Admin;
+import uz.dariko.collections.order.GovGroupOrder;
+import uz.dariko.collections.order.GovGroupOrderService;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupCreateDTO;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupDTO;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupUpdateDTO;
@@ -26,16 +27,22 @@ public class SubGovGroupService implements BaseService {
 
     private final EntityGetter entityGetter;
 
+    private final GovGroupOrderService govGroupOrderService;
 
-    public SubGovGroupService(SubGovGroupRepository govGroupRepository, SubGovGroupMapper subGovGroupMapper, EntityGetter entityGetter) {
+
+    public SubGovGroupService(SubGovGroupRepository govGroupRepository, SubGovGroupMapper subGovGroupMapper, EntityGetter entityGetter, GovGroupOrderService govGroupOrderService) {
         this.subGovGroupRepository = govGroupRepository;
         this.subGovGroupMapper = subGovGroupMapper;
         this.entityGetter = entityGetter;
+        this.govGroupOrderService = govGroupOrderService;
+
     }
 
     public ResponseEntity<?> create(SubGovGroupCreateDTO dto) {
         SubGovGroup subGovGroup = subGovGroupMapper.fromCreateDto(dto);
-        subGovGroup.setGovGroup(entityGetter.getGovGroup(dto.getGovGroupId()));
+        List<GovGroupOrder> govGroupOrders = govGroupOrderService.create(dto.getOrderList());
+        subGovGroup.setEmployeeList(govGroupOrders);
+        subGovGroup.setSubmenu(entityGetter.getSubmenu(dto.getSubmenuId()));
         SubGovGroup save = subGovGroupRepository.save(subGovGroup);
         SubGovGroupDTO govGroupDTO = subGovGroupMapper.toDto(save);
         return ResponseEntity.status(201).body(govGroupDTO);
@@ -50,13 +57,14 @@ public class SubGovGroupService implements BaseService {
         govGroup.setUzDescription(dto.getUzDescription());
         govGroup.setRuDescription(dto.getRuDescription());
         govGroup.setKrDescription(dto.getKrDescription());
+        govGroup.setEmployeeList(govGroupOrderService.update(dto.getOrderList()));
         //
         Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         govGroup.setUpdatedBy(sessionUser.getId());
         govGroup.setUpdatedAt(LocalDateTime.now());
         //
         govGroup.setRank(dto.getRank());
-        govGroup.setGovGroup(entityGetter.getGovGroup(dto.getGovGroupId()));
+        govGroup.setSubmenu(entityGetter.getSubmenu(dto.getSubmenuId()));
         subGovGroupRepository.save(govGroup);
         return ResponseEntity.status(204).body("updated");
     }

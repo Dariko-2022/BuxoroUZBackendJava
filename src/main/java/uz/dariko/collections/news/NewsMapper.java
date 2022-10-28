@@ -33,7 +33,7 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
         dto.setKrTitle(entity.getKrTitle());
         dto.setRuTitle(entity.getRuTitle());
         dto.setSource(entity.getSource());
-        dto.setSphereID(entity.getSphere().getId());
+        dto.setSubmenuID(entity.getSubmenu().getId());
 
         dto.setUzDescription(entity.getUzDescription());
         dto.setRuDescription(entity.getRuDescription());

@@ -26,7 +26,7 @@ public interface NewsRepository extends JpaRepository<News, UUID> {
     Optional<News> findByIdAndDeletedNot(UUID id);
 
 
-    @Query(nativeQuery = true,value = "SELECT * FROM news where sphere_id = ?1 and is_deleted = ?2")
+    @Query(nativeQuery = true,value = "SELECT * FROM news where submenu_id = ?1 and is_deleted = ?2")
     List<News> findBySphereAndDeleted(UUID id,boolean b);
 
     @Query(value = "SELECT * FROM news WHERE is_deleted = ?1",
@@ -39,12 +39,12 @@ public interface NewsRepository extends JpaRepository<News, UUID> {
     List<News> findAllByDeleted(boolean deleted, int size, int offset);
 
 
-    @Query(nativeQuery = true,value = "SELECT * FROM News WHERE is_deleted = :deleted and sphere_id = :uuid limit :size offset :offset")
+    @Query(nativeQuery = true,value = "SELECT * FROM News WHERE is_deleted = :deleted and submenu_id = :uuid limit :size offset :offset")
     List<News> findAllBySubmenuIdAndDeletedNot(UUID uuid,int size, int offset,boolean deleted);
 
     @Query(nativeQuery = true,
-            value = "SELECT * FROM News WHERE is_deleted = :deleted and sphere_id = :uuid",
-            countQuery = "SELECT count(*) FROM news WHERE is_deleted = :deleted and sphere_id = :uuid")
+            value = "SELECT * FROM News WHERE is_deleted = :deleted and submenu_id = :uuid",
+            countQuery = "SELECT count(*) FROM news WHERE is_deleted = :deleted and submenu_id = :uuid")
     Page<News> findBySubmenuIdAndIsDeleted(UUID uuid,Pageable pageable,boolean deleted);
 
 

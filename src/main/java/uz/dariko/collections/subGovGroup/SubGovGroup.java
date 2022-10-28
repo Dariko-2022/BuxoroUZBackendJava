@@ -6,8 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.entity.Auditable;
-import uz.dariko.collections.govGroup.GovGroup;
+import uz.dariko.base.entity.Order;
+import uz.dariko.collections.order.GovGroupOrder;
 import uz.dariko.collections.stateEmloyee.StateEmployee;
+import uz.dariko.collections.submenu.Submenu;
 
 import javax.persistence.*;
 import java.util.List;
@@ -37,10 +39,10 @@ public class SubGovGroup extends Auditable {
     private String krTitle;
 
     @ManyToOne
-    private GovGroup govGroup;
+    private Submenu submenu;
 
-    @ManyToMany
-    List<StateEmployee> stateEmployees;
+    @OneToMany
+    private List<GovGroupOrder> employeeList;
 
 
     private int rank;

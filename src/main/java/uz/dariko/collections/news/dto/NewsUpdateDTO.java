@@ -28,7 +28,7 @@ public class NewsUpdateDTO extends GenericDTO {
     private String ruDescription;
 
 
-    private UUID sphereID; //soha
+    private UUID submenuID; //soha
 
 
     private List<UUID> imageIDs;

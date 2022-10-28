@@ -29,7 +29,7 @@ public class NewsCreateDTO implements BaseDTO {
 
     private List<UUID> imageIDs;
 
-    private UUID sphereID; //soha
+    private UUID submenuID; //soha
 
 
     private boolean actual; //dolzarb

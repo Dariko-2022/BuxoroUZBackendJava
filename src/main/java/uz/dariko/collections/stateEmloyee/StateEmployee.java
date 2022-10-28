@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.entity.Auditable;
 import uz.dariko.collections.file.File;
-import uz.dariko.collections.govGroup.GovGroup;
 import uz.dariko.collections.region.Region;
-import uz.dariko.collections.subGovGroup.SubGovGroup;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -25,9 +23,16 @@ public class StateEmployee extends Auditable {
     private String firstName;
     private String lastName;
     private String patronymic;
+
+    private String uzPosition;  //lavozimi
+    private String ruPosition;  //lavozimi
+    private String krPosition;  //lavozimi
+
     private Date birthDate;
     private String birthPlace;
     private String nation;
+
+
 
     @ManyToOne
     private Region region;
@@ -35,7 +40,9 @@ public class StateEmployee extends Auditable {
     private String degree;
     private String phoneNumber;
 
-    private String additionalInformation;
+    private String additionalInformationUz;
+    private String additionalInformationRu;
+    private String additionalInformationKr;
 
     @OneToOne
     private File image;

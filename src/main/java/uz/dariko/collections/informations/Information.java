@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import uz.dariko.base.entity.Auditable;
 import uz.dariko.collections.file.File;
-import uz.dariko.collections.infoGroup.InfoGroup;
+import uz.dariko.collections.submenu.Submenu;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -36,7 +36,7 @@ public class Information extends Auditable {
 
 
     @ManyToOne
-    private InfoGroup infoGroup; //soha
+    private Submenu submenu;
 
     @OneToMany
     private List<File> images;

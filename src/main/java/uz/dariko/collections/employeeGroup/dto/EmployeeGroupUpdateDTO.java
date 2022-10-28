@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.dto.GenericDTO;
+import uz.dariko.base.dto.OrderDTO;
+import uz.dariko.collections.order.dto.GovGroupOrderCreateDTO;
+import uz.dariko.collections.order.dto.GovGroupOrderDTO;
+import uz.dariko.collections.order.dto.GovGroupOrderUpdateDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +24,7 @@ public class EmployeeGroupUpdateDTO extends GenericDTO {
     private String ruName;
     private String krName;
 
-    private UUID menuId;
+    private UUID submenuId;
 
-    private List<UUID> employeeIDs;
+    private List<GovGroupOrderUpdateDTO> orderList;
 }

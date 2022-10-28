@@ -5,11 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.entity.Auditable;
-import uz.dariko.collections.menu.Menu;
+import uz.dariko.base.entity.Order;
+import uz.dariko.collections.order.GovGroupOrder;
 import uz.dariko.collections.stateEmloyee.StateEmployee;
+import uz.dariko.collections.submenu.Submenu;
+
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 
@@ -24,9 +27,9 @@ public class EmployeeGroup extends Auditable {
     private String ruName;
     private String krName;
 
-    @ManyToMany
-    List<StateEmployee> stateEmployeeList;
+    @OneToMany
+    List<GovGroupOrder> employeeList;
 
     @ManyToOne
-    private Menu menu;
+    private Submenu submenu;
 }

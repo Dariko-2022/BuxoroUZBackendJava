@@ -9,22 +9,17 @@ import uz.dariko.base.dto.OrderDTO;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.file.File;
-import uz.dariko.collections.govGroup.GovGroup;
 import uz.dariko.collections.region.Region;
 import uz.dariko.collections.sector.dto.SectorCreateDTO;
 import uz.dariko.collections.sector.dto.SectorDTO;
-import uz.dariko.collections.sector.dto.SectorDtoForHome;
 import uz.dariko.collections.sector.dto.SectorUpdateDTO;
 import uz.dariko.collections.stateEmloyee.StateEmployee;
 import uz.dariko.response.Data;
-import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
-import uz.dariko.utils.dtos.SessionUser;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

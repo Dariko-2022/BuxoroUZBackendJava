@@ -10,7 +10,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SearchDTO {
-    private UUID infoGroupID;
+    private UUID submenuID;
     private Integer page = 0;
     private Integer size = 20;
     private String content;

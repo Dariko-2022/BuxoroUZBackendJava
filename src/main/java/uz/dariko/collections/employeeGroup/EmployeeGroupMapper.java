@@ -2,6 +2,9 @@ package uz.dariko.collections.employeeGroup;
 
 
 import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
+import uz.dariko.base.dto.OrderDTO;
+import uz.dariko.base.entity.Order;
 import uz.dariko.base.mapper.AbstractMapper;
 import uz.dariko.collections.employeeGroup.dto.EmployeeGroupCreateDTO;
 import uz.dariko.collections.employeeGroup.dto.EmployeeGroupDTO;
@@ -13,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Mapper(componentModel = "spring")
+@Component
 public interface EmployeeGroupMapper extends AbstractMapper<EmployeeGroupCreateDTO, EmployeeGroupUpdateDTO, EmployeeGroupDTO,EmployeeGroup> {
 
     @Override
@@ -22,11 +26,8 @@ public interface EmployeeGroupMapper extends AbstractMapper<EmployeeGroupCreateD
         employeeGroupDTO.setUzName(employeeGroupDTO.getUzName());
         employeeGroupDTO.setRuName(employeeGroupDTO.getRuName());
         employeeGroupDTO.setKrName(employeeGroupDTO.getKrName());
-        List<UUID> list = new ArrayList<>();
-        for(StateEmployee e : entity.getStateEmployeeList()) {
-            list.add(e.getId());
-        }
-        employeeGroupDTO.setEmployeeIDs(list);
+
+
         return employeeGroupDTO;
     }
 

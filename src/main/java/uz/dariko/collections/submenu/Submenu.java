@@ -1,5 +1,4 @@
-package uz.dariko.collections.infoGroup;
-
+package uz.dariko.collections.submenu;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,12 +10,13 @@ import uz.dariko.collections.menu.Menu;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
-@Getter
+
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class InfoGroup extends Auditable {
+public class Submenu extends Auditable { //soha
 
     private String uzName;
     private String krName;
@@ -28,5 +28,7 @@ public class InfoGroup extends Auditable {
     private int rank;
 
     private boolean visible;
+
+    private String type;
 
 }

@@ -7,25 +7,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.dto.BaseOrderDTO;
 import uz.dariko.base.dto.OrderDTO;
-import uz.dariko.base.dto.SubMenuAdminDTO;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.admin.Admin;
-import uz.dariko.collections.govGroup.GovGroup;
-import uz.dariko.collections.govGroup.GovGroupRepository;
-import uz.dariko.collections.govGroup.GovGroupService;
-import uz.dariko.collections.infoGroup.InfoGroup;
-import uz.dariko.collections.infoGroup.InfoGroupRepository;
-import uz.dariko.collections.infoGroup.InfoGroupService;
 import uz.dariko.collections.menu.dto.MenuCreateDTO;
 import uz.dariko.collections.menu.dto.MenuDTO;
 import uz.dariko.collections.menu.dto.MenuDtoForAdmin;
 import uz.dariko.collections.menu.dto.MenuUpdateDTO;
-import uz.dariko.collections.sphere.Sphere;
-import uz.dariko.collections.sphere.SphereRepository;
-import uz.dariko.collections.sphere.SphereService;
+import uz.dariko.collections.submenu.Submenu;
+import uz.dariko.collections.submenu.SubmenuMapper;
+import uz.dariko.collections.submenu.SubmenuRepository;
+import uz.dariko.collections.submenu.SubmenuService;
+import uz.dariko.collections.submenu.dto.SubmenuDTO;
 import uz.dariko.response.Data;
 import uz.dariko.utils.EntityGetter;
-import uz.dariko.utils.dtos.SessionUser;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,26 +33,18 @@ public class MenuService implements BaseService {
     private final MenuMapper menuMapper;
     private final MenuRepository menuRepository;
 
-    private final SphereRepository sphereRepository;
-    private final GovGroupRepository govGroupRepository;
-    private final InfoGroupRepository infoGroupRepository;
-    private final GovGroupService govGroupService;
-    private final InfoGroupService infoGroupService;
-    private final SphereService sphereService;
+    private final SubmenuRepository submenuRepository;
+    private final SubmenuService submenuService;
+    private final SubmenuMapper submenuMapper;
 
     private final EntityGetter entityGetter;
 
-    public MenuService(MenuMapper menuMapper, MenuRepository menuRepository, SphereRepository sphereRepository, GovGroupRepository govGroupRepository, InfoGroupRepository infoGroupRepository, GovGroupService govGroupService, InfoGroupService infoGroupService, SphereService sphereService, EntityGetter entityGetter) {
+    public MenuService(MenuMapper menuMapper, MenuRepository menuRepository, SubmenuRepository submenuRepository, SubmenuService submenuService, SubmenuMapper submenuMapper, EntityGetter entityGetter) {
         this.menuMapper = menuMapper;
         this.menuRepository = menuRepository;
-        this.sphereRepository = sphereRepository;
-        this.govGroupRepository = govGroupRepository;
-        this.infoGroupRepository = infoGroupRepository;
-
-        this.govGroupService = govGroupService;
-
-        this.infoGroupService = infoGroupService;
-        this.sphereService = sphereService;
+        this.submenuRepository = submenuRepository;
+        this.submenuService = submenuService;
+        this.submenuMapper = submenuMapper;
         this.entityGetter = entityGetter;
     }
 
@@ -84,10 +70,8 @@ public class MenuService implements BaseService {
     public ResponseEntity<?> delete(UUID uuid){
 
         Menu menu = entityGetter.getMenu(uuid);
-        List<Sphere> list1 = sphereRepository.findByMenuAndDeleted(uuid, false);
-        List<GovGroup> list2 = govGroupRepository.findByMenuAndDeleted(uuid, false);
-        List<InfoGroup> list3 = infoGroupRepository.findByMenuAndDeleted(uuid, false);
-        if(list1.isEmpty()&list2.isEmpty()&list3.isEmpty()) {
+        List<Submenu> list1 = submenuRepository.findByMenuAndDeleted(uuid, false);
+        if(list1.isEmpty()) {
             menu.setDeleted(true);
             Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             menu.setDeletedBy(sessionUser.getId());
@@ -117,15 +101,12 @@ public class MenuService implements BaseService {
 
     public ResponseEntity<?> getForAdmin() {
         List<Menu> allByDeletedNot = menuRepository.findAllByDeletedNot();
+        List<Submenu> submenuList = submenuRepository.findAllByDeleted(false);
         List<MenuDTO> menuDTOS = menuMapper.toDto(allByDeletedNot);
-        List<SubMenuAdminDTO> forAdmin = govGroupService.getForAdmin();
-        List<SubMenuAdminDTO> forAdmin1 = infoGroupService.getForAdmin();
-        List<SubMenuAdminDTO> forAdmin2 = sphereService.getForAdmin();
-        forAdmin.addAll(forAdmin1);
-        forAdmin.addAll(forAdmin2);
+        List<SubmenuDTO> submenuDTOS = submenuMapper.toDto(submenuList);
         MenuDtoForAdmin menuDtoForAdmin = new MenuDtoForAdmin();
-        menuDtoForAdmin.setSubMenuAdminDTOS(forAdmin);
         menuDtoForAdmin.setMenuDTOS(menuDTOS);
+        menuDtoForAdmin.setSubmenuDTOS(submenuDTOS);
         return ResponseEntity.ok(menuDtoForAdmin);
     }
 

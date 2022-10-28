@@ -12,17 +12,15 @@ import uz.dariko.collections.file.File;
 import uz.dariko.collections.news.dto.NewsCreateDTO;
 import uz.dariko.collections.news.dto.NewsDTO;
 import uz.dariko.collections.news.dto.NewsUpdateDTO;
-import uz.dariko.collections.sphere.Sphere;
+import uz.dariko.collections.submenu.Submenu;
 import uz.dariko.criteria.ResponsePage;
 import uz.dariko.exception.exceptions.UniversalException;
 import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
 import org.springframework.data.domain.Pageable;
-import uz.dariko.utils.dtos.SessionUser;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -59,11 +57,11 @@ public class NewsService implements BaseService {
 
     public ResponseEntity<?> create(NewsCreateDTO newsCreateDto) throws Exception {
 
-        Sphere sphere = entityGetter.getSphere(newsCreateDto.getSphereID());
+        Submenu submenu = entityGetter.getSubmenu(newsCreateDto.getSubmenuID());
         List<File> images = entityGetter.getFiles(newsCreateDto.getImageIDs());
         News news = newsMapper.fromCreateDto(newsCreateDto);
         news.setImages(images);
-        news.setSphere(sphere);
+        news.setSubmenu(submenu);
         News save = newsRepository.save(news);
         NewsDTO newsDTO = newsMapper.toDto(save);
         return ResponseEntity.status(201).body(newsDTO);
@@ -85,9 +83,9 @@ public class NewsService implements BaseService {
         News news0 = entityGetter.getNews(dto.getId());
         News news = newsMapper.fromUpdateDto(dto, news0);
         List<File> images = entityGetter.getFiles(dto.getImageIDs());
-        Sphere sphere = entityGetter.getSphere(dto.getSphereID());
+        Submenu submenu = entityGetter.getSphere(dto.getSubmenuID());
         news.setImages(images);
-        news.setSphere(sphere);
+        news.setSubmenu(submenu);
         Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         news.setUpdatedBy(sessionUser.getId());
         news.setUpdatedAt(LocalDateTime.now());
@@ -120,7 +118,7 @@ public class NewsService implements BaseService {
     }
 
     public ResponseEntity<?> getBySphere(UUID uuid,boolean isDeleted) {
-        entityGetter.getSphere(uuid);
+        entityGetter.getSubmenu(uuid);
         List<News> list = newsRepository.findBySphereAndDeleted(uuid, isDeleted);
         List<NewsDTO> newsDTOS = newsMapper.toDto(list);
         return ResponseEntity.ok(newsDTOS);

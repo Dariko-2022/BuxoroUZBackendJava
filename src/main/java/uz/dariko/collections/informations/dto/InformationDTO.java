@@ -28,7 +28,7 @@ public class InformationDTO extends GenericDTO {
 
     private List<UUID> generatedNames;
 
-    private UUID infoGroupID; //soha
+    private UUID submenuID; //soha
 
 
     private String source; //manba

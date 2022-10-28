@@ -1,4 +1,4 @@
-package uz.dariko.collections.sphere;
+package uz.dariko.collections.submenu;
 
 
 import org.springframework.http.ResponseEntity;
@@ -6,31 +6,31 @@ import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
 import uz.dariko.base.dto.BaseOrderDTO;
-import uz.dariko.collections.sphere.dto.ChangeMenuDTO;
-import uz.dariko.collections.sphere.dto.SphereCreateDTO;
-import uz.dariko.collections.sphere.dto.SphereDTO;
-import uz.dariko.collections.sphere.dto.SphereUpdateDTO;
+import uz.dariko.collections.submenu.dto.ChangeMenuDTO;
+import uz.dariko.collections.submenu.dto.SubmenuCreateDTO;
+import uz.dariko.collections.submenu.dto.SubmenuDTO;
+import uz.dariko.collections.submenu.dto.SubmenuUpdateDTO;
 import uz.dariko.response.Data;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("sphere")
-public class SphereController extends AbstractController<SphereService> implements GenericCRUDController<SphereCreateDTO, SphereUpdateDTO, SphereDTO, UUID>
+@RequestMapping("submenu")
+public class SubmenuController extends AbstractController<SubmenuService> implements GenericCRUDController<SubmenuCreateDTO, SubmenuUpdateDTO, SubmenuDTO, UUID>
 {
 
 
-    public SphereController(SphereService service) {
+    public SubmenuController(SubmenuService service) {
         super(service);
     }
     @Override
-    public ResponseEntity<?> create(SphereCreateDTO sphereCreateDto) {
-        return service.create(sphereCreateDto);
+    public ResponseEntity<?> create(SubmenuCreateDTO submenuCreateDto) {
+        return service.create(submenuCreateDto);
     }
 
     @Override
-    public ResponseEntity<?> update(SphereUpdateDTO DTO) {
+    public ResponseEntity<?> update(SubmenuUpdateDTO DTO) {
         return service.update(DTO);
     }
 
@@ -52,7 +52,7 @@ public class SphereController extends AbstractController<SphereService> implemen
     }
 
     @RequestMapping("changeOrder")
-    public ResponseEntity<Data<List<SphereDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
+    public ResponseEntity<Data<List<SubmenuDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
         return service.changeOrder(baseOrderDTO);
     }
 

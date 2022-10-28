@@ -1,11 +1,10 @@
-package uz.dariko.collections.sphere.dto;
+package uz.dariko.collections.submenu.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.dto.GenericDTO;
-import uz.dariko.collections.menu.Menu;
 
 import java.util.UUID;
 
@@ -14,10 +13,14 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SphereUpdateDTO extends GenericDTO {
+public class SubmenuDTO extends GenericDTO {
     private String uzName;
     private String krName;
     private String ruName;
 
+    private UUID menuId;
+
+    private String type;
+    private int rank;
     private boolean visible;
 }

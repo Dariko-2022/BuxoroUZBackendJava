@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import uz.dariko.base.dto.SubMenuAdminDTO;
+import uz.dariko.collections.submenu.dto.SubmenuDTO;
 
 import java.util.List;
 
@@ -15,5 +15,5 @@ import java.util.List;
 @NoArgsConstructor
 public class MenuDtoForAdmin {
     private List<MenuDTO> menuDTOS;
-    private List<SubMenuAdminDTO> subMenuAdminDTOS;
+    private List<SubmenuDTO> submenuDTOS;
 }

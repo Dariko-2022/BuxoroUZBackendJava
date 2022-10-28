@@ -50,7 +50,7 @@ public class NewsController extends AbstractController<NewsService> implements G
 
 
     @GetMapping("/getBySubmenuId")
-    public ResponseEntity<?> getBySphereID(
+    public ResponseEntity<?> getBySubmenuID(
             @RequestParam(name = "size") int size,
             @RequestParam(name = "page") int page,
             @RequestParam(name = "code") UUID code) {

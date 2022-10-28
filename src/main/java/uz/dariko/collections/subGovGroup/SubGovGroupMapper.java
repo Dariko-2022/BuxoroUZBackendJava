@@ -29,7 +29,7 @@ public interface SubGovGroupMapper extends AbstractMapper<SubGovGroupCreateDTO, 
         govGroupDTO.setKrDescription(entity.getKrDescription());
         govGroupDTO.setId(entity.getId());
         govGroupDTO.setRank(entity.getRank());
-        govGroupDTO.setGovGroupId(entity.getGovGroup().getId());
+        govGroupDTO.setSubmenuId(entity.getSubmenu().getId());
         govGroupDTO.setType("stateEmployee");
         return govGroupDTO;
     }

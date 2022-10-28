@@ -1,39 +1,38 @@
 package uz.dariko.collections.stateEmloyee;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import uz.dariko.base.dto.BaseOrderDTO;
-import uz.dariko.base.dto.OrderDTO;
 import uz.dariko.base.service.AbstractService;
 import uz.dariko.base.service.GenericCRUDService;
 import uz.dariko.collections.admin.Admin;
+import uz.dariko.collections.news.dto.NewsDTO;
 import uz.dariko.collections.stateEmloyee.dto.StateEmployeeCreateDTO;
 import uz.dariko.collections.stateEmloyee.dto.StateEmployeeDTO;
 import uz.dariko.collections.stateEmloyee.dto.StateEmployeeUpdateDTO;
-import uz.dariko.response.Data;
+import uz.dariko.criteria.ResponsePage;
 import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class StateEmployeeService extends AbstractService<StateEmployeeRepository,StateEmployeeValidator> implements GenericCRUDService<StateEmployeeCreateDTO, StateEmployeeUpdateDTO, StateEmployeeDTO, UUID> {
-    public StateEmployeeService(StateEmployeeRepository repository, StateEmployeeValidator validator, EntityGetter entityGetter, BaseUtils baseUtils, StateEmployeeMapper mapper) {
-        super(repository, validator);
-        this.entityGetter = entityGetter;
-        this.baseUtils = baseUtils;
-        this.mapper = mapper;
-    }
-    private final EntityGetter entityGetter;
 
+    private final EntityGetter entityGetter;
+    private final StateEmployeeMapper mapper;
     private final BaseUtils baseUtils;
 
-    private final StateEmployeeMapper mapper;
+    public StateEmployeeService(StateEmployeeRepository repository, StateEmployeeValidator validator, EntityGetter entityGetter, StateEmployeeMapper mapper, BaseUtils baseUtils) {
+        super(repository, validator);
+        this.entityGetter = entityGetter;
+        this.mapper = mapper;
+        this.baseUtils = baseUtils;
+    }
 
 
     @Override
@@ -77,14 +76,16 @@ public class StateEmployeeService extends AbstractService<StateEmployeeRepositor
         return ResponseEntity.ok(mapper.toDTO(allByDeleted));
     }
 
-//    public ResponseEntity<Data<List<StateEmployeeDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
-//        List<OrderDTO> orderDTOS = baseOrderDTO.getOrders();
-//        validator.validOnBaseOrderDTO(orderDTOS);
-//        List<StateEmployee> entities = new ArrayList<>();
-//        for (OrderDTO order : orderDTOS) {
-//            StateEmployee entity = repository.setOrOrderNumber(order.getId(), order.getOrder());
-//            entities.add(entity);
-//        }
-//        return new ResponseEntity<>(new Data<>(mapper.toDTO(entities)), HttpStatus.OK);
-//    }
+    public ResponseEntity<?> getAll(Pageable pageable) {
+        int pageSize = pageable.getPageSize();
+        int pageNumber = pageable.getPageNumber();
+        int offset = pageSize * pageNumber;
+        Page<StateEmployee> page = repository.findByIsDeleted(false,pageable);
+        List<StateEmployee> employees = repository.findAllByDeleted(false, pageSize, offset);
+        List<StateEmployeeDTO> stateEmployeeDTOS = mapper.toDTO(employees);
+        ResponsePage<StateEmployeeDTO> responsePage = baseUtils.toResponsePage(page, stateEmployeeDTOS);
+        return ResponseEntity.ok(responsePage);
+    }
+
+
 }

@@ -6,12 +6,11 @@ import org.springframework.stereotype.Component;
 import uz.dariko.base.mapper.BaseMapper;
 import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.file.File;
-import uz.dariko.collections.infoGroup.InfoGroup;
 import uz.dariko.collections.informations.dto.InformationCreateDTO;
 import uz.dariko.collections.informations.dto.InformationDTO;
 import uz.dariko.collections.informations.dto.InformationUpdateDTO;
+import uz.dariko.collections.submenu.Submenu;
 import uz.dariko.utils.EntityGetter;
-import uz.dariko.utils.dtos.SessionUser;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class InformationMapper implements BaseMapper {
         dto.setKrDescription(entity.getKrDescription());
         dto.setRuDescription(entity.getRuDescription());
         dto.setGeneratedNames(entityGetter.getIDs(entity.getImages()));
-        dto.setInfoGroupID(entity.getInfoGroup().getId());
+        dto.setSubmenuID(entity.getSubmenu().getId());
         dto.setSource(entity.getSource());
         return dto;
     }
@@ -51,7 +50,7 @@ public class InformationMapper implements BaseMapper {
         information.setUzBody(createDto.getUzBody());
         information.setKrBody(createDto.getKrBody());
         information.setRuBody(createDto.getRuBody());
-        information.setInfoGroup(entityGetter.getInfoGroup(createDto.getInfoGroupID()));
+        information.setSubmenu(entityGetter.getSubmenu(createDto.getSubmenuID()));
         information.setImages(entityGetter.getFiles(createDto.getImageIDs()));
         information.setSource(createDto.getSource());
         information.setCreatedBy(sessionUser.getId());
@@ -66,7 +65,7 @@ public class InformationMapper implements BaseMapper {
         Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Information information = entityGetter.getInformation(updateDto.getId());
         List<File> images = entityGetter.getFiles(updateDto.getImageIDs());
-        InfoGroup infoGroup = entityGetter.getInfoGroup(updateDto.getInfoGroupID());
+        Submenu submenu = entityGetter.getSubmenu(updateDto.getSubmenuID());
         information.setUzTitle(updateDto.getUzTitle());
         information.setKrTitle(updateDto.getKrTitle());
         information.setRuTitle(updateDto.getRuTitle());
@@ -76,7 +75,7 @@ public class InformationMapper implements BaseMapper {
         information.setUzBody(updateDto.getUzBody());
         information.setKrBody(updateDto.getKrBody());
         information.setRuBody(updateDto.getRuBody());
-        information.setInfoGroup(infoGroup);
+        information.setSubmenu(submenu);
         information.setImages(images);
         information.setSource(updateDto.getSource());
         information.setUpdatedBy(sessionUser.getId());

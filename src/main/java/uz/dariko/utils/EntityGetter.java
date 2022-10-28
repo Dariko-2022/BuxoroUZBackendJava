@@ -3,16 +3,15 @@ package uz.dariko.utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import uz.dariko.collections.order.GovGroupOrder;
+import uz.dariko.collections.order.GovGroupOrderRepository;
+import uz.dariko.collections.submenu.Submenu;
 import uz.dariko.collections.subGovGroup.SubGovGroup;
 import uz.dariko.collections.subGovGroup.SubGovGroupRepository;
 import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.admin.AdminRepository;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.file.FileRepository;
-import uz.dariko.collections.govGroup.GovGroup;
-import uz.dariko.collections.govGroup.GovGroupRepository;
-import uz.dariko.collections.infoGroup.InfoGroup;
-import uz.dariko.collections.infoGroup.InfoGroupRepository;
 import uz.dariko.collections.informations.Information;
 import uz.dariko.collections.informations.InformationRepository;
 import uz.dariko.collections.link.Link;
@@ -25,8 +24,7 @@ import uz.dariko.collections.region.Region;
 import uz.dariko.collections.region.RegionRepository;
 import uz.dariko.collections.sector.Sector;
 import uz.dariko.collections.sector.SectorRepository;
-import uz.dariko.collections.sphere.Sphere;
-import uz.dariko.collections.sphere.SphereRepository;
+import uz.dariko.collections.submenu.SubmenuRepository;
 import uz.dariko.collections.stateEmloyee.StateEmployee;
 import uz.dariko.collections.stateEmloyee.StateEmployeeRepository;
 import uz.dariko.exception.exceptions.NotFoundException;
@@ -48,22 +46,20 @@ public class EntityGetter {
 
     private final RegionRepository regionRepository;
 
-    private final GovGroupRepository govGroupRepository;
-
     private final StateEmployeeRepository stateEmployeeRepository;
 
-    private final SphereRepository sphereRepository;
+    private final SubmenuRepository submenuRepository;
 
     private final NewsRepository newsRepository;
 
     private final SectorRepository sectorRepository;
 
-    private final InfoGroupRepository infoGroupRepository;
     private final InformationRepository informationRepository;
 
     private final MenuRepository menuRepository;
 
     private final SubGovGroupRepository subGovGroupRepository;
+    private final GovGroupOrderRepository govGroupOrderRepository;
 
     private final BaseUtils baseUtils;
 
@@ -176,31 +172,12 @@ public class EntityGetter {
 
 
 
-//----------------------------------------------------GovGroup----------------------------------------------------
-    public GovGroup getGovGroup(UUID govGroupID){
-        Optional<GovGroup> entityOptional = govGroupRepository.findByIdAndIsDeleted(govGroupID,false);
-        return entityOptional.orElseThrow(() -> {
-            throw new NotFoundException("Govgroup IDsi noto'g'ri berildi");
-        });
-    }
-    public List<GovGroup> getGovGroup(List<UUID> govGroupIDs){
-        List<GovGroup> govGroups=new ArrayList<>();
-        for (UUID govGroupID : govGroupIDs) {
-            govGroups.add(getGovGroup(govGroupID));
-        }
-        return govGroups;
-    }
 
 
 
-
-
-
-
-
-//----------------------------------------------------Sphere----------------------------------------------------
-    public Sphere getSphere(UUID uuid) {
-        Optional<Sphere> byIdAndDeletedNot = sphereRepository.findByIdAndDeletedNot(uuid);
+//----------------------------------------------------Submenu----------------------------------------------------
+    public Submenu getSphere(UUID uuid) {
+        Optional<Submenu> byIdAndDeletedNot = submenuRepository.findByIdAndDeletedNot(uuid);
         return byIdAndDeletedNot.orElseThrow(() -> {
             throw new NotFoundException("Sohani IDsi noto'g'ri berildi");
         });
@@ -230,14 +207,7 @@ public class EntityGetter {
     }
 
 
-//----------------------------------------------------InfoGroup----------------------------------------------------
 
-    public InfoGroup getInfoGroup(UUID uuid) {
-        Optional<InfoGroup> byIdAndDeletedNot = infoGroupRepository.findByIdAndDeletedNot(uuid);
-        return byIdAndDeletedNot.orElseThrow(() -> {
-            throw new NotFoundException("Info groupni IDsi noto'g'ri berildi");
-        });
-    }
     //-------------------------------------------------Information---------------------------------------------------
 
     public Information getInformation(UUID uuid){
@@ -269,6 +239,40 @@ public class EntityGetter {
         List<SubGovGroup> res = new ArrayList<>();
         for(UUID temp : list) {
             res.add(getSubGovGroup(temp));
+        }
+        return res;
+    }
+
+    //-------------------------------------------------GetSubmenu---------------------------------------------------
+
+    public Submenu getSubmenu(UUID uuid){
+        Optional<Submenu> byIdAndDeletedNot = submenuRepository.findByIdAndDeletedNot(uuid);
+        return byIdAndDeletedNot.orElseThrow(() -> {
+            throw new NotFoundException("SubGovGroup IDsi noto'g'ri berildi");
+        });
+    }
+
+    public List<Submenu> getSubmenuList(List<UUID> list) {
+        List<Submenu> res = new ArrayList<>();
+        for(UUID temp : list) {
+            res.add(getSubmenu(temp));
+        }
+        return res;
+    }
+
+    //-------------------------------------------------Order---------------------------------------------------
+
+    public GovGroupOrder getGovGroupOrder(UUID uuid){
+        Optional<GovGroupOrder> byIdAndDeletedNot = govGroupOrderRepository.findByIdAndDeletedNot(uuid);
+        return byIdAndDeletedNot.orElseThrow(() -> {
+            throw new NotFoundException("SubGovGroup IDsi noto'g'ri berildi");
+        });
+    }
+
+    public List<GovGroupOrder> getGovGroupOrder(List<UUID> list) {
+        List<GovGroupOrder> res = new ArrayList<>();
+        for(UUID temp : list) {
+            res.add(getGovGroupOrder(temp));
         }
         return res;
     }
