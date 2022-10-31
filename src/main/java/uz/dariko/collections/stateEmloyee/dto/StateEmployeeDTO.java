@@ -22,9 +22,10 @@ public class StateEmployeeDTO extends GenericDTO {
     private String ruPosition;  //lavozimi
     private String krPosition;  //lavozimi
     private Date birthDate;
-    private String birthPlace;
+    private String uzBirthPlace;
+    private String krBirthPlace;
+    private String ruBirthPlace;
     private String nation;
-    private UUID regionID;
     private String degree;
     private String phoneNumber;
     private String additionalInformationUz;

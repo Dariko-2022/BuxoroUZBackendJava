@@ -27,7 +27,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (ddl.equalsIgnoreCase("create") || ddl.equalsIgnoreCase("create-drop")) {
-            Admin admin = new Admin(UUID.fromString("d3bf68eb-adb9-4e6d-88d1-92e98ca30a81"),"dariko", passwordEncoder.encode( "123"),null,"Najmiddin","Ibrohimov","ariko@gmail.com",
+            Admin admin = new Admin(UUID.fromString("d3bf68eb-adb9-4e6d-88d1-92e98ca30a81"),"11", passwordEncoder.encode( "11"),null,"Najmiddin","Ibrohimov","ariko@gmail.com",
                     "+998997777777",true);
             adminRepository.save(admin);
 

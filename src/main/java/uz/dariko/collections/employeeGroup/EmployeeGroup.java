@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.entity.Auditable;
-import uz.dariko.base.entity.Order;
-import uz.dariko.collections.order.GovGroupOrder;
 import uz.dariko.collections.stateEmloyee.StateEmployee;
 import uz.dariko.collections.submenu.Submenu;
 
@@ -28,7 +26,7 @@ public class EmployeeGroup extends Auditable {
     private String krName;
 
     @OneToMany
-    List<GovGroupOrder> employeeList;
+    List<StateEmployee> employeeList;
 
     @ManyToOne
     private Submenu submenu;

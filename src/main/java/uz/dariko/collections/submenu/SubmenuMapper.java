@@ -26,7 +26,7 @@ public interface SubmenuMapper extends AbstractMapper<SubmenuCreateDTO, SubmenuU
         submenuDTO.setRuName(entity.getRuName());
         submenuDTO.setMenuId(entity.getMenu().getId());
         submenuDTO.setRank(entity.getRank());
-        submenuDTO.setType("news");
+        submenuDTO.setType(entity.getType());
         submenuDTO.setVisible(entity.isVisible());
         return submenuDTO;
     }
@@ -42,6 +42,7 @@ public interface SubmenuMapper extends AbstractMapper<SubmenuCreateDTO, SubmenuU
         submenu.setKrName(createDto.getKrName());
         submenu.setRuName(createDto.getRuName());
         submenu.setUzName(createDto.getUzName());
+        submenu.setType(createDto.getType());
         submenu.setVisible(true);
         return submenu;
     }

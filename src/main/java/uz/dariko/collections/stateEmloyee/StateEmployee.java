@@ -4,12 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import uz.dariko.base.entity.Auditable;
 import uz.dariko.collections.file.File;
-import uz.dariko.collections.region.Region;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.util.Date;
 
@@ -29,13 +28,11 @@ public class StateEmployee extends Auditable {
     private String krPosition;  //lavozimi
 
     private Date birthDate;
-    private String birthPlace;
+    private String uzBirthPlace;
+    private String krBirthPlace;
+    private String ruBirthPlace;
     private String nation;
 
-
-
-    @ManyToOne
-    private Region region;
 
     private String degree;
     private String phoneNumber;
@@ -47,6 +44,7 @@ public class StateEmployee extends Auditable {
     @OneToOne
     private File image;
 
+    @Type(type = "text")
     private String responsibility; //vazifa va funksiyalari
 
     private String labor_activity; //mehnat faoliyati

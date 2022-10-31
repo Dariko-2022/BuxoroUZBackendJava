@@ -2,6 +2,7 @@ package uz.dariko.collections.subGovGroup;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +24,17 @@ public interface SubGovGroupRepository extends JpaRepository<SubGovGroup, UUID> 
 
     @Query(nativeQuery = true,value = "SELECT * from sub_gov_group where id = ?1 and is_deleted = false")
     Optional<SubGovGroup> findByIdAndDeletedNot(UUID id);
+
+    @Query(nativeQuery = true, value = "SELECT * from sub_gov_group where submenu_id = ?1")
+    List<SubGovGroup> findAllBySubmenuId(UUID id);
+
+    @Query(nativeQuery = true, value = "SELECT * from sub_gov_group where is_deleted = false and submenu_id = ?1")
+    List<SubGovGroup> findAllBySubmenuIdAndDeletedNot(UUID id);
+
+
+//    @Modifying
+//    @Query(nativeQuery = true,value = "")
+//    void update(SubGovGroup subGovGroup);
 
 
 }

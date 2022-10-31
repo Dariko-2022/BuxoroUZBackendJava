@@ -1,64 +1,81 @@
 package uz.dariko.collections.subGovGroup;
 
-import org.mapstruct.Mapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import uz.dariko.base.dto.SubMenuAdminDTO;
+import uz.dariko.base.mapper.BaseMapper;
 import uz.dariko.collections.admin.Admin;
+import uz.dariko.collections.stateEmloyee.StateEmployeeMapper;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupCreateDTO;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupDTO;
-import uz.dariko.collections.subGovGroup.dto.SubGovGroupUpdateDTO;
-import uz.dariko.base.mapper.AbstractMapper;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
-@Component
-public interface SubGovGroupMapper extends AbstractMapper<SubGovGroupCreateDTO, SubGovGroupUpdateDTO, SubGovGroupDTO, SubGovGroup> {
 
-    @Override
-    default SubGovGroupDTO toDto(SubGovGroup entity){
-        SubGovGroupDTO govGroupDTO = new SubGovGroupDTO();
-        govGroupDTO.setUzName(entity.getUzName());
-        govGroupDTO.setRuName(entity.getRuName());
-        govGroupDTO.setKrName(entity.getKrName());
-        govGroupDTO.setUzDescription(entity.getUzDescription());
-        govGroupDTO.setRuDescription(entity.getRuDescription());
-        govGroupDTO.setKrDescription(entity.getKrDescription());
-        govGroupDTO.setId(entity.getId());
-        govGroupDTO.setRank(entity.getRank());
-        govGroupDTO.setSubmenuId(entity.getSubmenu().getId());
-        govGroupDTO.setType("stateEmployee");
-        return govGroupDTO;
+@Component
+public class SubGovGroupMapper implements BaseMapper {
+
+
+    private final StateEmployeeMapper stateEmployeeMapper;
+
+    public SubGovGroupMapper( StateEmployeeMapper stateEmployeeMapper) {
+        this.stateEmployeeMapper = stateEmployeeMapper;
     }
 
-    @Override
-    default List<SubGovGroupDTO> toDto(List<SubGovGroup> entities){
+    public SubGovGroupDTO toDto(SubGovGroup entity) {
+        SubGovGroupDTO subGovGroupDTO = new SubGovGroupDTO();
+        subGovGroupDTO.setId(entity.getId());
+        subGovGroupDTO.setUzName(entity.getUzName());
+        subGovGroupDTO.setRuName(entity.getRuName());
+        subGovGroupDTO.setKrName(entity.getKrName());
+        subGovGroupDTO.setKrDescriptionTitle(entity.getKrDescriptionTitle());
+        subGovGroupDTO.setUzDescriptionTitle(entity.getUzDescriptionTitle());
+        subGovGroupDTO.setRuDescriptionTitle(entity.getRuDescriptionTitle());
+        subGovGroupDTO.setUzDescription(entity.getUzDescription());
+        subGovGroupDTO.setRuDescription(entity.getRuDescription());
+        subGovGroupDTO.setKrDescription(entity.getKrDescription());
+        subGovGroupDTO.setKrTitle(entity.getKrTitle());
+        subGovGroupDTO.setRuTitle(entity.getRuTitle());
+        subGovGroupDTO.setUzTitle(entity.getUzTitle());
+        subGovGroupDTO.setId(entity.getId());
+        subGovGroupDTO.setRank(entity.getRank());
+        subGovGroupDTO.setSubmenuId(entity.getSubmenu().getId());
+        subGovGroupDTO.setOrderList(stateEmployeeMapper.toDTO(entity.getEmployeeList()));
+        return subGovGroupDTO;
+    }
+
+
+    public List<SubGovGroupDTO> toDto(List<SubGovGroup> entities) {
         List<SubGovGroupDTO> res = new ArrayList<>();
-        for(SubGovGroup g : entities) {
+        for (SubGovGroup g : entities) {
             res.add(toDto(g));
         }
         return res;
     }
 
 
-    default SubGovGroup fromCreateDto(SubGovGroupCreateDTO createDto){
-        SubGovGroup govGroup = new SubGovGroup();
-        govGroup.setRank(createDto.getRank());
-        govGroup.setKrDescription(createDto.getKrDescription());
-        govGroup.setUzDescription(createDto.getUzDescription());
-        govGroup.setRuDescription(createDto.getRuDescription());
-        govGroup.setUzName(createDto.getUzName());
-        govGroup.setKrName(createDto.getKrName());
-        govGroup.setRuName(createDto.getRuName());
+    public SubGovGroup fromCreateDto(SubGovGroupCreateDTO createDto, int rank) {
+        SubGovGroup subGovGroup = new SubGovGroup();
+        subGovGroup.setUzName(createDto.getUzName());
+        subGovGroup.setKrName(createDto.getKrName());
+        subGovGroup.setRuName(createDto.getRuName());
+        subGovGroup.setKrDescriptionTitle(createDto.getKrDescriptionTitle());
+        subGovGroup.setUzDescriptionTitle(createDto.getUzDescriptionTitle());
+        subGovGroup.setRuDescriptionTitle(createDto.getRuDescriptionTitle());
+        subGovGroup.setKrDescription("бўш");
+        subGovGroup.setUzDescription("bo'sh");
+        subGovGroup.setRuDescription("пустой");
+        subGovGroup.setKrTitle(createDto.getKrTitle());
+        subGovGroup.setRuTitle(createDto.getRuTitle());
+        subGovGroup.setUzTitle(createDto.getUzTitle());
+        subGovGroup.setRank(rank);
         //
-        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        govGroup.setUpdatedBy(sessionUser.getId());
-        govGroup.setUpdatedAt(LocalDateTime.now());
+        Admin sessionUser = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        subGovGroup.setCreatedBy(sessionUser.getId());
+        subGovGroup.setCreatedAt(LocalDateTime.now());
         //
-        return govGroup;
+        return subGovGroup;
     }
 
 

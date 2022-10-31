@@ -1,9 +1,7 @@
 package uz.dariko.collections.subGovGroup;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupCreateDTO;
@@ -45,5 +43,12 @@ public class SubGovGroupController extends AbstractController<SubGovGroupService
     @Override
     public ResponseEntity<?> list() {
         return service.getList();
+    }
+
+
+
+    @GetMapping("/getBySubmenuId")
+    public ResponseEntity<?> getBySubmenuId( @RequestParam(name = "code") UUID code){
+        return service.getBySubmenuId(code);
     }
 }

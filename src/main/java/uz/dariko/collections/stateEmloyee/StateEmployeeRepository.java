@@ -18,13 +18,22 @@ public interface StateEmployeeRepository extends JpaRepository<StateEmployee, UU
     @Query(nativeQuery = true, value = "select * from state_employee where id = ?1 and is_deleted = ?2")
     Optional<StateEmployee> findByIdAndIsDeleted(UUID stateEmployeeID, boolean deleted);
 
-    @Query(nativeQuery = true, value = "select * from link where is_deleted = ?1")
+    @Query(nativeQuery = true, value = "select * from state_employee where is_deleted = ?1")
     List<StateEmployee> findAllByDeleted(boolean deleted);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM state_employee JOIN sub_gov_group_employee_list as s ON sub_gov_group_id = s.employee_list_id and s.sub_gov_group_id = ?1")
+    List<StateEmployee> findAllByDeletedAndSubmenu(UUID submenuId);
 
     @Query(value = "SELECT * FROM state_employee WHERE is_deleted = ?1",
             countQuery = "SELECT count(*) FROM state_employee WHERE is_deleted = ?1",
             nativeQuery = true)
     Page<StateEmployee> findByIsDeleted(boolean deleted, Pageable pageable);
+
+
+//    @Query(value = "SELECT * FROM state_employee WHERE is_deleted = ?1",
+//            countQuery = "SELECT count(*) FROM state_employee WHERE is_deleted = ?1",
+//            nativeQuery = true)
+//    Page<StateEmployee> findByIsDeletedAndSubmenu(UUID submenuId, boolean deleted, Pageable pageable);
 
     @Query(nativeQuery = true,value = "SELECT * FROM state_employee where is_deleted = :deleted limit :size offset :offset")
     List<StateEmployee> findAllByDeleted(boolean deleted, int size, int offset);

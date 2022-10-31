@@ -2,10 +2,7 @@ package uz.dariko.collections.stateEmloyee;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
 import uz.dariko.base.dto.BaseOrderDTO;
@@ -27,6 +24,11 @@ public class StateEmployeeController extends AbstractController<StateEmployeeSer
     @Override
     public ResponseEntity<?> create(StateEmployeeCreateDTO DTO) throws Exception {
         return service.create(DTO);
+    }
+
+    @PostMapping("createe")
+    public ResponseEntity<?> createForEmployeeGroup(StateEmployeeCreateDTO DTO) throws Exception {
+        return service.createForEmployeeGroup(DTO);
     }
 
     @Override
@@ -55,6 +57,14 @@ public class StateEmployeeController extends AbstractController<StateEmployeeSer
             @RequestParam(name = "page") int page
     ) {
         return  service.getAll(PageRequest.of(page,size));
+    }
+
+
+    @GetMapping("/getAllSubGovGroup")
+    public ResponseEntity<?> getAllBySubGovGroup(
+            @RequestParam(name = "submenu") UUID submenuID
+    ) {
+        return  service.getAllBySubmenu(submenuID);
     }
 
 

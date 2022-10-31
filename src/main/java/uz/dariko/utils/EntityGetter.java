@@ -3,8 +3,8 @@ package uz.dariko.utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import uz.dariko.collections.order.GovGroupOrder;
-import uz.dariko.collections.order.GovGroupOrderRepository;
+import uz.dariko.collections.employeeGroup.EmployeeGroup;
+import uz.dariko.collections.employeeGroup.EmployeeGroupRepository;
 import uz.dariko.collections.submenu.Submenu;
 import uz.dariko.collections.subGovGroup.SubGovGroup;
 import uz.dariko.collections.subGovGroup.SubGovGroupRepository;
@@ -59,7 +59,7 @@ public class EntityGetter {
     private final MenuRepository menuRepository;
 
     private final SubGovGroupRepository subGovGroupRepository;
-    private final GovGroupOrderRepository govGroupOrderRepository;
+    private final EmployeeGroupRepository employeeGroupRepository;
 
     private final BaseUtils baseUtils;
 
@@ -235,6 +235,8 @@ public class EntityGetter {
         });
     }
 
+
+
     public List<SubGovGroup> getSubGovGroupList(List<UUID> list) {
         List<SubGovGroup> res = new ArrayList<>();
         for(UUID temp : list) {
@@ -242,6 +244,17 @@ public class EntityGetter {
         }
         return res;
     }
+
+    //-------------------------------------------------GetParent---------------------------------------------------
+
+    public EmployeeGroup getEmployeeGroup(UUID id) {
+        Optional<EmployeeGroup> byIdAndDeletedNot = employeeGroupRepository.findByIdAndDeletedNot(id);
+        return byIdAndDeletedNot.orElseThrow(() -> {
+            throw new NotFoundException("SubGovGroup IDsi noto'g'ri berildi");
+        });
+    }
+
+
 
     //-------------------------------------------------GetSubmenu---------------------------------------------------
 
@@ -260,22 +273,6 @@ public class EntityGetter {
         return res;
     }
 
-    //-------------------------------------------------Order---------------------------------------------------
-
-    public GovGroupOrder getGovGroupOrder(UUID uuid){
-        Optional<GovGroupOrder> byIdAndDeletedNot = govGroupOrderRepository.findByIdAndDeletedNot(uuid);
-        return byIdAndDeletedNot.orElseThrow(() -> {
-            throw new NotFoundException("SubGovGroup IDsi noto'g'ri berildi");
-        });
-    }
-
-    public List<GovGroupOrder> getGovGroupOrder(List<UUID> list) {
-        List<GovGroupOrder> res = new ArrayList<>();
-        for(UUID temp : list) {
-            res.add(getGovGroupOrder(temp));
-        }
-        return res;
-    }
 
 
 }

@@ -5,13 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import uz.dariko.collections.admin.Admin;
-import uz.dariko.collections.order.GovGroupOrder;
-import uz.dariko.collections.order.GovGroupOrderService;
+import uz.dariko.collections.stateEmloyee.StateEmployee;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupCreateDTO;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupDTO;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupUpdateDTO;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.response.Data;
+import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
 import java.time.LocalDateTime;
@@ -26,22 +26,19 @@ public class SubGovGroupService implements BaseService {
     private final SubGovGroupMapper subGovGroupMapper;
 
     private final EntityGetter entityGetter;
+    private final BaseUtils baseUtils;
 
-    private final GovGroupOrderService govGroupOrderService;
 
-
-    public SubGovGroupService(SubGovGroupRepository govGroupRepository, SubGovGroupMapper subGovGroupMapper, EntityGetter entityGetter, GovGroupOrderService govGroupOrderService) {
+    public SubGovGroupService(SubGovGroupRepository govGroupRepository, SubGovGroupMapper subGovGroupMapper, EntityGetter entityGetter, BaseUtils baseUtils) {
         this.subGovGroupRepository = govGroupRepository;
         this.subGovGroupMapper = subGovGroupMapper;
         this.entityGetter = entityGetter;
-        this.govGroupOrderService = govGroupOrderService;
-
+        this.baseUtils = baseUtils;
     }
 
     public ResponseEntity<?> create(SubGovGroupCreateDTO dto) {
-        SubGovGroup subGovGroup = subGovGroupMapper.fromCreateDto(dto);
-        List<GovGroupOrder> govGroupOrders = govGroupOrderService.create(dto.getOrderList());
-        subGovGroup.setEmployeeList(govGroupOrders);
+        List<SubGovGroup> allBySubmenuId = subGovGroupRepository.findAllBySubmenuId(dto.getSubmenuId());
+        SubGovGroup subGovGroup = subGovGroupMapper.fromCreateDto(dto,allBySubmenuId.size());
         subGovGroup.setSubmenu(entityGetter.getSubmenu(dto.getSubmenuId()));
         SubGovGroup save = subGovGroupRepository.save(subGovGroup);
         SubGovGroupDTO govGroupDTO = subGovGroupMapper.toDto(save);
@@ -57,7 +54,6 @@ public class SubGovGroupService implements BaseService {
         govGroup.setUzDescription(dto.getUzDescription());
         govGroup.setRuDescription(dto.getRuDescription());
         govGroup.setKrDescription(dto.getKrDescription());
-        govGroup.setEmployeeList(govGroupOrderService.update(dto.getOrderList()));
         //
         Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         govGroup.setUpdatedBy(sessionUser.getId());
@@ -95,6 +91,22 @@ public class SubGovGroupService implements BaseService {
         List<SubGovGroup> list = subGovGroupRepository.findAllByDeleted(false);
         List<SubGovGroupDTO> subGovGroupDTOS = subGovGroupMapper.toDto(list);
         return ResponseEntity.ok(subGovGroupDTOS);
+
+    }
+
+    public ResponseEntity<?> getBySubmenuId(UUID code) {
+        List<SubGovGroup> allBySubmenuId = subGovGroupRepository.findAllBySubmenuIdAndDeletedNot(code);
+        List<SubGovGroupDTO> subGovGroupDTOS = subGovGroupMapper.toDto(allBySubmenuId);
+
+        return ResponseEntity.ok(subGovGroupDTOS);
+    }
+
+    public void addEmployee(UUID subGovGroupId,StateEmployee stateEmployee) {
+        SubGovGroup subGovGroup = entityGetter.getSubGovGroup(subGovGroupId);
+        List<StateEmployee> employeeList = subGovGroup.getEmployeeList();
+        employeeList.add(stateEmployee);
+        subGovGroup.setEmployeeList(employeeList);
+        subGovGroupRepository.save(subGovGroup);
 
     }
 

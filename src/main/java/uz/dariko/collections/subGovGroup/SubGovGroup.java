@@ -6,12 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.entity.Auditable;
-import uz.dariko.base.entity.Order;
-import uz.dariko.collections.order.GovGroupOrder;
 import uz.dariko.collections.stateEmloyee.StateEmployee;
 import uz.dariko.collections.submenu.Submenu;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -42,8 +41,7 @@ public class SubGovGroup extends Auditable {
     private Submenu submenu;
 
     @OneToMany
-    private List<GovGroupOrder> employeeList;
-
+    private List<StateEmployee> employeeList = new ArrayList<>();
 
     private int rank;
 

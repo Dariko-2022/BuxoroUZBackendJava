@@ -19,38 +19,55 @@ import java.util.List;
 public class StateEmployeeMapper implements BaseMapper {
     private final EntityGetter entityGetter;
 
-    private final StateEmployeeRepository repository;
 
-    public StateEmployeeMapper(EntityGetter entityGetter, StateEmployeeRepository repository) {
+    public StateEmployeeMapper(EntityGetter entityGetter) {
         this.entityGetter = entityGetter;
-        this.repository = repository;
     }
 
-    StateEmployeeDTO toDTO(StateEmployee stateEmployee){
-        return new StateEmployeeDTO(stateEmployee.getFirstName(),
-                stateEmployee.getLastName(),
-                stateEmployee.getPatronymic(),
-                stateEmployee.getUzPosition(),
-                stateEmployee.getRuPosition(),
-                stateEmployee.getKrPosition(),
-                stateEmployee.getBirthDate(),
-                stateEmployee.getBirthPlace(),
-                stateEmployee.getNation(),
-                stateEmployee.getRegion().getId(),
-                stateEmployee.getDegree(),
-                stateEmployee.getPhoneNumber(),
-                stateEmployee.getAdditionalInformationUz(),
-                stateEmployee.getAdditionalInformationRu(),
-                stateEmployee.getAdditionalInformationKr(),
-                stateEmployee.getImage().getId(),
-                stateEmployee.getResponsibility(),
-                stateEmployee.getLabor_activity(),
-                stateEmployee.getOrderNumber());
+//    public List<StateEmployeeDTO> toDTO(List<StateEmployee> list) {
+//        List<StateEmployeeDTO> res = new ArrayList<>();
+//        for(StateEmployee s : list) {
+//            res.add(toDTO(s));
+//        }
+//        return res;
+//    }
+
+    public List<StateEmployeeDTO> toDTO(List<StateEmployee> stateEmployees){
+        List<StateEmployeeDTO> stateEmployeeDTOS=new ArrayList<>();
+        for (StateEmployee stateEmployee : stateEmployees) {
+            stateEmployeeDTOS.add(toDTO(stateEmployee));
+        }
+        return stateEmployeeDTOS;
+    }
+
+    public StateEmployeeDTO toDTO(StateEmployee stateEmployee){
+        StateEmployeeDTO stateEmployeeDTO =  new StateEmployeeDTO();
+        stateEmployeeDTO.setId(stateEmployee.getId());
+        stateEmployeeDTO.setFirstName(stateEmployee.getFirstName());
+        stateEmployeeDTO.setLastName(stateEmployee.getLastName());
+        stateEmployeeDTO.setPatronymic(stateEmployee.getPatronymic());
+        stateEmployeeDTO.setUzPosition(stateEmployee.getUzPosition());
+        stateEmployeeDTO.setRuPosition(stateEmployee.getRuPosition());
+        stateEmployeeDTO.setKrPosition(stateEmployee.getKrPosition());
+        stateEmployeeDTO.setBirthDate(stateEmployee.getBirthDate());
+        stateEmployeeDTO.setKrBirthPlace(stateEmployee.getUzBirthPlace());
+        stateEmployeeDTO.setKrBirthPlace(stateEmployee.getKrBirthPlace());
+        stateEmployeeDTO.setRuBirthPlace(stateEmployee.getRuBirthPlace());
+        stateEmployeeDTO.setNation(stateEmployee.getNation());
+        stateEmployeeDTO.setDegree(stateEmployee.getDegree());
+        stateEmployeeDTO.setPhoneNumber(stateEmployee.getPhoneNumber());
+        stateEmployeeDTO.setAdditionalInformationUz(stateEmployee.getAdditionalInformationUz());
+        stateEmployeeDTO.setAdditionalInformationRu(stateEmployee.getAdditionalInformationRu());
+        stateEmployeeDTO.setAdditionalInformationKr(stateEmployee.getAdditionalInformationKr());
+        stateEmployeeDTO.setImageID(stateEmployee.getImage().getId());
+        stateEmployeeDTO.setResponsibility(stateEmployee.getResponsibility());
+        stateEmployeeDTO.setLabor_activity(stateEmployee.getLabor_activity());
+        stateEmployeeDTO.setOrderNumber(stateEmployee.getOrderNumber());
+        return stateEmployeeDTO;
     }
 
     StateEmployee fromCreateDTO(StateEmployeeCreateDTO DTO){
         File image = entityGetter.getFile(DTO.getImageID());
-        Region region = entityGetter.getRegion(DTO.getRegionID());
         StateEmployee stateEmployee = new StateEmployee();
         stateEmployee.setFirstName(DTO.getFirstName());
         stateEmployee.setLastName(DTO.getLastName());
@@ -59,9 +76,10 @@ public class StateEmployeeMapper implements BaseMapper {
         stateEmployee.setRuPosition(DTO.getRuPosition());
         stateEmployee.setKrPosition(DTO.getKrPosition());
         stateEmployee.setBirthDate(DTO.getBirthDate());
-        stateEmployee.setBirthPlace(DTO.getBirthPlace());
+        stateEmployee.setUzBirthPlace(DTO.getUzBirthPlace());
+        stateEmployee.setKrBirthPlace(DTO.getKrBirthPlace());
+        stateEmployee.setRuBirthPlace(DTO.getRuBirthPlace());
         stateEmployee.setNation(DTO.getNation());
-        stateEmployee.setRegion(region);
         stateEmployee.setDegree(DTO.getDegree());
         stateEmployee.setPhoneNumber(DTO.getPhoneNumber());
         stateEmployee.setImage(image);
@@ -79,7 +97,6 @@ public class StateEmployeeMapper implements BaseMapper {
     }
 
     StateEmployee fromUpdateDTO(StateEmployeeUpdateDTO DTO){
-        Region region = entityGetter.getRegion(DTO.getRegionID());
         File file = entityGetter.getFile(DTO.getImageID());
         StateEmployee stateEmployee = entityGetter.getStateEmployee(DTO.getId());
         stateEmployee.setFirstName(DTO.getFirstName());
@@ -89,9 +106,10 @@ public class StateEmployeeMapper implements BaseMapper {
         stateEmployee.setRuPosition(DTO.getRuPosition());
         stateEmployee.setKrPosition(DTO.getKrPosition());
         stateEmployee.setBirthDate(DTO.getBirthDate());
-        stateEmployee.setBirthPlace(DTO.getBirthPlace());
+        stateEmployee.setUzBirthPlace(DTO.getUzBirthPlace());
+        stateEmployee.setKrBirthPlace(DTO.getKrBirthPlace());
+        stateEmployee.setRuBirthPlace(DTO.getRuBirthPlace());
         stateEmployee.setNation(DTO.getNation());
-        stateEmployee.setRegion(region);
         stateEmployee.setDegree(DTO.getDegree());
         stateEmployee.setPhoneNumber(DTO.getPhoneNumber());
         stateEmployee.setImage(file);
@@ -108,11 +126,5 @@ public class StateEmployeeMapper implements BaseMapper {
         return stateEmployee;
     }
 
-     List<StateEmployeeDTO> toDTO(List<StateEmployee> stateEmployees){
-        List<StateEmployeeDTO> stateEmployeeDTOS=new ArrayList<>();
-        for (StateEmployee stateEmployee : stateEmployees) {
-            stateEmployeeDTOS.add(toDTO(stateEmployee));
-        }
-        return stateEmployeeDTOS;
-    }
+
 }

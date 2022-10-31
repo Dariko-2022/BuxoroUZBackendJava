@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.dto.GenericDTO;
-import uz.dariko.base.dto.OrderDTO;
-import uz.dariko.collections.order.dto.GovGroupOrderDTO;
+import uz.dariko.collections.stateEmloyee.dto.StateEmployeeDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +21,6 @@ public class EmployeeGroupDTO extends GenericDTO {
     private String ruName;
     private String krName;
 
-    private List<GovGroupOrderDTO> orderList;
+    private List<StateEmployeeDTO> employeeDTOS;
     private UUID submenuId;
 }
