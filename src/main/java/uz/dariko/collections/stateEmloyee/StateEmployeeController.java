@@ -26,8 +26,9 @@ public class StateEmployeeController extends AbstractController<StateEmployeeSer
         return service.create(DTO);
     }
 
-    @PostMapping("createe")
-    public ResponseEntity<?> createForEmployeeGroup(StateEmployeeCreateDTO DTO) throws Exception {
+    @PostMapping("createForEmployeeGroup")
+    public ResponseEntity<?> createForEmployeeGroup(
+            @RequestBody StateEmployeeCreateDTO DTO) throws Exception {
         return service.createForEmployeeGroup(DTO);
     }
 

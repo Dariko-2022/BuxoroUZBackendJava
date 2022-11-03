@@ -1,17 +1,13 @@
 package uz.dariko.collections.link;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import uz.dariko.base.service.AbstractService;
 import uz.dariko.base.service.GenericCRUDService;
-import uz.dariko.collections.file.File;
 import uz.dariko.collections.link.dto.LinkCreateDTO;
 import uz.dariko.collections.link.dto.LinkDTO;
 import uz.dariko.collections.link.dto.LinkUpdateDTO;
-import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
-import uz.dariko.utils.dtos.SessionUser;
 
 import java.time.LocalDateTime;
 import java.util.List;

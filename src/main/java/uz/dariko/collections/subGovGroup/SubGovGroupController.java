@@ -4,9 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
-import uz.dariko.collections.subGovGroup.dto.SubGovGroupCreateDTO;
-import uz.dariko.collections.subGovGroup.dto.SubGovGroupDTO;
-import uz.dariko.collections.subGovGroup.dto.SubGovGroupUpdateDTO;
+import uz.dariko.collections.subGovGroup.dto.*;
 
 import java.util.UUID;
 
@@ -26,6 +24,18 @@ public class SubGovGroupController extends AbstractController<SubGovGroupService
     @Override
     public ResponseEntity<?> update(SubGovGroupUpdateDTO DTO) {
         return service.update(DTO);
+    }
+
+    @PatchMapping("/updateDescription")
+    public ResponseEntity<?> updateDescription(
+            @RequestBody SubGovGroupDescriptionUpdateDTO dto) {
+        return service.updateDescription(dto);
+    }
+
+    @PatchMapping("/updateName")
+    public ResponseEntity<?> updateDescription(
+            @RequestBody SubGovGroupNameUpdateDTO dto) {
+        return service.updateName(dto);
     }
 
     @Override

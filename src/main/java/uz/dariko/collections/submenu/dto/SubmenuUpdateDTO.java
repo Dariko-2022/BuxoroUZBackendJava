@@ -18,7 +18,9 @@ public class SubmenuUpdateDTO extends GenericDTO {
     private String krName;
     private String ruName;
     private UUID menuId;
-    private String type;
+
+    private String url;
 
     private boolean visible;
+
 }

@@ -245,12 +245,19 @@ public class EntityGetter {
         return res;
     }
 
-    //-------------------------------------------------GetParent---------------------------------------------------
+    //-------------------------------------------------EmployeeGroup---------------------------------------------------
 
     public EmployeeGroup getEmployeeGroup(UUID id) {
         Optional<EmployeeGroup> byIdAndDeletedNot = employeeGroupRepository.findByIdAndDeletedNot(id);
         return byIdAndDeletedNot.orElseThrow(() -> {
-            throw new NotFoundException("SubGovGroup IDsi noto'g'ri berildi");
+            throw new NotFoundException("EmployeeGroup IDsi noto'g'ri berildi");
+        });
+    }
+
+    public EmployeeGroup getEmployeeGroupBtSubmenuId(UUID submenuId) {
+        Optional<EmployeeGroup> bySubmenuId = employeeGroupRepository.findBySubmenuId(submenuId);
+        return bySubmenuId.orElseThrow(() -> {
+            throw new NotFoundException("EmployeeGroup topilmadi");
         });
     }
 

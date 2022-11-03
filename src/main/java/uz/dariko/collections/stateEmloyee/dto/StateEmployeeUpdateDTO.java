@@ -36,8 +36,9 @@ public class StateEmployeeUpdateDTO extends GenericDTO {
 
     private UUID imageID;
 
-
-    private String responsibility;
+    private String uzResponsibility;
+    private String krResponsibility;
+    private String ruResponsibility;
 
     private String labor_activity; //mehnat faoliyati
 

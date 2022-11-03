@@ -6,9 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.stateEmloyee.StateEmployee;
-import uz.dariko.collections.subGovGroup.dto.SubGovGroupCreateDTO;
-import uz.dariko.collections.subGovGroup.dto.SubGovGroupDTO;
-import uz.dariko.collections.subGovGroup.dto.SubGovGroupUpdateDTO;
+import uz.dariko.collections.subGovGroup.dto.*;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.response.Data;
 import uz.dariko.utils.BaseUtils;
@@ -45,15 +43,32 @@ public class SubGovGroupService implements BaseService {
         return ResponseEntity.status(201).body(govGroupDTO);
     }
 
+    public ResponseEntity<?> updateDescription(SubGovGroupDescriptionUpdateDTO dto) {
+        SubGovGroup subGovGroup = entityGetter.getSubGovGroup(dto.getId());
+        subGovGroup.setKrDescription(dto.getKrDescription());
+        subGovGroup.setUzDescription(dto.getUzDescription());
+        subGovGroup.setRuDescription(dto.getRuDescription());
+        SubGovGroup save = subGovGroupRepository.save(subGovGroup);
+        SubGovGroupDTO subGovGroupDTO = subGovGroupMapper.toDto(save);
+        return ResponseEntity.ok(subGovGroupDTO);
+
+    }
+
+
+    public ResponseEntity<?> updateName(SubGovGroupNameUpdateDTO dto) {
+        SubGovGroup subGovGroup = subGovGroupMapper.fromNameUpdateDto(dto);
+        SubGovGroup save = subGovGroupRepository.save(subGovGroup);
+        SubGovGroupDTO subGovGroupDTO = subGovGroupMapper.toDto(save);
+        return ResponseEntity.ok(subGovGroupDTO);
+
+    }
+
     public ResponseEntity<?> update(SubGovGroupUpdateDTO dto) {
 
         SubGovGroup govGroup = entityGetter.getSubGovGroup(dto.getId());
         govGroup.setUzName(dto.getUzName());
         govGroup.setKrName(dto.getKrName());
         govGroup.setRuName(dto.getRuName());
-        govGroup.setUzDescription(dto.getUzDescription());
-        govGroup.setRuDescription(dto.getRuDescription());
-        govGroup.setKrDescription(dto.getKrDescription());
         //
         Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         govGroup.setUpdatedBy(sessionUser.getId());
@@ -68,14 +83,24 @@ public class SubGovGroupService implements BaseService {
     public ResponseEntity<?> delete(UUID id) {
 
         SubGovGroup subGovGroup = entityGetter.getSubGovGroup(id);
-        //
-        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        subGovGroup.setDeletedBy(sessionUser.getId());
-        subGovGroup.setDeletedAt(LocalDateTime.now());
-        //
-        subGovGroup.setDeleted(true);
-        subGovGroupRepository.save(subGovGroup);
-        return ResponseEntity.status(204).body(new Data<>(true) );
+        boolean b= true;
+        List<StateEmployee> employeeList = subGovGroup.getEmployeeList();
+        for(StateEmployee e : employeeList) {
+            b = e.isDeleted();
+        }
+        if(b) {
+            //
+            Admin sessionUser = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            subGovGroup.setDeletedBy(sessionUser.getId());
+            subGovGroup.setDeletedAt(LocalDateTime.now());
+            //
+            subGovGroup.setDeleted(true);
+            subGovGroupRepository.save(subGovGroup);
+            return ResponseEntity.status(204).body(true);
+        }
+        else {
+            return ResponseEntity.status(400).body("odam bor ichida");
+        }
     }
 
     public ResponseEntity<?> getById(UUID id) {

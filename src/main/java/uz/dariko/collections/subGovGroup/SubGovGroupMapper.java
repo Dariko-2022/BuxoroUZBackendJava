@@ -7,6 +7,8 @@ import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.stateEmloyee.StateEmployeeMapper;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupCreateDTO;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupDTO;
+import uz.dariko.collections.subGovGroup.dto.SubGovGroupNameUpdateDTO;
+import uz.dariko.utils.EntityGetter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,8 +21,11 @@ public class SubGovGroupMapper implements BaseMapper {
 
     private final StateEmployeeMapper stateEmployeeMapper;
 
-    public SubGovGroupMapper( StateEmployeeMapper stateEmployeeMapper) {
+    private final EntityGetter entityGetter;
+
+    public SubGovGroupMapper(StateEmployeeMapper stateEmployeeMapper, EntityGetter entityGetter) {
         this.stateEmployeeMapper = stateEmployeeMapper;
+        this.entityGetter = entityGetter;
     }
 
     public SubGovGroupDTO toDto(SubGovGroup entity) {
@@ -74,6 +79,25 @@ public class SubGovGroupMapper implements BaseMapper {
         Admin sessionUser = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         subGovGroup.setCreatedBy(sessionUser.getId());
         subGovGroup.setCreatedAt(LocalDateTime.now());
+        //
+        return subGovGroup;
+    }
+
+    public SubGovGroup fromNameUpdateDto(SubGovGroupNameUpdateDTO dto) {
+        SubGovGroup subGovGroup = entityGetter.getSubGovGroup(dto.getId());
+        subGovGroup.setUzName(dto.getUzName());
+        subGovGroup.setKrName(dto.getKrName());
+        subGovGroup.setRuName(dto.getRuName());
+        subGovGroup.setKrDescriptionTitle(dto.getKrDescriptionTitle());
+        subGovGroup.setUzDescriptionTitle(dto.getUzDescriptionTitle());
+        subGovGroup.setRuDescriptionTitle(dto.getRuDescriptionTitle());
+        subGovGroup.setKrTitle(dto.getKrTitle());
+        subGovGroup.setRuTitle(dto.getRuTitle());
+        subGovGroup.setUzTitle(dto.getUzTitle());
+        //
+        Admin sessionUser = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        subGovGroup.setUpdatedBy(sessionUser.getId());
+        subGovGroup.setUpdatedAt(LocalDateTime.now());
         //
         return subGovGroup;
     }

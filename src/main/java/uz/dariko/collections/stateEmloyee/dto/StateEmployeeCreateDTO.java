@@ -35,9 +35,11 @@ public class StateEmployeeCreateDTO implements BaseDTO {
 
     private UUID imageID;
 
-    private UUID parentId;
+    private UUID submenuID;
 
-    private String responsibility;
+    private String uzResponsibility;
+    private String krResponsibility;
+    private String ruResponsibility;
 
     private String labor_activity; //mehnat faoliyati
 

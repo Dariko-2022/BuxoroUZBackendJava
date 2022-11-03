@@ -45,7 +45,7 @@ public class StateEmployeeService extends AbstractService<StateEmployeeRepositor
         validator.validOnCreate(DTO);
         StateEmployee stateEmployee = mapper.fromCreateDTO(DTO);
         StateEmployee save = repository.save(stateEmployee);
-        subGovGroupService.addEmployee(DTO.getParentId(),save);
+        subGovGroupService.addEmployee(DTO.getSubmenuID(),save);
         StateEmployeeDTO stateEmployeeDTO = mapper.toDTO(save);
         return ResponseEntity.ok(stateEmployeeDTO);
     }
@@ -54,7 +54,7 @@ public class StateEmployeeService extends AbstractService<StateEmployeeRepositor
         validator.validOnCreate(DTO);
         StateEmployee stateEmployee = mapper.fromCreateDTO(DTO);
         StateEmployee save = repository.save(stateEmployee);
-        employeeGroupService.addEmployee(DTO.getParentId(),save);
+        employeeGroupService.addEmployee(DTO.getSubmenuID(),save);
         StateEmployeeDTO stateEmployeeDTO = mapper.toDTO(save);
         return ResponseEntity.ok(stateEmployeeDTO);
     }
@@ -62,8 +62,9 @@ public class StateEmployeeService extends AbstractService<StateEmployeeRepositor
     @Override
     public ResponseEntity<?> update(StateEmployeeUpdateDTO DTO) {
         StateEmployee stateEmployee = mapper.fromUpdateDTO(DTO);
-        repository.save(stateEmployee);
-        return ResponseEntity.ok("Successfully Updated StateEmployee");
+        StateEmployee save = repository.save(stateEmployee);
+        StateEmployeeDTO stateEmployeeDTO = mapper.toDTO(save);
+        return ResponseEntity.ok(stateEmployeeDTO);
     }
 
     @Override

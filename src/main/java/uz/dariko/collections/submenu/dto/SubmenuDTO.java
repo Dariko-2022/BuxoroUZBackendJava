@@ -20,6 +20,10 @@ public class SubmenuDTO extends GenericDTO {
 
     private UUID menuId;
 
+    private UUID employeeGroupId;
+
+    private String url;
+
     private String type;
     private int rank;
     private boolean visible;

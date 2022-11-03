@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/webjars/"
                 )
                 .permitAll()
-                .antMatchers("api/admin/**").permitAll();
+                .antMatchers("/api/admin/**").permitAll();
     }
 
 

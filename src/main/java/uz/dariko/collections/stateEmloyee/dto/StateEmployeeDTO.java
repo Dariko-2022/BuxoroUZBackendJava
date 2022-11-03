@@ -26,17 +26,19 @@ public class StateEmployeeDTO extends GenericDTO {
     private String krBirthPlace;
     private String ruBirthPlace;
     private String nation;
+
     private String degree;
     private String phoneNumber;
+
     private String additionalInformationUz;
     private String additionalInformationRu;
     private String additionalInformationKr;
 
-
     private UUID imageID;
 
-
-    private String responsibility;
+    private String uzResponsibility;
+    private String krResponsibility;
+    private String ruResponsibility;
 
     private String labor_activity; //mehnat faoliyati
 

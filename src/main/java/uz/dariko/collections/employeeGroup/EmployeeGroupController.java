@@ -2,9 +2,7 @@ package uz.dariko.collections.employeeGroup;
 
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
 import uz.dariko.collections.employeeGroup.dto.EmployeeGroupCreateDTO;
@@ -23,7 +21,7 @@ public class EmployeeGroupController extends AbstractController<EmployeeGroupSer
 
     @Override
     public ResponseEntity<?> create(EmployeeGroupCreateDTO DTO) throws Exception {
-        return null;
+        return service.create(DTO);
     }
 
     @Override
@@ -44,5 +42,11 @@ public class EmployeeGroupController extends AbstractController<EmployeeGroupSer
     @Override
     public ResponseEntity<?> list() {
         return null;
+    }
+
+
+    @GetMapping("getBySubmenuId")
+    public ResponseEntity<?> getBySubmenuId(@RequestParam(name = "code") UUID submenuId) {
+        return service.getBySubmenuId(submenuId);
     }
 }

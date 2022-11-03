@@ -21,6 +21,7 @@ public class LinkCreateDTO implements BaseDTO {
 
     private Integer linkTypeCode;
 
+
     private UUID imageID;
 
     private String url;

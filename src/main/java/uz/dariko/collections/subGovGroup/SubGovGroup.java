@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import uz.dariko.base.entity.Auditable;
 import uz.dariko.collections.stateEmloyee.StateEmployee;
 import uz.dariko.collections.submenu.Submenu;
@@ -29,8 +30,12 @@ public class SubGovGroup extends Auditable {
     private String ruDescriptionTitle;
     private String krDescriptionTitle;
 
+
+    @Type(type = "text")
     private String uzDescription;
+    @Type(type = "text")
     private String ruDescription;
+    @Type(type = "text")
     private String krDescription;
 
     private String uzTitle;

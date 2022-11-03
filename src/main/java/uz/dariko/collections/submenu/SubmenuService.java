@@ -9,6 +9,9 @@ import uz.dariko.base.dto.OrderDTO;
 import uz.dariko.base.dto.SubMenuAdminDTO;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.admin.Admin;
+import uz.dariko.collections.employeeGroup.EmployeeGroup;
+import uz.dariko.collections.employeeGroup.EmployeeGroupService;
+import uz.dariko.collections.employeeGroup.dto.EmployeeGroupCreateDTO;
 import uz.dariko.collections.menu.Menu;
 import uz.dariko.collections.submenu.dto.SubmenuCreateDTO;
 import uz.dariko.collections.submenu.dto.SubmenuDTO;
@@ -30,21 +33,49 @@ public class SubmenuService implements BaseService{
 
     private final SubmenuMapper submenuMapper;
 
+    private final EmployeeGroupService employeeGroupService;
+
     private final EntityGetter entityGetter;
 
-    public SubmenuService(SubmenuRepository submenuRepository, SubmenuMapper submenuMapper, EntityGetter entityGetter) {
+    public SubmenuService(SubmenuRepository submenuRepository, SubmenuMapper submenuMapper, EmployeeGroupService employeeGroupService, EntityGetter entityGetter) {
         this.submenuRepository = submenuRepository;
         this.submenuMapper = submenuMapper;
+        this.employeeGroupService = employeeGroupService;
         this.entityGetter = entityGetter;
     }
 
-    public ResponseEntity<?> create(SubmenuCreateDTO submenuCreateDto) {
-        Submenu submenu = submenuMapper.fromCreateDto(submenuCreateDto);
-        submenu.setMenu(entityGetter.getMenu(submenuCreateDto.getMenuId()));
-        submenu.setRank(submenuRepository.getTotalCount(submenuCreateDto.getMenuId())+1);
+    public ResponseEntity<?> create(SubmenuCreateDTO dto) {
+        if(dto.getType().equals("employeeGroup") || dto.getType().equals("subGovGroup")) {
+            return createForEmployeeGroup(dto);
+        }else {
+            return createForNews(dto);
+        }
+    }
+
+    public ResponseEntity<?> createForNews(SubmenuCreateDTO dto) {
+        Submenu submenu = submenuMapper.fromCreateDto(dto);
+        submenu.setMenu(entityGetter.getMenu(dto.getMenuId()));
+        submenu.setRank(submenuRepository.getTotalCount(dto.getMenuId())+1);
+        Submenu save = submenuRepository.save(submenu);
+
+        SubmenuDTO submenuDTO = submenuMapper.toDto(save);
+        return ResponseEntity.status(201).body(submenuDTO);
+    }
+
+    public ResponseEntity<?> createForEmployeeGroup(SubmenuCreateDTO dto) {
+        Submenu submenu = submenuMapper.fromCreateDto(dto);
+        submenu.setMenu(entityGetter.getMenu(dto.getMenuId()));
+        submenu.setRank(submenuRepository.getTotalCount(dto.getMenuId())+1);
 
         Submenu save = submenuRepository.save(submenu);
         SubmenuDTO submenuDTO = submenuMapper.toDto(save);
+        EmployeeGroup employeeGroup = null;
+        if(save.getType().equals("employeeGroup")) {
+            EmployeeGroupCreateDTO dto1 = new EmployeeGroupCreateDTO(dto.getUzName(), dto.getRuName(), dto.getKrName(), save.getId());
+            employeeGroup = employeeGroupService.createForSubmenu(dto1);
+            submenuDTO.setEmployeeGroupId(employeeGroup.getId());
+        }
+
         return ResponseEntity.status(201).body(submenuDTO);
     }
 
@@ -61,6 +92,7 @@ public class SubmenuService implements BaseService{
         submenu.setKrName(dto.getKrName());
         submenu.setRuName(dto.getRuName());
         submenu.setVisible(dto.isVisible());
+        submenu.setUrl(dto.getUrl());
         submenu.setMenu(entityGetter.getMenu(dto.getMenuId()));
         //
         Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

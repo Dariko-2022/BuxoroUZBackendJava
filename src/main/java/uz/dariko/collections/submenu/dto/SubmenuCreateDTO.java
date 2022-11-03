@@ -21,6 +21,8 @@ public class SubmenuCreateDTO implements BaseDTO {
 
     private UUID menuId;
 
+    private String url;
+
     private String type;
 
 

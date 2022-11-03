@@ -27,6 +27,8 @@ public class Submenu extends Auditable { //soha
 
     private int rank;
 
+    private String url;
+
     private boolean visible;
 
     private String type;

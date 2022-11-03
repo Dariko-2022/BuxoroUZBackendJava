@@ -17,6 +17,14 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 @Component
 public interface SubmenuMapper extends AbstractMapper<SubmenuCreateDTO, SubmenuUpdateDTO, SubmenuDTO, Submenu> {
+
+    default List<SubmenuDTO> toDto(List<Submenu> list) {
+        List<SubmenuDTO> res = new ArrayList<>();
+        for(Submenu submenu : list) {
+            res.add(toDto(submenu));
+        }
+        return res;
+    }
     @Override
     default SubmenuDTO toDto(Submenu entity){
         SubmenuDTO submenuDTO = new SubmenuDTO();
@@ -28,6 +36,7 @@ public interface SubmenuMapper extends AbstractMapper<SubmenuCreateDTO, SubmenuU
         submenuDTO.setRank(entity.getRank());
         submenuDTO.setType(entity.getType());
         submenuDTO.setVisible(entity.isVisible());
+        submenuDTO.setUrl(entity.getUrl());
         return submenuDTO;
     }
 
@@ -43,6 +52,7 @@ public interface SubmenuMapper extends AbstractMapper<SubmenuCreateDTO, SubmenuU
         submenu.setRuName(createDto.getRuName());
         submenu.setUzName(createDto.getUzName());
         submenu.setType(createDto.getType());
+        submenu.setUrl(createDto.getUrl());
         submenu.setVisible(true);
         return submenu;
     }

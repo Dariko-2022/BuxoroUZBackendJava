@@ -35,7 +35,9 @@ public class StateEmployeeMapper implements BaseMapper {
     public List<StateEmployeeDTO> toDTO(List<StateEmployee> stateEmployees){
         List<StateEmployeeDTO> stateEmployeeDTOS=new ArrayList<>();
         for (StateEmployee stateEmployee : stateEmployees) {
-            stateEmployeeDTOS.add(toDTO(stateEmployee));
+            if(!stateEmployee.isDeleted()) {
+                stateEmployeeDTOS.add(toDTO(stateEmployee));
+            }
         }
         return stateEmployeeDTOS;
     }
@@ -50,7 +52,7 @@ public class StateEmployeeMapper implements BaseMapper {
         stateEmployeeDTO.setRuPosition(stateEmployee.getRuPosition());
         stateEmployeeDTO.setKrPosition(stateEmployee.getKrPosition());
         stateEmployeeDTO.setBirthDate(stateEmployee.getBirthDate());
-        stateEmployeeDTO.setKrBirthPlace(stateEmployee.getUzBirthPlace());
+        stateEmployeeDTO.setUzBirthPlace(stateEmployee.getUzBirthPlace());
         stateEmployeeDTO.setKrBirthPlace(stateEmployee.getKrBirthPlace());
         stateEmployeeDTO.setRuBirthPlace(stateEmployee.getRuBirthPlace());
         stateEmployeeDTO.setNation(stateEmployee.getNation());
@@ -60,7 +62,9 @@ public class StateEmployeeMapper implements BaseMapper {
         stateEmployeeDTO.setAdditionalInformationRu(stateEmployee.getAdditionalInformationRu());
         stateEmployeeDTO.setAdditionalInformationKr(stateEmployee.getAdditionalInformationKr());
         stateEmployeeDTO.setImageID(stateEmployee.getImage().getId());
-        stateEmployeeDTO.setResponsibility(stateEmployee.getResponsibility());
+        stateEmployeeDTO.setUzResponsibility(stateEmployee.getUzResponsibility());
+        stateEmployeeDTO.setRuResponsibility(stateEmployee.getRuResponsibility());
+        stateEmployeeDTO.setKrResponsibility(stateEmployee.getKrResponsibility());
         stateEmployeeDTO.setLabor_activity(stateEmployee.getLabor_activity());
         stateEmployeeDTO.setOrderNumber(stateEmployee.getOrderNumber());
         return stateEmployeeDTO;
@@ -83,7 +87,9 @@ public class StateEmployeeMapper implements BaseMapper {
         stateEmployee.setDegree(DTO.getDegree());
         stateEmployee.setPhoneNumber(DTO.getPhoneNumber());
         stateEmployee.setImage(image);
-        stateEmployee.setResponsibility(DTO.getResponsibility());
+        stateEmployee.setUzResponsibility(DTO.getUzResponsibility());
+        stateEmployee.setKrResponsibility(DTO.getKrResponsibility());
+        stateEmployee.setRuResponsibility(DTO.getRuResponsibility());
         stateEmployee.setLabor_activity(DTO.getLabor_activity());
         stateEmployee.setAdditionalInformationUz(DTO.getAdditionalInformationUz());
         stateEmployee.setAdditionalInformationRu(DTO.getAdditionalInformationRu());
@@ -113,7 +119,9 @@ public class StateEmployeeMapper implements BaseMapper {
         stateEmployee.setDegree(DTO.getDegree());
         stateEmployee.setPhoneNumber(DTO.getPhoneNumber());
         stateEmployee.setImage(file);
-        stateEmployee.setResponsibility(DTO.getResponsibility());
+        stateEmployee.setUzResponsibility(DTO.getUzResponsibility());
+        stateEmployee.setKrResponsibility(DTO.getKrResponsibility());
+        stateEmployee.setRuResponsibility(DTO.getRuResponsibility());
         stateEmployee.setLabor_activity(DTO.getLabor_activity());
         stateEmployee.setAdditionalInformationUz(DTO.getAdditionalInformationUz());
         stateEmployee.setAdditionalInformationRu(DTO.getAdditionalInformationRu());

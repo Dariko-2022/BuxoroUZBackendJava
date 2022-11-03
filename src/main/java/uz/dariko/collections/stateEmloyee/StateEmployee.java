@@ -37,15 +37,22 @@ public class StateEmployee extends Auditable {
     private String degree;
     private String phoneNumber;
 
+    @Type(type = "text")
     private String additionalInformationUz;
+    @Type(type = "text")
     private String additionalInformationRu;
+    @Type(type = "text")
     private String additionalInformationKr;
 
     @OneToOne
     private File image;
 
     @Type(type = "text")
-    private String responsibility; //vazifa va funksiyalari
+    private String uzResponsibility;
+    @Type(type = "text")
+    private String krResponsibility;
+    @Type(type = "text")
+    private String ruResponsibility; //vazifa va funksiyalari
 
     private String labor_activity; //mehnat faoliyati
 
