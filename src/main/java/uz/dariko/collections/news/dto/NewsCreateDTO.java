@@ -31,6 +31,8 @@ public class NewsCreateDTO implements BaseDTO {
 
     private UUID submenuID; //soha
 
+    private UUID newsSphereId;
+
 
     private boolean actual; //dolzarb
 

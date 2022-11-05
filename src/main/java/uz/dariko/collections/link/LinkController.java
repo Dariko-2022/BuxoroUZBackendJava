@@ -1,10 +1,7 @@
 package uz.dariko.collections.link;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
 import uz.dariko.collections.link.dto.LinkCreateDTO;
@@ -23,7 +20,8 @@ public class LinkController extends AbstractController<LinkService> implements G
     }
 
     @Override
-    public ResponseEntity<?> create(LinkCreateDTO DTO) throws Exception {
+    public ResponseEntity<?> create(
+            @RequestBody LinkCreateDTO DTO) throws Exception {
         return service.create(DTO);
     }
 
@@ -47,7 +45,7 @@ public class LinkController extends AbstractController<LinkService> implements G
         return service.list();
     }
 
-    @GetMapping("list/{code}")
+    @GetMapping("/list/{code}")
     public ResponseEntity<?> listWithType(@PathVariable Integer code){
         return service.listWithType(code);
     }

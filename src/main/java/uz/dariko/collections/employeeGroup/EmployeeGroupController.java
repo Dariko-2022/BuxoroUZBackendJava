@@ -46,7 +46,7 @@ public class EmployeeGroupController extends AbstractController<EmployeeGroupSer
 
 
     @GetMapping("getBySubmenuId")
-    public ResponseEntity<?> getBySubmenuId(@RequestParam(name = "code") UUID submenuId) {
+    public ResponseEntity<?> getBySubmenuId(@RequestParam(name = "code") String submenuId) {
         return service.getBySubmenuId(submenuId);
     }
 }

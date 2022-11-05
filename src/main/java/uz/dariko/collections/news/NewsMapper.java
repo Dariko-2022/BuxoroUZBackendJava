@@ -1,7 +1,6 @@
 package uz.dariko.collections.news;
 
 
-import org.mapstruct.Mapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import uz.dariko.base.mapper.AbstractMapper;
@@ -10,18 +9,25 @@ import uz.dariko.collections.file.File;
 import uz.dariko.collections.news.dto.NewsCreateDTO;
 import uz.dariko.collections.news.dto.NewsDTO;
 import uz.dariko.collections.news.dto.NewsUpdateDTO;
+import uz.dariko.utils.EntityGetter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Mapper(componentModel = "spring")
+
 @Component
-public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO, NewsDTO,News> {
+public class NewsMapper implements AbstractMapper<NewsCreateDTO, NewsUpdateDTO, NewsDTO,News> {
+
+    private final EntityGetter entityGetter;
+
+    public NewsMapper(EntityGetter entityGetter) {
+        this.entityGetter = entityGetter;
+    }
 
     @Override
-    default NewsDTO toDto(News entity) {
+    public NewsDTO toDto(News entity) {
         NewsDTO dto = new NewsDTO();
         dto.setId(entity.getId());
         dto.setActual(entity.isActual());
@@ -34,11 +40,11 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
         dto.setRuTitle(entity.getRuTitle());
         dto.setSource(entity.getSource());
         dto.setSubmenuID(entity.getSubmenu().getId());
-
+        dto.setCreatedDate(entity.getCreatedAt());
         dto.setUzDescription(entity.getUzDescription());
         dto.setRuDescription(entity.getRuDescription());
         dto.setKrDescription(entity.getKrDescription());
-
+        dto.setNewsSphereId(entity.getNewsSphere().getId());
         List<File> images = entity.getImages();
         List<UUID> res = new ArrayList<>();
         for(File file : images) {
@@ -50,7 +56,7 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
     }
 
 
-    default List<NewsDTO> toDto(List<News> list){
+    public List<NewsDTO> toDto(List<News> list){
         List<NewsDTO> res = new ArrayList<>();
         for(News news : list) {
             res.add(toDto(news));
@@ -59,7 +65,7 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
     }
 
     @Override
-    default News fromCreateDto(NewsCreateDTO createDto){
+    public News fromCreateDto(NewsCreateDTO createDto){
         News news = new News();
         news.setCountView(0);
         news.setActual(createDto.isActual());
@@ -82,7 +88,12 @@ public interface NewsMapper extends AbstractMapper<NewsCreateDTO, NewsUpdateDTO,
         return news;
     }
 
-    default News fromUpdateDto(NewsUpdateDTO updateDto,News news){
+    @Override
+    public News fromUpdateDto(NewsUpdateDTO updateDto) {
+        return null;
+    }
+
+    public News fromUpdateDto(NewsUpdateDTO updateDto,News news){
         news.setSource(updateDto.getSource());
         news.setUzTitle(updateDto.getUzTitle());
         news.setUzBody(updateDto.getUzBody());

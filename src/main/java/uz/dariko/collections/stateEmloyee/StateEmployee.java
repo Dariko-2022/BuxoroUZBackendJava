@@ -38,11 +38,11 @@ public class StateEmployee extends Auditable {
     private String phoneNumber;
 
     @Type(type = "text")
-    private String additionalInformationUz;
+    private String uzAdditionalInformation;
     @Type(type = "text")
-    private String additionalInformationRu;
+    private String ruAdditionalInformation;
     @Type(type = "text")
-    private String additionalInformationKr;
+    private String krAdditionalInformation;
 
     @OneToOne
     private File image;

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.dto.GenericDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +31,7 @@ public class InformationDTO extends GenericDTO {
 
     private UUID submenuID; //soha
 
+    private LocalDateTime createdDate;
 
     private String source; //manba
 }

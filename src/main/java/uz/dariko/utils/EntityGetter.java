@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import uz.dariko.collections.employeeGroup.EmployeeGroup;
 import uz.dariko.collections.employeeGroup.EmployeeGroupRepository;
+import uz.dariko.collections.newsSphere.NewsSphere;
+import uz.dariko.collections.newsSphere.NewsSphereRepository;
 import uz.dariko.collections.submenu.Submenu;
 import uz.dariko.collections.subGovGroup.SubGovGroup;
 import uz.dariko.collections.subGovGroup.SubGovGroupRepository;
@@ -60,6 +62,8 @@ public class EntityGetter {
 
     private final SubGovGroupRepository subGovGroupRepository;
     private final EmployeeGroupRepository employeeGroupRepository;
+
+    private final NewsSphereRepository newsSphereRepository;
 
     private final BaseUtils baseUtils;
 
@@ -276,6 +280,23 @@ public class EntityGetter {
         List<Submenu> res = new ArrayList<>();
         for(UUID temp : list) {
             res.add(getSubmenu(temp));
+        }
+        return res;
+    }
+
+    //-------------------------------------------------GetNewsSphere---------------------------------------------------
+
+    public NewsSphere getNewsSphere(UUID uuid){
+        Optional<NewsSphere> byIdAndDeletedNot = newsSphereRepository.findByIdAndDeletedNot(uuid);
+        return byIdAndDeletedNot.orElseThrow(() -> {
+            throw new NotFoundException("SubGovGroup IDsi noto'g'ri berildi");
+        });
+    }
+
+    public List<NewsSphere> getNewsSphereList(List<UUID> list) {
+        List<NewsSphere> res = new ArrayList<>();
+        for(UUID temp : list) {
+            res.add(getNewsSphere(temp));
         }
         return res;
     }

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.dariko.base.dto.GenericDTO;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,8 +35,11 @@ public class NewsDTO extends GenericDTO {
 
     private List<UUID> generatedNames;
     private String generatedName;
+    private LocalDateTime createdDate;
 
     private int countView;
+
+    private UUID newsSphereId;
 
     private boolean actual; //dolzarb
 

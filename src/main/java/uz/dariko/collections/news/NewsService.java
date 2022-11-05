@@ -12,6 +12,7 @@ import uz.dariko.collections.file.File;
 import uz.dariko.collections.news.dto.NewsCreateDTO;
 import uz.dariko.collections.news.dto.NewsDTO;
 import uz.dariko.collections.news.dto.NewsUpdateDTO;
+import uz.dariko.collections.newsSphere.NewsSphere;
 import uz.dariko.collections.submenu.Submenu;
 import uz.dariko.criteria.ResponsePage;
 import uz.dariko.exception.exceptions.UniversalException;
@@ -56,12 +57,13 @@ public class NewsService implements BaseService {
     }
 
     public ResponseEntity<?> create(NewsCreateDTO newsCreateDto) throws Exception {
-
+        NewsSphere newsSphere = entityGetter.getNewsSphere(newsCreateDto.getNewsSphereId());
         Submenu submenu = entityGetter.getSubmenu(newsCreateDto.getSubmenuID());
         List<File> images = entityGetter.getFiles(newsCreateDto.getImageIDs());
         News news = newsMapper.fromCreateDto(newsCreateDto);
         news.setImages(images);
         news.setSubmenu(submenu);
+        news.setNewsSphere(newsSphere);
         News save = newsRepository.save(news);
         NewsDTO newsDTO = newsMapper.toDto(save);
         return ResponseEntity.status(201).body(newsDTO);
@@ -84,7 +86,9 @@ public class NewsService implements BaseService {
         News news = newsMapper.fromUpdateDto(dto, news0);
         List<File> images = entityGetter.getFiles(dto.getImageIDs());
         Submenu submenu = entityGetter.getSphere(dto.getSubmenuID());
+        NewsSphere newsSphere = entityGetter.getNewsSphere(dto.getNewsSphereId());
         news.setImages(images);
+        news.setNewsSphere(newsSphere);
         news.setSubmenu(submenu);
         Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         news.setUpdatedBy(sessionUser.getId());

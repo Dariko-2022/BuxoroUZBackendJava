@@ -30,9 +30,9 @@ public class StateEmployeeUpdateDTO extends GenericDTO {
     private String degree;
     private String phoneNumber;
 
-    private String additionalInformationUz;
-    private String additionalInformationRu;
-    private String additionalInformationKr;
+    private String uzAdditionalInformation;
+    private String ruAdditionalInformation;
+    private String krAdditionalInformation;
 
     private UUID imageID;
 

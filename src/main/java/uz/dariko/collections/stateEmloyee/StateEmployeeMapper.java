@@ -24,13 +24,6 @@ public class StateEmployeeMapper implements BaseMapper {
         this.entityGetter = entityGetter;
     }
 
-//    public List<StateEmployeeDTO> toDTO(List<StateEmployee> list) {
-//        List<StateEmployeeDTO> res = new ArrayList<>();
-//        for(StateEmployee s : list) {
-//            res.add(toDTO(s));
-//        }
-//        return res;
-//    }
 
     public List<StateEmployeeDTO> toDTO(List<StateEmployee> stateEmployees){
         List<StateEmployeeDTO> stateEmployeeDTOS=new ArrayList<>();
@@ -58,9 +51,9 @@ public class StateEmployeeMapper implements BaseMapper {
         stateEmployeeDTO.setNation(stateEmployee.getNation());
         stateEmployeeDTO.setDegree(stateEmployee.getDegree());
         stateEmployeeDTO.setPhoneNumber(stateEmployee.getPhoneNumber());
-        stateEmployeeDTO.setAdditionalInformationUz(stateEmployee.getAdditionalInformationUz());
-        stateEmployeeDTO.setAdditionalInformationRu(stateEmployee.getAdditionalInformationRu());
-        stateEmployeeDTO.setAdditionalInformationKr(stateEmployee.getAdditionalInformationKr());
+        stateEmployeeDTO.setUzAdditionalInformation(stateEmployee.getUzAdditionalInformation());
+        stateEmployeeDTO.setRuAdditionalInformation(stateEmployee.getRuAdditionalInformation());
+        stateEmployeeDTO.setKrAdditionalInformation(stateEmployee.getKrAdditionalInformation());
         stateEmployeeDTO.setImageID(stateEmployee.getImage().getId());
         stateEmployeeDTO.setUzResponsibility(stateEmployee.getUzResponsibility());
         stateEmployeeDTO.setRuResponsibility(stateEmployee.getRuResponsibility());
@@ -91,9 +84,9 @@ public class StateEmployeeMapper implements BaseMapper {
         stateEmployee.setKrResponsibility(DTO.getKrResponsibility());
         stateEmployee.setRuResponsibility(DTO.getRuResponsibility());
         stateEmployee.setLabor_activity(DTO.getLabor_activity());
-        stateEmployee.setAdditionalInformationUz(DTO.getAdditionalInformationUz());
-        stateEmployee.setAdditionalInformationRu(DTO.getAdditionalInformationRu());
-        stateEmployee.setAdditionalInformationKr(DTO.getAdditionalInformationKr());
+        stateEmployee.setUzAdditionalInformation(DTO.getUzAdditionalInformation());
+        stateEmployee.setRuAdditionalInformation(DTO.getRuAdditionalInformation());
+        stateEmployee.setKrAdditionalInformation(DTO.getKrAdditionalInformation());
         //
         Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         stateEmployee.setCreatedBy(sessionUser.getId());
@@ -123,9 +116,9 @@ public class StateEmployeeMapper implements BaseMapper {
         stateEmployee.setKrResponsibility(DTO.getKrResponsibility());
         stateEmployee.setRuResponsibility(DTO.getRuResponsibility());
         stateEmployee.setLabor_activity(DTO.getLabor_activity());
-        stateEmployee.setAdditionalInformationUz(DTO.getAdditionalInformationUz());
-        stateEmployee.setAdditionalInformationRu(DTO.getAdditionalInformationRu());
-        stateEmployee.setAdditionalInformationKr(DTO.getAdditionalInformationKr());
+        stateEmployee.setUzAdditionalInformation(DTO.getUzAdditionalInformation());
+        stateEmployee.setKrAdditionalInformation(DTO.getKrAdditionalInformation());
+        stateEmployee.setRuAdditionalInformation(DTO.getRuAdditionalInformation());
         //
         Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         stateEmployee.setUpdatedBy(sessionUser.getId());

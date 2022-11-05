@@ -3,6 +3,7 @@ package uz.dariko.collections.link;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import uz.dariko.base.mapper.BaseMapper;
+import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.file.File;
 import uz.dariko.collections.link.dto.LinkCreateDTO;
 import uz.dariko.collections.link.dto.LinkDTO;
@@ -25,7 +26,7 @@ public class LinkMapper implements BaseMapper {
     }
 
     Link fromCreatedDTO(LinkCreateDTO DTO){
-        SessionUser sessionUser= (SessionUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         File image = entityGetter.getFile(DTO.getImageID());
         Link link=new Link(DTO.getUzName(),DTO.getKrName(),DTO.getRuName(),DTO.getLinkTypeCode(),image,DTO.getUrl());
         link.setCreatedBy(sessionUser.getId());
@@ -34,7 +35,7 @@ public class LinkMapper implements BaseMapper {
     }
 
     Link fromUpdateDTO(LinkUpdateDTO DTO){
-        SessionUser sessionUser= (SessionUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Link link = entityGetter.getLink(DTO.getId());
         File image = entityGetter.getFile(DTO.getImageID());
         link.setUzName(DTO.getUzName());
@@ -49,10 +50,15 @@ public class LinkMapper implements BaseMapper {
     }
 
      LinkDTO toDTO(Link link){
-        return new LinkDTO(link.getUzName(), link.getKrName(),
-                        link.getRuName(), link.getLinkTypeCode(),
-                        link.getImage().getGeneratedName(),
-                        link.getUrl());
+         LinkDTO res = new LinkDTO();
+         res.setId(link.getId());
+         res.setUzName(link.getUzName());
+         res.setKrName(link.getKrName());
+         res.setRuName(link.getRuName());
+         res.setLinkTypeCode(link.getLinkTypeCode());
+         res.setUrl(link.getUrl());
+         res.setImageID(link.getImage().getId());
+         return res;
     }
 
      List<LinkDTO> toDTO(List<Link> links){

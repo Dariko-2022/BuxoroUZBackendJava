@@ -8,9 +8,11 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import uz.dariko.base.entity.Auditable;
 import uz.dariko.collections.file.File;
+import uz.dariko.collections.newsSphere.NewsSphere;
 import uz.dariko.collections.submenu.Submenu;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
@@ -39,6 +41,8 @@ public class News extends Auditable {
     @Type(type = "text")
     private String ruBody;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private NewsSphere newsSphere;
 
     @ManyToOne
     private Submenu submenu; //soha

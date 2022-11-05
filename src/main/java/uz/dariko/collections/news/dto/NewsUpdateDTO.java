@@ -33,6 +33,8 @@ public class NewsUpdateDTO extends GenericDTO {
 
     private List<UUID> imageIDs;
 
+    private UUID newsSphereId;
+
     private boolean actual; //dolzarb
 
     private String source; //manba

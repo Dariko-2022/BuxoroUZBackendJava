@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import uz.dariko.base.dto.BaseDTO;
 
 import java.util.Date;
@@ -29,9 +30,9 @@ public class StateEmployeeCreateDTO implements BaseDTO {
     private String degree;
     private String phoneNumber;
 
-    private String additionalInformationUz;
-    private String additionalInformationRu;
-    private String additionalInformationKr;
+    private String uzAdditionalInformation;
+    private String ruAdditionalInformation;
+    private String krAdditionalInformation;
 
     private UUID imageID;
 

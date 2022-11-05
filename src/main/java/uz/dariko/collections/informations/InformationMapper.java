@@ -36,6 +36,7 @@ public class InformationMapper implements BaseMapper {
         dto.setGeneratedNames(entityGetter.getIDs(entity.getImages()));
         dto.setSubmenuID(entity.getSubmenu().getId());
         dto.setSource(entity.getSource());
+        dto.setCreatedDate(entity.getCreatedAt());
         return dto;
     }
     Information fromCreateDto(InformationCreateDTO createDto){

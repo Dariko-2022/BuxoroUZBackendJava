@@ -23,8 +23,11 @@ public class Information extends Auditable {
     private String krTitle;
     private String ruTitle;
 
+    @Type(type = "text")
     private String uzDescription;
+    @Type(type = "text")
     private String krDescription;
+    @Type(type = "text")
     private String ruDescription;
 
     @Type(type = "text")

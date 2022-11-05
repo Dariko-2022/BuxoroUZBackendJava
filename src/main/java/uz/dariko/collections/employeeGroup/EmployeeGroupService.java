@@ -9,10 +9,10 @@ import uz.dariko.collections.employeeGroup.dto.EmployeeGroupUpdateDTO;
 import uz.dariko.collections.stateEmloyee.StateEmployee;
 import uz.dariko.collections.stateEmloyee.StateEmployeeMapper;
 import uz.dariko.collections.stateEmloyee.dto.StateEmployeeDTO;
+import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -25,13 +25,16 @@ public class EmployeeGroupService implements BaseService {
 
     private final StateEmployeeMapper stateEmployeeMapper;
 
+    private final BaseUtils baseUtils;
 
 
-    public EmployeeGroupService(EntityGetter entityGetter, EmployeeGroupRepository employeeGroupRepository, EmployeeGroupMapper employeeGroupMapper, StateEmployeeMapper stateEmployeeMapper) {
+
+    public EmployeeGroupService(EntityGetter entityGetter, EmployeeGroupRepository employeeGroupRepository, EmployeeGroupMapper employeeGroupMapper, StateEmployeeMapper stateEmployeeMapper, BaseUtils baseUtils) {
         this.entityGetter = entityGetter;
         this.employeeGroupRepository = employeeGroupRepository;
         this.employeeGroupMapper = employeeGroupMapper;
         this.stateEmployeeMapper = stateEmployeeMapper;
+        this.baseUtils = baseUtils;
     }
 
     public ResponseEntity<?> create(EmployeeGroupCreateDTO dto) {
@@ -65,7 +68,8 @@ public class EmployeeGroupService implements BaseService {
 
     }
 
-    public ResponseEntity<?> getBySubmenuId(UUID submenuId) {
+    public ResponseEntity<?> getBySubmenuId(String Id) {
+        UUID submenuId = baseUtils.parseUUID(Id);
         EmployeeGroup employeeGroupBtSubmenuId = entityGetter.getEmployeeGroupBtSubmenuId(submenuId);
         EmployeeGroupDTO employeeGroupDTO = employeeGroupMapper.toDto(employeeGroupBtSubmenuId);
         List<StateEmployeeDTO> stateEmployeeDTOS = stateEmployeeMapper.toDTO(employeeGroupBtSubmenuId.getEmployeeList());

@@ -28,16 +28,18 @@ public class LinkService extends AbstractService<LinkRepository,LinkValidator> i
     public ResponseEntity<?> create(LinkCreateDTO DTO) {
         validator.validOnCreate(DTO);
         Link link = mapper.fromCreatedDTO(DTO);
-        repository.save(link);
-        return ResponseEntity.ok("Successfully created link");
+        Link save = repository.save(link);
+        LinkDTO linkDTO = mapper.toDTO(save);
+        return ResponseEntity.ok(linkDTO);
     }
 
     @Override
     public ResponseEntity<?> update(LinkUpdateDTO DTO) {
         validator.validOnUpdate(DTO);
         Link link = mapper.fromUpdateDTO(DTO);
-        repository.save(link);
-        return ResponseEntity.ok("Successfully Updated Link");
+        Link save = repository.save(link);
+        LinkDTO linkDTO = mapper.toDTO(save);
+        return ResponseEntity.ok(linkDTO);
     }
 
     @Override
