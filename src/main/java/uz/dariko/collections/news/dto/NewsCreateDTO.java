@@ -36,5 +36,6 @@ public class NewsCreateDTO implements BaseDTO {
 
     private boolean actual; //dolzarb
 
-    private String source; //manba
+    private String sourceUrl; //manba
+    private String sourceName; //manba
 }

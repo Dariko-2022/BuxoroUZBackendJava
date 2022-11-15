@@ -17,7 +17,7 @@ public interface SectorRepository extends JpaRepository<Sector, UUID> {
     Optional<List<Sector>> findAllById(UUID uuid);
 
 
-    @Query(nativeQuery = true,value = "SELECT * FROM Sector where is_deleted = false")
+    @Query(nativeQuery = true,value = "SELECT * FROM sector where is_deleted = false")
     List<Sector> findAllByDeletedNot();
 
 

@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("employeeGroup")
-public class EmployeeGroupController extends AbstractController<EmployeeGroupService> implements GenericCRUDController<EmployeeGroupCreateDTO, EmployeeGroupUpdateDTO, EmployeeGroupDTO, UUID> {
+public class EmployeeGroupController extends AbstractController<EmployeeGroupService> implements GenericCRUDController<EmployeeGroupCreateDTO, EmployeeGroupUpdateDTO, EmployeeGroupDTO, String> {
 
     public EmployeeGroupController(EmployeeGroupService service) {
         super(service);
@@ -30,12 +30,12 @@ public class EmployeeGroupController extends AbstractController<EmployeeGroupSer
     }
 
     @Override
-    public ResponseEntity<?> delete(@PathVariable(name = "code") UUID code) {
+    public ResponseEntity<?> delete(@PathVariable(name = "code") String code) {
         return null;
     }
 
     @Override
-    public ResponseEntity<?> get(@PathVariable(name = "code") UUID code) {
+    public ResponseEntity<?> get(@PathVariable(name = "code") String code) {
         return null;
     }
 

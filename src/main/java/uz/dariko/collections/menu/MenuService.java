@@ -19,6 +19,7 @@ import uz.dariko.collections.submenu.SubmenuRepository;
 import uz.dariko.collections.submenu.SubmenuService;
 import uz.dariko.collections.submenu.dto.SubmenuDTO;
 import uz.dariko.response.Data;
+import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
 import java.time.LocalDateTime;
@@ -36,15 +37,16 @@ public class MenuService implements BaseService {
     private final SubmenuRepository submenuRepository;
     private final SubmenuService submenuService;
     private final SubmenuMapper submenuMapper;
-
+    private final BaseUtils baseUtils;
     private final EntityGetter entityGetter;
 
-    public MenuService(MenuMapper menuMapper, MenuRepository menuRepository, SubmenuRepository submenuRepository, SubmenuService submenuService, SubmenuMapper submenuMapper, EntityGetter entityGetter) {
+    public MenuService(MenuMapper menuMapper, MenuRepository menuRepository, SubmenuRepository submenuRepository, SubmenuService submenuService, SubmenuMapper submenuMapper, BaseUtils baseUtils, EntityGetter entityGetter) {
         this.menuMapper = menuMapper;
         this.menuRepository = menuRepository;
         this.submenuRepository = submenuRepository;
         this.submenuService = submenuService;
         this.submenuMapper = submenuMapper;
+        this.baseUtils = baseUtils;
         this.entityGetter = entityGetter;
     }
 
@@ -67,8 +69,8 @@ public class MenuService implements BaseService {
         return ResponseEntity.status(202).body(menuDTO);
     }
 
-    public ResponseEntity<?> delete(UUID uuid){
-
+    public ResponseEntity<?> delete(String code){
+        UUID uuid = baseUtils.parseUUID(code);
         Menu menu = entityGetter.getMenu(uuid);
         List<Submenu> list1 = submenuRepository.findByMenuAndDeleted(uuid, false);
         if(list1.isEmpty()) {
@@ -82,7 +84,8 @@ public class MenuService implements BaseService {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Menu o'chirib bo'lmaydi!!! Avval menu ostilarini o'chiring!");
     }
 
-    public ResponseEntity<?> get(UUID uuid) {
+    public ResponseEntity<?> get(String code) {
+        UUID uuid = baseUtils.parseUUID(code);
         Optional<Menu> byIdAndDeletedNot = menuRepository.findByIdAndDeletedNot(uuid);
         if(byIdAndDeletedNot.isEmpty()) {
             return ResponseEntity.status(404).body(false);

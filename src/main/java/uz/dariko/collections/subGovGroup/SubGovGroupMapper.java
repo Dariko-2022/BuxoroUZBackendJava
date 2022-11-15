@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import uz.dariko.base.mapper.BaseMapper;
 import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.stateEmloyee.StateEmployeeMapper;
+import uz.dariko.collections.stateEmloyee.StateEmployeeRepository;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupCreateDTO;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupDTO;
 import uz.dariko.collections.subGovGroup.dto.SubGovGroupNameUpdateDTO;
@@ -21,10 +22,13 @@ public class SubGovGroupMapper implements BaseMapper {
 
     private final StateEmployeeMapper stateEmployeeMapper;
 
+    private final StateEmployeeRepository stateEmployeeRepository;
+
     private final EntityGetter entityGetter;
 
-    public SubGovGroupMapper(StateEmployeeMapper stateEmployeeMapper, EntityGetter entityGetter) {
+    public SubGovGroupMapper(StateEmployeeMapper stateEmployeeMapper, StateEmployeeRepository stateEmployeeRepository, EntityGetter entityGetter) {
         this.stateEmployeeMapper = stateEmployeeMapper;
+        this.stateEmployeeRepository = stateEmployeeRepository;
         this.entityGetter = entityGetter;
     }
 
@@ -46,7 +50,7 @@ public class SubGovGroupMapper implements BaseMapper {
         subGovGroupDTO.setId(entity.getId());
         subGovGroupDTO.setRank(entity.getRank());
         subGovGroupDTO.setSubmenuId(entity.getSubmenu().getId());
-        subGovGroupDTO.setOrderList(stateEmployeeMapper.toDTO(entity.getEmployeeList()));
+        subGovGroupDTO.setOrderList(stateEmployeeMapper.toDTO(stateEmployeeRepository.findAllByDeletedAndSubGovGroup(entity.getId())));
         return subGovGroupDTO;
     }
 

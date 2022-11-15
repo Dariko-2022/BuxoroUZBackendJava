@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("menu")
-public class MenuController extends AbstractController<MenuService> implements GenericCRUDController<MenuCreateDTO, MenuUpdateDTO, MenuDTO, UUID> {
+public class MenuController extends AbstractController<MenuService> implements GenericCRUDController<MenuCreateDTO, MenuUpdateDTO, MenuDTO, String> {
 
     public MenuController(MenuService service) {
         super(service);
@@ -37,12 +37,12 @@ public class MenuController extends AbstractController<MenuService> implements G
     }
 
     @Override
-    public ResponseEntity<?> delete(@PathVariable("code") UUID code) {
+    public ResponseEntity<?> delete(@PathVariable("code") String code) {
         return service.delete(code);
     }
 
     @Override
-    public ResponseEntity<?> get(@PathVariable("code") UUID code) {
+    public ResponseEntity<?> get(@PathVariable("code") String code) {
         return service.get(code);
     }
 

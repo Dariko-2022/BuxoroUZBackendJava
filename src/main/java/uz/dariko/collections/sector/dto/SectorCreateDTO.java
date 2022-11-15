@@ -21,14 +21,8 @@ public class SectorCreateDTO implements BaseDTO {
 
     private UUID fileId;
 
-    private UUID stateEmployeeId;
-
-    private UUID regionId;
-
-
     private String description;
 
     private String sectorArea;
-
 
 }

@@ -13,8 +13,11 @@ import java.util.UUID;
 @Repository
 public interface NewsRepository extends JpaRepository<News, UUID> {
 
-    @Query(nativeQuery = true, value = "SELECT * FROM News WHERE actual = ?1 ORDER BY CREATED_AT DESC LIMIT ?2")
+    @Query(nativeQuery = true, value = "SELECT * FROM News WHERE actual = ?1 and is_deleted = false ORDER BY CREATED_AT DESC LIMIT ?2")
     Optional<List<News>> findNewsByIsActualAndLimit(boolean actual, int limit);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM News WHERE is_deleted = false ORDER BY CREATED_AT DESC LIMIT ?1")
+    List<News> findNewsDeletedNotAndLimit(int limit);
 
 
     @Query(nativeQuery = true,value = "SELECT * FROM News WHERE is_deleted = ?")

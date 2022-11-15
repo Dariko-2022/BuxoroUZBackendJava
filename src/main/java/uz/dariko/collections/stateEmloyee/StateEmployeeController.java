@@ -5,31 +5,36 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.dariko.base.controller.AbstractController;
 import uz.dariko.base.controller.GenericCRUDController;
-import uz.dariko.base.dto.BaseOrderDTO;
+import uz.dariko.base.dto.OrderDTO;
 import uz.dariko.collections.stateEmloyee.dto.StateEmployeeCreateDTO;
 import uz.dariko.collections.stateEmloyee.dto.StateEmployeeDTO;
 import uz.dariko.collections.stateEmloyee.dto.StateEmployeeUpdateDTO;
-import uz.dariko.response.Data;
-
-import java.util.List;
-import java.util.UUID;
 
 @RestController
-@RequestMapping("stateEmployee/")
-public class StateEmployeeController extends AbstractController<StateEmployeeService> implements GenericCRUDController<StateEmployeeCreateDTO, StateEmployeeUpdateDTO, StateEmployeeDTO, UUID> {
+@RequestMapping("stateEmployee")
+public class StateEmployeeController extends AbstractController<StateEmployeeService> implements GenericCRUDController<StateEmployeeCreateDTO, StateEmployeeUpdateDTO, StateEmployeeDTO, String> {
     public StateEmployeeController(StateEmployeeService service) {
         super(service);
     }
 
     @Override
     public ResponseEntity<?> create(StateEmployeeCreateDTO DTO) throws Exception {
-        return service.create(DTO);
+        return service.createForSubGovGroup(DTO);
     }
 
-    @PostMapping("createForEmployeeGroup")
-    public ResponseEntity<?> createForEmployeeGroup(
-            @RequestBody StateEmployeeCreateDTO DTO) throws Exception {
+    @PostMapping("/createHokim")
+    public ResponseEntity<?> createHokim(@RequestBody StateEmployeeCreateDTO dto) {
+        return service.createHokim(dto);
+    }
+
+    @PostMapping("/createForEmployeeGroup")
+    public ResponseEntity<?> createForEmployeeGroup( @RequestBody StateEmployeeCreateDTO DTO) throws Exception {
         return service.createForEmployeeGroup(DTO);
+    }
+
+    @PostMapping("/createForSector")
+    public ResponseEntity<?> createForSector(@RequestBody StateEmployeeCreateDTO DTO) throws Exception {
+        return service.createForSector(DTO);
     }
 
     @Override
@@ -38,12 +43,12 @@ public class StateEmployeeController extends AbstractController<StateEmployeeSer
     }
 
     @Override
-    public ResponseEntity<?> delete(UUID code) {
+    public ResponseEntity<?> delete(String code) {
         return service.delete(code);
     }
 
     @Override
-    public ResponseEntity<?> get(UUID code) {
+    public ResponseEntity<?> get(String code) {
         return service.get(code);
     }
 
@@ -63,10 +68,21 @@ public class StateEmployeeController extends AbstractController<StateEmployeeSer
 
     @GetMapping("/getAllSubGovGroup")
     public ResponseEntity<?> getAllBySubGovGroup(
-            @RequestParam(name = "submenu") UUID submenuID
+            @RequestParam(name = "submenu") String submenuID
     ) {
-        return  service.getAllBySubmenu(submenuID);
+        return  service.getAllBySubGovGroup(submenuID);
     }
+
+    @PostMapping("/editOrderForSubGovGroup")
+    public ResponseEntity<?> editOrderForSubGovGroup(@RequestBody OrderDTO orderDTO) {
+        return service.editOrderForSubGovGroup(orderDTO);
+    }
+
+    @GetMapping("/getHokim")
+    public ResponseEntity<?> getHokim() {
+        return service.getHokim();
+    }
+
 
 
 

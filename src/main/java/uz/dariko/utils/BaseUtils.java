@@ -95,6 +95,14 @@ public class BaseUtils {
         return uuids;
     }
 
+    public int parseInt(String id) {
+        try {
+            return Integer.parseInt(id);
+        } catch (Exception e) {
+            throw new BadRequestException("ID Int toifasida bo'lishi kerak");
+        }
+    }
+
 
     public Long parseLong(String id) {
         try {

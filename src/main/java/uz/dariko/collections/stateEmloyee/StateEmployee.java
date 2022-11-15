@@ -37,6 +37,9 @@ public class StateEmployee extends Auditable {
     private String degree;
     private String phoneNumber;
 
+    @OneToOne
+    private File image;
+
     @Type(type = "text")
     private String uzAdditionalInformation;
     @Type(type = "text")
@@ -44,8 +47,8 @@ public class StateEmployee extends Auditable {
     @Type(type = "text")
     private String krAdditionalInformation;
 
-    @OneToOne
-    private File image;
+
+    private Boolean isHokim = false;
 
     @Type(type = "text")
     private String uzResponsibility;
@@ -54,7 +57,10 @@ public class StateEmployee extends Auditable {
     @Type(type = "text")
     private String ruResponsibility; //vazifa va funksiyalari
 
-    private String labor_activity; //mehnat faoliyati
+
+    private String facebook; //Hokim telegrami
+
+    private String email;
 
     private int orderNumber;
 

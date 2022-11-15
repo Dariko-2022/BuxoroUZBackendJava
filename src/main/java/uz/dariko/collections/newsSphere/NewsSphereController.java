@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("newsSphere")
-public class NewsSphereController extends AbstractController<NewsSphereService> implements GenericCRUDController<NewsSphereCreateDTO, NewsSphereUpdateDTO, NewsSphereDTO, UUID> {
+public class NewsSphereController extends AbstractController<NewsSphereService> implements GenericCRUDController<NewsSphereCreateDTO, NewsSphereUpdateDTO, NewsSphereDTO, String> {
 
     public NewsSphereController(NewsSphereService service) {
         super(service);
@@ -31,12 +31,12 @@ public class NewsSphereController extends AbstractController<NewsSphereService> 
     }
 
     @Override
-    public ResponseEntity<?> delete(UUID code) {
+    public ResponseEntity<?> delete(String code) {
         return null;
     }
 
     @Override
-    public ResponseEntity<?> get(UUID code) {
+    public ResponseEntity<?> get(String code) {
         return null;
     }
 

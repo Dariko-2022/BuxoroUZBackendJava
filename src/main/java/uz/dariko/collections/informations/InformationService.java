@@ -14,14 +14,13 @@ import uz.dariko.collections.informations.dto.InformationUpdateDTO;
 import uz.dariko.criteria.ResponsePage;
 import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
-import uz.dariko.utils.dtos.SessionUser;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class InformationService extends AbstractService<InformationRepository,InformationValidator> implements GenericCRUDService<InformationCreateDTO, InformationUpdateDTO, InformationDTO, UUID> {
+public class InformationService extends AbstractService<InformationRepository,InformationValidator> implements GenericCRUDService<InformationCreateDTO, InformationUpdateDTO, InformationDTO, String> {
     public InformationService(InformationRepository repository, InformationValidator validator, InformationMapper mapper, EntityGetter entityGetter, BaseUtils baseUtils) {
         super(repository, validator);
         this.mapper = mapper;
@@ -51,7 +50,8 @@ public class InformationService extends AbstractService<InformationRepository,In
     }
 
     @Override
-    public ResponseEntity<?> delete(UUID key) {
+    public ResponseEntity<?> delete(String code) {
+        UUID key = baseUtils.parseUUID(code);
         Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         validator.validOnKey(key);
         Information information = entityGetter.getInformation(key);
@@ -64,7 +64,8 @@ public class InformationService extends AbstractService<InformationRepository,In
     }
 
     @Override
-    public ResponseEntity<?> get(UUID key) {
+    public ResponseEntity<?> get(String code) {
+        UUID key = baseUtils.parseUUID(code);
         validator.validOnKey(key);
         Information information = entityGetter.getInformation(key);
         return ResponseEntity.ok( mapper.toDto(information));
@@ -75,12 +76,14 @@ public class InformationService extends AbstractService<InformationRepository,In
         return ResponseEntity.ok(mapper.toDto(repository.findAllByDeleted(false)));
     }
 
-    public ResponseEntity<?> listByInfoGroup(UUID infoGroupID){
+    public ResponseEntity<?> listByInfoGroup(String code){
+        UUID infoGroupID = baseUtils.parseUUID(code);
         List<Information> informationList = repository.findAllByInfoGroup(infoGroupID, false);
         return ResponseEntity.ok(informationList);
     }
 
-    public ResponseEntity<?> getBySubmenuId(Pageable pageable,UUID submenuId) {
+    public ResponseEntity<?> getBySubmenuId(Pageable pageable,String code) {
+        UUID submenuId = baseUtils.parseUUID(code);
         int offset = pageable.getPageSize()* pageable.getPageNumber();
         int size = pageable.getPageSize();
         Page<Information> page = repository.findBySubmenuIdAndIsDeleted(submenuId,pageable,false);

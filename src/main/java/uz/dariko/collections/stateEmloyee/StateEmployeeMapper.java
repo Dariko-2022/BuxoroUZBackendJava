@@ -58,8 +58,10 @@ public class StateEmployeeMapper implements BaseMapper {
         stateEmployeeDTO.setUzResponsibility(stateEmployee.getUzResponsibility());
         stateEmployeeDTO.setRuResponsibility(stateEmployee.getRuResponsibility());
         stateEmployeeDTO.setKrResponsibility(stateEmployee.getKrResponsibility());
-        stateEmployeeDTO.setLabor_activity(stateEmployee.getLabor_activity());
+        stateEmployeeDTO.setFacebook(stateEmployee.getFacebook());
+        stateEmployeeDTO.setEmail(stateEmployee.getEmail());
         stateEmployeeDTO.setOrderNumber(stateEmployee.getOrderNumber());
+        stateEmployeeDTO.setIsHokim(stateEmployee.getIsHokim());
         return stateEmployeeDTO;
     }
 
@@ -83,7 +85,8 @@ public class StateEmployeeMapper implements BaseMapper {
         stateEmployee.setUzResponsibility(DTO.getUzResponsibility());
         stateEmployee.setKrResponsibility(DTO.getKrResponsibility());
         stateEmployee.setRuResponsibility(DTO.getRuResponsibility());
-        stateEmployee.setLabor_activity(DTO.getLabor_activity());
+        stateEmployee.setFacebook(DTO.getFacebook());
+        stateEmployee.setEmail(DTO.getEmail());
         stateEmployee.setUzAdditionalInformation(DTO.getUzAdditionalInformation());
         stateEmployee.setRuAdditionalInformation(DTO.getRuAdditionalInformation());
         stateEmployee.setKrAdditionalInformation(DTO.getKrAdditionalInformation());
@@ -115,14 +118,82 @@ public class StateEmployeeMapper implements BaseMapper {
         stateEmployee.setUzResponsibility(DTO.getUzResponsibility());
         stateEmployee.setKrResponsibility(DTO.getKrResponsibility());
         stateEmployee.setRuResponsibility(DTO.getRuResponsibility());
-        stateEmployee.setLabor_activity(DTO.getLabor_activity());
+        stateEmployee.setFacebook(DTO.getFacebook());
+        stateEmployee.setEmail(DTO.getEmail());
         stateEmployee.setUzAdditionalInformation(DTO.getUzAdditionalInformation());
         stateEmployee.setKrAdditionalInformation(DTO.getKrAdditionalInformation());
         stateEmployee.setRuAdditionalInformation(DTO.getRuAdditionalInformation());
+        stateEmployee.setOrderNumber(DTO.getOrderNumber());
         //
         Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         stateEmployee.setUpdatedBy(sessionUser.getId());
         stateEmployee.setUpdatedAt(LocalDateTime.now());
+        //
+        return stateEmployee;
+    }
+
+    StateEmployee toCreateDtoFromUpdate(StateEmployeeUpdateDTO DTO) {
+        File image = entityGetter.getFile(DTO.getImageID());
+        StateEmployee stateEmployee = new StateEmployee();
+        stateEmployee.setFirstName(DTO.getFirstName());
+        stateEmployee.setLastName(DTO.getLastName());
+        stateEmployee.setPatronymic(DTO.getPatronymic());
+        stateEmployee.setUzPosition(DTO.getUzPosition());
+        stateEmployee.setRuPosition(DTO.getRuPosition());
+        stateEmployee.setKrPosition(DTO.getKrPosition());
+        stateEmployee.setBirthDate(DTO.getBirthDate());
+        stateEmployee.setUzBirthPlace(DTO.getUzBirthPlace());
+        stateEmployee.setKrBirthPlace(DTO.getKrBirthPlace());
+        stateEmployee.setRuBirthPlace(DTO.getRuBirthPlace());
+        stateEmployee.setNation(DTO.getNation());
+        stateEmployee.setDegree(DTO.getDegree());
+        stateEmployee.setPhoneNumber(DTO.getPhoneNumber());
+        stateEmployee.setImage(image);
+        stateEmployee.setUzResponsibility(DTO.getUzResponsibility());
+        stateEmployee.setKrResponsibility(DTO.getKrResponsibility());
+        stateEmployee.setRuResponsibility(DTO.getRuResponsibility());
+        stateEmployee.setFacebook(DTO.getFacebook());
+        stateEmployee.setEmail(DTO.getEmail());
+        stateEmployee.setUzAdditionalInformation(DTO.getUzAdditionalInformation());
+        stateEmployee.setRuAdditionalInformation(DTO.getRuAdditionalInformation());
+        stateEmployee.setKrAdditionalInformation(DTO.getKrAdditionalInformation());
+        //
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        stateEmployee.setCreatedBy(sessionUser.getId());
+        stateEmployee.setCreatedAt(LocalDateTime.now());
+        //
+        return stateEmployee;
+    }
+
+    StateEmployee fromHokimCreateDTO(StateEmployee stateEmployee, StateEmployeeCreateDTO DTO) {
+        File image = entityGetter.getFile(DTO.getImageID());
+        stateEmployee.setFirstName(DTO.getFirstName());
+        stateEmployee.setLastName(DTO.getLastName());
+        stateEmployee.setPatronymic(DTO.getPatronymic());
+        stateEmployee.setUzPosition(DTO.getUzPosition());
+        stateEmployee.setRuPosition(DTO.getRuPosition());
+        stateEmployee.setKrPosition(DTO.getKrPosition());
+        stateEmployee.setBirthDate(DTO.getBirthDate());
+        stateEmployee.setUzBirthPlace(DTO.getUzBirthPlace());
+        stateEmployee.setKrBirthPlace(DTO.getKrBirthPlace());
+        stateEmployee.setRuBirthPlace(DTO.getRuBirthPlace());
+        stateEmployee.setNation(DTO.getNation());
+        stateEmployee.setDegree(DTO.getDegree());
+        stateEmployee.setPhoneNumber(DTO.getPhoneNumber());
+        stateEmployee.setImage(image);
+        stateEmployee.setUzResponsibility(DTO.getUzResponsibility());
+        stateEmployee.setKrResponsibility(DTO.getKrResponsibility());
+        stateEmployee.setRuResponsibility(DTO.getRuResponsibility());
+        stateEmployee.setFacebook(DTO.getFacebook());
+        stateEmployee.setEmail(DTO.getEmail());
+        stateEmployee.setUzAdditionalInformation(DTO.getUzAdditionalInformation());
+        stateEmployee.setRuAdditionalInformation(DTO.getRuAdditionalInformation());
+        stateEmployee.setKrAdditionalInformation(DTO.getKrAdditionalInformation());
+        stateEmployee.setIsHokim(true);
+        //
+//        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        stateEmployee.setCreatedBy(sessionUser.getId());
+//        stateEmployee.setCreatedAt(LocalDateTime.now());
         //
         return stateEmployee;
     }

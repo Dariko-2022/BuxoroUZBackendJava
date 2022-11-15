@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("news")
-public class NewsController extends AbstractController<NewsService> implements GenericCRUDController<NewsCreateDTO, NewsUpdateDTO, NewsDTO, UUID> {
+public class NewsController extends AbstractController<NewsService> implements GenericCRUDController<NewsCreateDTO, NewsUpdateDTO, NewsDTO, String> {
 
     public NewsController(NewsService service) {
         super(service);
@@ -38,13 +38,13 @@ public class NewsController extends AbstractController<NewsService> implements G
 
     @Override
     public ResponseEntity<?> delete(
-            @PathVariable("code") UUID code) {
+            @PathVariable("code") String code) {
         return service.delete(code);
     }
 
     @Override
     public ResponseEntity<?> get(
-            @PathVariable("code") UUID code) {
+            @PathVariable("code") String code) {
         return service.getById(code);
     }
 
@@ -53,7 +53,7 @@ public class NewsController extends AbstractController<NewsService> implements G
     public ResponseEntity<?> getBySubmenuID(
             @RequestParam(name = "size") int size,
             @RequestParam(name = "page") int page,
-            @RequestParam(name = "code") UUID code) {
+            @RequestParam(name = "code") String code) {
         return service.getBySubmenuId(PageRequest.of(page,size),code);
     }
 
@@ -71,6 +71,13 @@ public class NewsController extends AbstractController<NewsService> implements G
         return  service.getAll(PageRequest.of(page,size));
     }
 
+
+    @GetMapping("/getBySize")
+    public ResponseEntity<?> getBySize(
+            @RequestParam(name = "size") int size) {
+        return service.getBySize(size);
+    }
+
     @GetMapping("/find")
     public ResponseEntity<?> find(
             @RequestParam(name = "word") String word,
@@ -82,8 +89,13 @@ public class NewsController extends AbstractController<NewsService> implements G
 
 
     @GetMapping("/getBySphere")
-    public ResponseEntity<?> getBySphere(UUID uuid,boolean isDeleted) {
+    public ResponseEntity<?> getBySphere(String uuid,boolean isDeleted) {
         return service.getBySphere(uuid,isDeleted);
+    }
+
+    @PostMapping("/viewCount")
+    public void viewCount(@RequestParam(name = "code") String code) {
+        service.viewCount(code);
     }
 
 }

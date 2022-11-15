@@ -28,6 +28,7 @@ public abstract class Auditable extends BaseEntityID {
 
     private LocalDateTime deletedAt;
 
+
     private UUID deletedBy;
     @CreatedDate
     @CreationTimestamp
@@ -45,6 +46,7 @@ public abstract class Auditable extends BaseEntityID {
     @LastModifiedBy
     @Column(name = "updated_by")
     private UUID updatedBy;
+
 
     public Auditable(UUID id) {
         super(id);

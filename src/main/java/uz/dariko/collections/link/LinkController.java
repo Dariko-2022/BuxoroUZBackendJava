@@ -7,14 +7,12 @@ import uz.dariko.base.controller.GenericCRUDController;
 import uz.dariko.collections.link.dto.LinkCreateDTO;
 import uz.dariko.collections.link.dto.LinkDTO;
 import uz.dariko.collections.link.dto.LinkUpdateDTO;
-import uz.dariko.response.Data;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("link")
-public class LinkController extends AbstractController<LinkService> implements GenericCRUDController<LinkCreateDTO, LinkUpdateDTO, LinkDTO, UUID> {
+public class LinkController extends AbstractController<LinkService> implements GenericCRUDController<LinkCreateDTO, LinkUpdateDTO, LinkDTO, String> {
     public LinkController(LinkService service) {
         super(service);
     }
@@ -31,12 +29,12 @@ public class LinkController extends AbstractController<LinkService> implements G
     }
 
     @Override
-    public ResponseEntity<?> delete(UUID code) {
+    public ResponseEntity<?> delete(String code) {
         return service.delete(code);
     }
 
     @Override
-    public ResponseEntity<?> get(UUID code) {
+    public ResponseEntity<?> get(String code) {
         return service.get(code);
     }
 
@@ -49,4 +47,6 @@ public class LinkController extends AbstractController<LinkService> implements G
     public ResponseEntity<?> listWithType(@PathVariable Integer code){
         return service.listWithType(code);
     }
+
+
 }

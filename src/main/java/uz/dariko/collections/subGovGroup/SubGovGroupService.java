@@ -80,8 +80,8 @@ public class SubGovGroupService implements BaseService {
         return ResponseEntity.status(204).body("updated");
     }
 
-    public ResponseEntity<?> delete(UUID id) {
-
+    public ResponseEntity<?> delete(String code) {
+        UUID id = baseUtils.parseUUID(code);
         SubGovGroup subGovGroup = entityGetter.getSubGovGroup(id);
         boolean b= true;
         List<StateEmployee> employeeList = subGovGroup.getEmployeeList();
@@ -103,8 +103,8 @@ public class SubGovGroupService implements BaseService {
         }
     }
 
-    public ResponseEntity<?> getById(UUID id) {
-
+    public ResponseEntity<?> getById(String code) {
+        UUID id = baseUtils.parseUUID(code);
         SubGovGroup subGovGroup = entityGetter.getSubGovGroup(id);
         SubGovGroupDTO subGovGroupDTO = subGovGroupMapper.toDto(subGovGroup);
         return ResponseEntity.status(200).body(subGovGroupDTO);
@@ -119,8 +119,9 @@ public class SubGovGroupService implements BaseService {
 
     }
 
-    public ResponseEntity<?> getBySubmenuId(UUID code) {
-        List<SubGovGroup> allBySubmenuId = subGovGroupRepository.findAllBySubmenuIdAndDeletedNot(code);
+    public ResponseEntity<?> getBySubmenuId(String code) {
+        UUID uuid = baseUtils.parseUUID(code);
+        List<SubGovGroup> allBySubmenuId = subGovGroupRepository.findAllBySubmenuIdAndDeletedNot(uuid);
         List<SubGovGroupDTO> subGovGroupDTOS = subGovGroupMapper.toDto(allBySubmenuId);
 
         return ResponseEntity.ok(subGovGroupDTOS);

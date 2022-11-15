@@ -9,12 +9,10 @@ import uz.dariko.collections.link.dto.LinkCreateDTO;
 import uz.dariko.collections.link.dto.LinkDTO;
 import uz.dariko.collections.link.dto.LinkUpdateDTO;
 import uz.dariko.utils.EntityGetter;
-import uz.dariko.utils.dtos.SessionUser;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class LinkMapper implements BaseMapper {

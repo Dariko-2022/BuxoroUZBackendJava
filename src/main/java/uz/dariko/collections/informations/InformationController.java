@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("information")
-public class InformationController extends AbstractController<InformationService> implements GenericCRUDController<InformationCreateDTO, InformationUpdateDTO, InformationDTO, UUID> {
+public class InformationController extends AbstractController<InformationService> implements GenericCRUDController<InformationCreateDTO, InformationUpdateDTO, InformationDTO, String> {
     public InformationController(InformationService service) {
         super(service);
     }
@@ -29,12 +29,12 @@ public class InformationController extends AbstractController<InformationService
     }
 
     @Override
-    public ResponseEntity<?> delete(@PathVariable("code") UUID code) {
+    public ResponseEntity<?> delete(@PathVariable("code") String code) {
         return service.delete(code);
     }
 
     @Override
-    public ResponseEntity<?> get(@PathVariable("code") UUID code) {
+    public ResponseEntity<?> get(@PathVariable("code") String code) {
         return service.get(code);
     }
 
@@ -48,13 +48,13 @@ public class InformationController extends AbstractController<InformationService
     public ResponseEntity<?> getPageable(
             @RequestParam(name = "size") int size,
             @RequestParam(name = "page") int page,
-            @RequestParam(name = "code") UUID id
+            @RequestParam(name = "code") String id
     ){
         return service.getBySubmenuId(PageRequest.of(page,size),id);
     }
 
     @GetMapping("listByInfoGroup/{infoGroupID}")
-    public ResponseEntity<?> listByInfoGroup(@PathVariable UUID infoGroupID){
+    public ResponseEntity<?> listByInfoGroup(@PathVariable String infoGroupID){
         return service.listByInfoGroup(infoGroupID);
     }
 }

@@ -9,12 +9,12 @@ import uz.dariko.base.dto.OrderDTO;
 import uz.dariko.base.service.BaseService;
 import uz.dariko.collections.admin.Admin;
 import uz.dariko.collections.file.File;
-import uz.dariko.collections.region.Region;
 import uz.dariko.collections.sector.dto.SectorCreateDTO;
 import uz.dariko.collections.sector.dto.SectorDTO;
 import uz.dariko.collections.sector.dto.SectorUpdateDTO;
 import uz.dariko.collections.stateEmloyee.StateEmployee;
-import uz.dariko.response.Data;
+import uz.dariko.collections.stateEmloyee.StateEmployeeRepository;
+import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
 import java.time.LocalDateTime;
@@ -31,77 +31,93 @@ public class SectorService implements BaseService {
 
     private final SectorMapper sectorMapper;
 
+    private final BaseUtils baseUtils;
 
-    public SectorService(SectorRepository sectorRepository, EntityGetter entityGetter, SectorMapper sectorMapper) {
+    private final StateEmployeeRepository stateEmployeeRepository;
+
+    public SectorService(SectorRepository sectorRepository, EntityGetter entityGetter, SectorMapper sectorMapper, BaseUtils baseUtils, StateEmployeeRepository stateEmployeeRepository) {
         this.sectorRepository = sectorRepository;
         this.entityGetter = entityGetter;
         this.sectorMapper = sectorMapper;
+        this.baseUtils = baseUtils;
+        this.stateEmployeeRepository = stateEmployeeRepository;
     }
 
-    public ResponseEntity<Data<SectorDTO>> create(SectorCreateDTO dto) {
-
-        File file = entityGetter.getFile(dto.getFileId());
-        StateEmployee stateEmployee = entityGetter.getStateEmployee(dto.getStateEmployeeId());
-        Region region = entityGetter.getRegion(dto.getRegionId());
-        Sector sector = sectorMapper.fromCreateDto(dto);
-        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        sector.setCreatedBy(sessionUser.getId());
-        sector.setCreatedAt(LocalDateTime.now());
-        sector.setFile(file);
-        sector.setStateEmployee(stateEmployee);
-        sector.setRegion(region);
-        Sector save = sectorRepository.save(sector);
-        SectorDTO sectorDTO = sectorMapper.toDto(save);
-        return ResponseEntity.status(201).body(new Data<>(sectorDTO));
+    public ResponseEntity<?> create(SectorCreateDTO dto) {
+        return null;
 
     }
 
-    public ResponseEntity<Data<List<SectorDTO>>> get() {
+    public ResponseEntity<?> get() {
         List<Sector> list = sectorRepository.findAllByDeletedNot();
         List<SectorDTO> sectorDTOS = sectorMapper.toDto(list);
-        return ResponseEntity.ok(new Data<>(sectorDTOS));
+        return ResponseEntity.ok(sectorDTOS);
     }
 
-    public ResponseEntity<Data<SectorDTO>> get(UUID id) {
+    public ResponseEntity<?> get(String code) {
+        UUID id = baseUtils.parseUUID(code);
         Sector sector = entityGetter.getSector(id);
         SectorDTO sectorDTO = sectorMapper.toDto(sector);
-        return ResponseEntity.ok(new Data<>(sectorDTO));
+        return ResponseEntity.ok(sectorDTO);
     }
 
-    public ResponseEntity<Data<SectorDTO>> update(SectorUpdateDTO dto) {
+    public ResponseEntity<?> update(SectorUpdateDTO dto) {
         Sector sector0 = entityGetter.getSector(dto.getId());
         Sector sector = sectorMapper.fromUpdateDto(dto, sector0);
-        Region region = entityGetter.getRegion(dto.getRegionId());
-        StateEmployee stateEmployee = entityGetter.getStateEmployee(dto.getStateEmployeeId());
-        File file = entityGetter.getFile(dto.getFileId());
-        sector.setStateEmployee(stateEmployee);
-        sector.setRegion(region);
+        File file = null;
+        if(dto.getFileId()!=null){
+            file = entityGetter.getFile(dto.getFileId());
+        }
+        sector.setStateEmployee(null);
         sector.setFile(file);
         Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         sector.setUpdatedBy(sessionUser.getId());
         sector.setUpdatedAt(LocalDateTime.now());
         Sector save = sectorRepository.save(sector);
         SectorDTO sectorDTO = sectorMapper.toDto(save);
-        return ResponseEntity.ok(new Data<>(sectorDTO));
+        return ResponseEntity.ok(sectorDTO);
     }
 
-    public ResponseEntity<Data<Boolean>> delete(UUID uuid) {
+    public ResponseEntity<?> updateStateEmployee(StateEmployee stateEmployee,UUID sectorID) {
+        Sector sector = entityGetter.getSector(sectorID);
+        sector.setStateEmployee(stateEmployee);
+        Sector save = sectorRepository.save(sector);
+        SectorDTO sectorDTO = sectorMapper.toDto(save);
+        return ResponseEntity.ok(sectorDTO);
+    }
+
+    public ResponseEntity<?> delete(String code) {
+        UUID uuid = baseUtils.parseUUID(code);
         Sector sector = entityGetter.getSector(uuid);
         sector.setDeleted(true);
         Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         sector.setDeletedBy(sessionUser.getId());
         sector.setDeletedAt(LocalDateTime.now());
         sectorRepository.save(sector);
-        return ResponseEntity.ok(new Data<>(true));
+        return ResponseEntity.ok(true);
     }
 
-    public ResponseEntity<Data<List<SectorDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
+    public ResponseEntity<?> deleteEmployee(String sectorId) {
+        UUID sectorID = baseUtils.parseUUID(sectorId);
+        Sector sector = entityGetter.getSector(sectorID);
+        StateEmployee stateEmployee = sector.getStateEmployee();
+        Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        stateEmployee.setDeletedAt(LocalDateTime.now());
+        stateEmployee.setDeleted(true);
+        stateEmployee.setDeletedBy(sessionUser.getId());
+        stateEmployeeRepository.save(stateEmployee);
+        sector.setStateEmployee(null);
+        sectorRepository.save(sector);
+        return ResponseEntity.ok("Success");
+    }
+
+    public ResponseEntity<?> changeOrder(BaseOrderDTO baseOrderDTO) {
         List<OrderDTO> orderDTOS = baseOrderDTO.getOrders();
         List<Sector> entities = new ArrayList<>();
         for (OrderDTO order : orderDTOS) {
             Sector entity = sectorRepository.setOrOrderNumber(order.getId(), order.getOrder());
             entities.add(entity);
         }
-        return new ResponseEntity<>(new Data<>(sectorMapper.toDto(entities)), HttpStatus.OK);
+        return new ResponseEntity<>(sectorMapper.toDto(entities), HttpStatus.OK);
     }
 }

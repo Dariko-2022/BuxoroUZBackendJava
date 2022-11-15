@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("sector")
-public class SectorController extends AbstractController<SectorService> implements GenericCRUDController<SectorCreateDTO, SectorUpdateDTO, SectorDTO, UUID> {
+public class SectorController extends AbstractController<SectorService> implements GenericCRUDController<SectorCreateDTO, SectorUpdateDTO, SectorDTO, String> {
 
     public SectorController(SectorService service) {
         super(service);
@@ -25,31 +25,36 @@ public class SectorController extends AbstractController<SectorService> implemen
 
     @Override
     public ResponseEntity<?> create(SectorCreateDTO DTO) {
-        return service.create(DTO);
+        return null;
     }
 
     @Override
-    public ResponseEntity<?> update(SectorUpdateDTO DTO) {
+    public ResponseEntity<?> update(@RequestBody SectorUpdateDTO DTO) {
         return service.update(DTO);
     }
 
     @Override
-    public ResponseEntity<Data<Boolean>> delete(UUID uuid) {
+    public ResponseEntity<?> delete(String uuid) {
         return service.delete(uuid);
     }
 
+    @DeleteMapping("deleteEmployee")
+    public ResponseEntity<?> deleteEmployee(@PathVariable() String sectorId) {
+        return service.deleteEmployee(sectorId);
+    }
+
     @Override
-    public ResponseEntity<Data<SectorDTO>> get(UUID uuid) {
+    public ResponseEntity<?> get(String uuid) {
         return service.get(uuid);
     }
 
     @Override
-    public ResponseEntity<Data<List<SectorDTO>>> list() {
+    public ResponseEntity<?> list() {
         return service.get();
     }
 
     @RequestMapping("changeOrder")
-    public ResponseEntity<Data<List<SectorDTO>>> changeOrder(BaseOrderDTO baseOrderDTO) {
+    public ResponseEntity<?> changeOrder(BaseOrderDTO baseOrderDTO) {
         return service.changeOrder(baseOrderDTO);
     }
 }

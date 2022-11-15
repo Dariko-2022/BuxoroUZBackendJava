@@ -30,16 +30,22 @@ public class StateEmployeeUpdateDTO extends GenericDTO {
     private String degree;
     private String phoneNumber;
 
+    private UUID imageID;
+
     private String uzAdditionalInformation;
     private String ruAdditionalInformation;
     private String krAdditionalInformation;
 
-    private UUID imageID;
+    private Boolean isHokim=false;
 
     private String uzResponsibility;
     private String krResponsibility;
     private String ruResponsibility;
 
-    private String labor_activity; //mehnat faoliyati
+    private String facebook; //Hokim facebook
+
+    private String email;
+
+    private int orderNumber;
 
 }

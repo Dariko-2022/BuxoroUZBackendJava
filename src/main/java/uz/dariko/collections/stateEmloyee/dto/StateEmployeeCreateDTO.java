@@ -30,19 +30,24 @@ public class StateEmployeeCreateDTO implements BaseDTO {
     private String degree;
     private String phoneNumber;
 
+    private UUID imageID;
+
     private String uzAdditionalInformation;
     private String ruAdditionalInformation;
     private String krAdditionalInformation;
 
-    private UUID imageID;
-
     private UUID submenuID;
+
+    private Boolean isHokim=false;
 
     private String uzResponsibility;
     private String krResponsibility;
     private String ruResponsibility;
 
-    private String labor_activity; //mehnat faoliyati
+    private String facebook; //Hokim telegrami
+
+    private String email;
+
 
 
 }

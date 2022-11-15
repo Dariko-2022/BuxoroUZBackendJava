@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("subGovGroup")
-public class SubGovGroupController extends AbstractController<SubGovGroupService> implements GenericCRUDController<SubGovGroupCreateDTO, SubGovGroupUpdateDTO, SubGovGroupDTO, UUID> {
+public class SubGovGroupController extends AbstractController<SubGovGroupService> implements GenericCRUDController<SubGovGroupCreateDTO, SubGovGroupUpdateDTO, SubGovGroupDTO, String> {
     public SubGovGroupController(SubGovGroupService service) {
         super(service);
     }
@@ -40,13 +40,13 @@ public class SubGovGroupController extends AbstractController<SubGovGroupService
 
     @Override
     public ResponseEntity<?> delete(
-            @PathVariable("code") UUID code) {
+            @PathVariable("code") String code) {
         return service.delete(code);
     }
 
     @Override
     public ResponseEntity<?> get(
-            @PathVariable("code") UUID code) {
+            @PathVariable("code") String code) {
         return service.getById(code);
     }
 
@@ -58,7 +58,7 @@ public class SubGovGroupController extends AbstractController<SubGovGroupService
 
 
     @GetMapping("/getBySubmenuId")
-    public ResponseEntity<?> getBySubmenuId( @RequestParam(name = "code") UUID code){
+    public ResponseEntity<?> getBySubmenuId( @RequestParam(name = "code") String code){
         return service.getBySubmenuId(code);
     }
 }

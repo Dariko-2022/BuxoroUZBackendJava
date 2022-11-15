@@ -33,14 +33,22 @@ public class Sector extends Auditable implements BaseService {
     @OneToOne
     private StateEmployee stateEmployee;
 
-    @ManyToOne
-    private Region region;
 
     @Type(type = "text")
-    private String description;
+    private String uzDescription;
+    @Type(type = "text")
+    private String krDescription;
+    @Type(type = "text")
+    private String ruDescription;
 
 
     @Type(type = "text")
-    private String sectorArea;
+    private String uzSectorArea;
+    @Type(type = "text")
+    private String krSectorArea;
+    @Type(type = "text")
+    private String ruSectorArea;
+
+    private int orderNumber;
 
 }

@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("submenu")
-public class SubmenuController extends AbstractController<SubmenuService> implements GenericCRUDController<SubmenuCreateDTO, SubmenuUpdateDTO, SubmenuDTO, UUID>
+public class SubmenuController extends AbstractController<SubmenuService> implements GenericCRUDController<SubmenuCreateDTO, SubmenuUpdateDTO, SubmenuDTO, String>
 {
 
 
@@ -36,12 +36,12 @@ public class SubmenuController extends AbstractController<SubmenuService> implem
 
     @Override
     public ResponseEntity<?> delete(
-            @PathVariable("code") UUID id) {
-        return service.delete(id);
+            @PathVariable("code") String code) {
+        return service.delete(code);
     }
 
     @Override
-    public ResponseEntity<?> get(UUID id) {
+    public ResponseEntity<?> get(String id) {
         return service.get(id);
     }
 

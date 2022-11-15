@@ -70,9 +70,8 @@ public class NewsService implements BaseService {
 
     }
 
-
-    public ResponseEntity<?> getById(UUID id) {
-
+    public ResponseEntity<?> getById(String code) {
+        UUID id = baseUtils.parseUUID(code);
         News news = entityGetter.getNews(id);
         news.setCountView(news.getCountView() + 1);
         News save = newsRepository.save(news);
@@ -98,7 +97,8 @@ public class NewsService implements BaseService {
         return ResponseEntity.ok(newsDTO);
 
     }
-    public ResponseEntity<?> delete(UUID id) {
+    public ResponseEntity<?> delete(String code) {
+        UUID id = baseUtils.parseUUID(code);
         News news = entityGetter.getNews(id);
         news.setDeleted(true);
         Admin sessionUser= (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -121,7 +121,8 @@ public class NewsService implements BaseService {
         return ResponseEntity.ok(newsDTOS);
     }
 
-    public ResponseEntity<?> getBySphere(UUID uuid,boolean isDeleted) {
+    public ResponseEntity<?> getBySphere(String code,boolean isDeleted) {
+        UUID uuid = baseUtils.parseUUID(code);
         entityGetter.getSubmenu(uuid);
         List<News> list = newsRepository.findBySphereAndDeleted(uuid, isDeleted);
         List<NewsDTO> newsDTOS = newsMapper.toDto(list);
@@ -139,8 +140,15 @@ public class NewsService implements BaseService {
         return ResponseEntity.ok(responsePage);
     }
 
+    public ResponseEntity<?> getBySize(int size) {
+        List<News> newsDeletedNotAndLimit = newsRepository.findNewsDeletedNotAndLimit(size);
+        List<NewsDTO> newsDTOS = newsMapper.toDto(newsDeletedNotAndLimit);
+        return ResponseEntity.ok(newsDTOS);
+    }
 
-    public ResponseEntity<?> getBySubmenuId(Pageable pageable,UUID id) {
+
+    public ResponseEntity<?> getBySubmenuId(Pageable pageable,String code) {
+        UUID id = baseUtils.parseUUID(code);
         int offset = pageable.getPageSize()* pageable.getPageNumber();
         int size = pageable.getPageSize();
         Page<News> page = newsRepository.findBySubmenuIdAndIsDeleted(id,pageable,false);
@@ -164,6 +172,17 @@ public class NewsService implements BaseService {
         }
         return ResponseEntity.status(404).body("Not found");
 
+    }
+
+    public void viewCount(String code) {
+        UUID newsId = baseUtils.parseUUID(code);
+        Optional<News> byIdAndDeletedNot = newsRepository.findByIdAndDeletedNot(newsId);
+        if(byIdAndDeletedNot.isEmpty()) {
+            return ;
+        }
+        News news = byIdAndDeletedNot.get();
+        news.setCountView(news.getCountView()+1);
+        News save = newsRepository.save(news);
     }
 
 

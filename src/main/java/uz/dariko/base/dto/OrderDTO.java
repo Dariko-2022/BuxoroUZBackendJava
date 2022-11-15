@@ -10,5 +10,6 @@ import java.util.UUID;
 @Setter
 public class OrderDTO {
     private UUID id;
+    private UUID parentId;
     private Integer order;
 }

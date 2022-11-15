@@ -7,6 +7,7 @@ import uz.dariko.base.service.GenericCRUDService;
 import uz.dariko.collections.link.dto.LinkCreateDTO;
 import uz.dariko.collections.link.dto.LinkDTO;
 import uz.dariko.collections.link.dto.LinkUpdateDTO;
+import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
 import java.time.LocalDateTime;
@@ -14,14 +15,16 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class LinkService extends AbstractService<LinkRepository,LinkValidator> implements GenericCRUDService<LinkCreateDTO, LinkUpdateDTO, LinkDTO, UUID> {
-    public LinkService(LinkRepository repository, LinkValidator validator, EntityGetter entityGetter,LinkMapper mapper) {
+public class LinkService extends AbstractService<LinkRepository,LinkValidator> implements GenericCRUDService<LinkCreateDTO, LinkUpdateDTO, LinkDTO, String> {
+    public LinkService(LinkRepository repository, LinkValidator validator, EntityGetter entityGetter, BaseUtils baseUtils, LinkMapper mapper) {
         super(repository, validator);
         this.entityGetter = entityGetter;
+        this.baseUtils = baseUtils;
         this.mapper = mapper;
     }
     private final EntityGetter entityGetter;
 
+    private final BaseUtils baseUtils;
     private final LinkMapper mapper;
 
     @Override
@@ -43,7 +46,8 @@ public class LinkService extends AbstractService<LinkRepository,LinkValidator> i
     }
 
     @Override
-    public ResponseEntity<?> delete(UUID key) {
+    public ResponseEntity<?> delete(String code) {
+        UUID key = baseUtils.parseUUID(code);
         Link link = entityGetter.getLink(key);
         link.setDeleted(true);
         link.setDeletedAt(LocalDateTime.now());
@@ -52,7 +56,8 @@ public class LinkService extends AbstractService<LinkRepository,LinkValidator> i
     }
 
     @Override
-    public ResponseEntity<?> get(UUID key) {
+    public ResponseEntity<?> get(String code) {
+        UUID key = baseUtils.parseUUID(code);
         Link link = entityGetter.getLink(key);
         return ResponseEntity.ok(mapper.toDTO(link));
     }

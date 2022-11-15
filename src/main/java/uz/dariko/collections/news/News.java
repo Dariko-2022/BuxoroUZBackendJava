@@ -54,7 +54,8 @@ public class News extends Auditable {
 
     private int countView=0; //kurishlar soni
 
-    private String source; //manba
+    private String sourceUrl; //manba
+    private String sourceName; //manba
 
 
 }

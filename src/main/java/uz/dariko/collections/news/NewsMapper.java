@@ -38,13 +38,17 @@ public class NewsMapper implements AbstractMapper<NewsCreateDTO, NewsUpdateDTO, 
         dto.setUzTitle(entity.getUzTitle());
         dto.setKrTitle(entity.getKrTitle());
         dto.setRuTitle(entity.getRuTitle());
-        dto.setSource(entity.getSource());
+        dto.setSourceUrl(entity.getSourceUrl());
+        dto.setSourceName(entity.getSourceName());
         dto.setSubmenuID(entity.getSubmenu().getId());
         dto.setCreatedDate(entity.getCreatedAt());
         dto.setUzDescription(entity.getUzDescription());
         dto.setRuDescription(entity.getRuDescription());
         dto.setKrDescription(entity.getKrDescription());
         dto.setNewsSphereId(entity.getNewsSphere().getId());
+        dto.setUzNewsSphereName(entity.getNewsSphere().getUzName());
+        dto.setRuNewsSphereName(entity.getNewsSphere().getRuName());
+        dto.setKrNewsSphereName(entity.getNewsSphere().getKrName());
         List<File> images = entity.getImages();
         List<UUID> res = new ArrayList<>();
         for(File file : images) {
@@ -75,7 +79,8 @@ public class NewsMapper implements AbstractMapper<NewsCreateDTO, NewsUpdateDTO, 
         news.setRuTitle(createDto.getRuTitle());
         news.setUzBody(createDto.getUzBody());
         news.setUzTitle(createDto.getUzTitle());
-        news.setSource(createDto.getSource());
+        news.setSourceName(createDto.getSourceName());
+        news.setSourceUrl(createDto.getSourceUrl());
 
         news.setUzDescription(createDto.getUzDescription());
         news.setRuDescription(createDto.getRuDescription());
@@ -94,7 +99,8 @@ public class NewsMapper implements AbstractMapper<NewsCreateDTO, NewsUpdateDTO, 
     }
 
     public News fromUpdateDto(NewsUpdateDTO updateDto,News news){
-        news.setSource(updateDto.getSource());
+        news.setSourceUrl(updateDto.getSourceUrl());
+        news.setSourceName(updateDto.getSourceName());
         news.setUzTitle(updateDto.getUzTitle());
         news.setUzBody(updateDto.getUzBody());
         news.setKrTitle(updateDto.getKrTitle());

@@ -17,6 +17,7 @@ import uz.dariko.collections.submenu.dto.SubmenuCreateDTO;
 import uz.dariko.collections.submenu.dto.SubmenuDTO;
 import uz.dariko.collections.submenu.dto.SubmenuUpdateDTO;
 import uz.dariko.response.Data;
+import uz.dariko.utils.BaseUtils;
 import uz.dariko.utils.EntityGetter;
 
 import java.time.LocalDateTime;
@@ -33,13 +34,16 @@ public class SubmenuService implements BaseService{
 
     private final SubmenuMapper submenuMapper;
 
+    private final BaseUtils baseUtils;
+
     private final EmployeeGroupService employeeGroupService;
 
     private final EntityGetter entityGetter;
 
-    public SubmenuService(SubmenuRepository submenuRepository, SubmenuMapper submenuMapper, EmployeeGroupService employeeGroupService, EntityGetter entityGetter) {
+    public SubmenuService(SubmenuRepository submenuRepository, SubmenuMapper submenuMapper, BaseUtils baseUtils, EmployeeGroupService employeeGroupService, EntityGetter entityGetter) {
         this.submenuRepository = submenuRepository;
         this.submenuMapper = submenuMapper;
+        this.baseUtils = baseUtils;
         this.employeeGroupService = employeeGroupService;
         this.entityGetter = entityGetter;
     }
@@ -105,7 +109,8 @@ public class SubmenuService implements BaseService{
 
     }
 
-    public ResponseEntity<?> delete(UUID id) {
+    public ResponseEntity<?> delete(String code) {
+        UUID id = baseUtils.parseUUID(code);
         Optional<Submenu> byId = submenuRepository.findById(id);
         if(byId.isPresent()){
             Submenu submenu = byId.get();
@@ -120,7 +125,8 @@ public class SubmenuService implements BaseService{
         return ResponseEntity.status(404).body("Not Found");
     }
 
-    public ResponseEntity<?> get(UUID id) {
+    public ResponseEntity<?> get(String code) {
+        UUID id = baseUtils.parseUUID(code);
         Optional<Submenu> byId = submenuRepository.findById(id);
         if(byId.isEmpty()) {
             return ResponseEntity.status(404).body("Not Found");
