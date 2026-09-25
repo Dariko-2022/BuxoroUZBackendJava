@@ -11,14 +11,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 <style>
   :root{
-    --navy:#081C32;
-    --navy-2:#0d233a;
-    --navy-3:#132f4c;
+    --navy:#050b14;
+    --navy-2:#0a1728;
+    --navy-3:#0f2038;
     --green:#0BA360;
-    --green-2:#098C52;
-    --border:#1d436b;
+    --neon:#00ffa3;
+    --neon-cyan:#00e0ff;
+    --border:#16324f;
     --ink:#1e293b;
-    --muted:#64748b;
+    --muted:#8ea3bd;
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
@@ -32,158 +33,245 @@
   h1,h2,h3,.font-heading{font-family:'Outfit',sans-serif;}
   a{color:inherit;text-decoration:none;}
   img{max-width:100%;display:block;}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;position:relative;z-index:2;}
+  ::selection{background:var(--neon);color:#000;}
+
+  /* ===== GLOBAL BACKDROP: grid + glow orbs ===== */
+  .bg-grid{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(0,255,163,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,163,.05) 1px, transparent 1px);
+    background-size:42px 42px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+  .orb{position:fixed;border-radius:50%;filter:blur(90px);opacity:.35;pointer-events:none;z-index:0;}
+  .orb1{width:520px;height:520px;background:var(--neon);top:-180px;right:-160px;animation:float1 16s ease-in-out infinite;}
+  .orb2{width:420px;height:420px;background:var(--neon-cyan);bottom:10%;left:-160px;animation:float2 20s ease-in-out infinite;}
+  .orb3{width:380px;height:380px;background:#0BA360;top:55%;right:10%;animation:float1 22s ease-in-out infinite reverse;}
+  @keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,60px)}}
+  @keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(50px,-40px)}}
+
+  /* ===== REVEAL ANIMATION ===== */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+  .reveal-scale{opacity:0;transform:scale(.92);transition:opacity .6s ease, transform .6s ease;}
+  .reveal-scale.in{opacity:1;transform:scale(1);}
+  .stagger > *{transition-delay:calc(var(--i,0) * 90ms);}
+
   .btn{
     display:inline-flex;align-items:center;gap:8px;
-    padding:13px 26px;border-radius:12px;font-weight:700;font-size:14px;
-    transition:all .2s ease;cursor:pointer;border:none;
+    padding:14px 28px;border-radius:12px;font-weight:700;font-size:14px;
+    transition:all .25s ease;cursor:pointer;border:none;position:relative;
   }
-  .btn-primary{background:var(--green);color:#fff;box-shadow:0 10px 30px -8px rgba(11,163,96,.5);}
-  .btn-primary:hover{background:var(--green-2);transform:translateY(-2px);}
-  .btn-ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid var(--border);}
-  .btn-ghost:hover{background:rgba(255,255,255,.12);}
-  .section{padding:88px 0;}
+  .btn-primary{
+    background:var(--neon);color:#03130c;
+    box-shadow:0 0 20px rgba(0,255,163,.45), 0 10px 30px -8px rgba(0,255,163,.5);
+  }
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 0 32px rgba(0,255,163,.75), 0 14px 34px -8px rgba(0,255,163,.6);}
+  .btn-ghost{background:rgba(255,255,255,.05);color:#fff;border:1px solid var(--border);}
+  .btn-ghost:hover{background:rgba(255,255,255,.1);border-color:var(--neon);color:var(--neon);}
+
+  .section{padding:96px 0;position:relative;}
   .badge{
     display:inline-flex;align-items:center;gap:6px;
-    background:rgba(11,163,96,.12);color:var(--green);
-    border:1px solid rgba(11,163,96,.35);
+    background:rgba(0,255,163,.1);color:var(--neon);
+    border:1px solid rgba(0,255,163,.4);
     padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;
     letter-spacing:.04em;text-transform:uppercase;
+    box-shadow:0 0 18px rgba(0,255,163,.15);
   }
-  .eyebrow{color:var(--green);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;display:block;}
-  .h2{font-size:clamp(26px,4vw,38px);font-weight:800;color:#fff;letter-spacing:-0.01em;}
-  .lead{color:#94a3b8;font-size:16px;max-width:640px;margin-top:12px;}
+  .eyebrow{color:var(--neon);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+  .eyebrow::before{content:"";width:22px;height:2px;background:var(--neon);box-shadow:0 0 8px var(--neon);}
+  .h2{font-size:clamp(28px,4vw,40px);font-weight:800;color:#fff;letter-spacing:-0.01em;}
+  .h2 .glow{color:var(--neon);text-shadow:0 0 22px rgba(0,255,163,.55);}
+  .lead{color:var(--muted);font-size:16px;max-width:640px;margin-top:12px;}
 
   /* NAV */
   nav{
     position:sticky;top:0;z-index:50;
-    background:rgba(8,28,50,.85);backdrop-filter:blur(16px);
+    background:rgba(5,11,20,.7);backdrop-filter:blur(18px);
     border-bottom:1px solid var(--border);
   }
   nav .inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0;}
   .logo{display:flex;align-items:center;gap:10px;font-weight:800;color:#fff;font-size:15px;}
-  .logo .mark{width:38px;height:38px;border-radius:10px;background:var(--navy-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--green);font-weight:900;font-size:14px;}
-  .navlinks{display:flex;gap:28px;font-size:14px;font-weight:600;color:#cbd5e1;}
-  .navlinks a:hover{color:var(--green);}
-  .navlinks{display:none;}
+  .logo .mark{width:38px;height:38px;border-radius:10px;background:var(--navy-3);border:1px solid var(--neon);display:flex;align-items:center;justify-content:center;color:var(--neon);font-weight:900;font-size:14px;box-shadow:0 0 16px rgba(0,255,163,.35);}
+  .navlinks{display:none;gap:28px;font-size:14px;font-weight:600;color:#cbd5e1;}
+  .navlinks a{position:relative;padding-bottom:4px;}
+  .navlinks a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--neon);transition:.25s;box-shadow:0 0 8px var(--neon);}
+  .navlinks a:hover::after{width:100%;}
+  .navlinks a:hover{color:var(--neon);}
   @media(min-width:800px){.navlinks{display:flex;}}
 
   /* HERO */
-  .hero{padding:80px 0 60px;position:relative;}
-  .hero::before{
-    content:"";position:absolute;inset:0;
-    background:radial-gradient(60% 60% at 80% 0%, rgba(11,163,96,.16), transparent 60%);
-    pointer-events:none;
-  }
-  .hero-grid{display:grid;grid-template-columns:1fr;gap:48px;align-items:center;position:relative;}
+  .hero{padding:90px 0 60px;}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:48px;align-items:center;}
   @media(min-width:900px){.hero-grid{grid-template-columns:1.15fr .85fr;}}
-  .hero h1{font-size:clamp(34px,5.5vw,56px);font-weight:900;color:#fff;line-height:1.06;letter-spacing:-0.02em;}
-  .hero h1 span{color:var(--green);}
+  .hero h1{font-size:clamp(36px,5.6vw,58px);font-weight:900;color:#fff;line-height:1.05;letter-spacing:-0.02em;}
+  .hero h1 span{color:var(--neon);text-shadow:0 0 30px rgba(0,255,163,.6);}
   .hero-role{margin-top:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:14px;font-weight:700;color:#cbd5e1;text-transform:uppercase;letter-spacing:.03em;}
-  .hero-role .dot{color:var(--green);}
-  .hero p.lead{margin-top:20px;color:#94a3b8;font-size:17px;max-width:560px;}
+  .hero-role .dot{color:var(--neon);}
+  .hero p.lead{margin-top:20px;color:var(--muted);font-size:17px;max-width:560px;}
   .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px;}
   .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:44px;max-width:520px;}
-  .stat{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:16px 10px;text-align:center;}
-  .stat .num{font-size:22px;font-weight:900;color:var(--green);font-family:'Outfit',sans-serif;}
-  .stat .label{font-size:11px;color:#94a3b8;margin-top:4px;font-weight:600;}
+  .stat{
+    background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:18px 10px;text-align:center;
+    transition:.25s;
+  }
+  .stat:hover{border-color:var(--neon);box-shadow:0 0 22px rgba(0,255,163,.2);transform:translateY(-3px);}
+  .stat .num{font-size:24px;font-weight:900;color:var(--neon);font-family:'Outfit',sans-serif;text-shadow:0 0 16px rgba(0,255,163,.4);}
+  .stat .label{font-size:11px;color:var(--muted);margin-top:4px;font-weight:600;}
 
   .photo-card{
-    position:relative;background:linear-gradient(160deg,var(--navy-2),var(--navy));
-    border:1px solid var(--border);border-radius:24px;padding:32px;
+    position:relative;background:linear-gradient(160deg,var(--navy-3),var(--navy-2));
+    border:1px solid var(--border);border-radius:24px;padding:36px 32px;
     display:flex;flex-direction:column;align-items:center;text-align:center;
-    box-shadow:0 40px 80px -30px rgba(0,0,0,.6);
+    box-shadow:0 40px 90px -30px rgba(0,0,0,.7);
+  }
+  .photo-card::before{
+    content:"";position:absolute;inset:-1px;border-radius:24px;padding:1px;
+    background:linear-gradient(135deg, rgba(0,255,163,.6), transparent 40%, rgba(0,224,255,.4));
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;
+    pointer-events:none;
   }
   .avatar{
-    width:132px;height:132px;border-radius:50%;
-    background:var(--navy-3);color:#fff;display:flex;align-items:center;justify-content:center;
-    font-family:'Outfit',sans-serif;font-weight:900;font-size:44px;
-    border:3px solid #fff;box-shadow:0 0 0 4px rgba(11,163,96,.55);
-    margin-bottom:20px;
+    width:136px;height:136px;border-radius:50%;
+    background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;
+    font-family:'Outfit',sans-serif;font-weight:900;font-size:46px;
+    border:3px solid var(--neon);box-shadow:0 0 0 6px rgba(0,255,163,.15), 0 0 40px rgba(0,255,163,.4);
+    margin-bottom:20px;position:relative;
+    animation:pulseRing 3.2s ease-in-out infinite;
   }
-  .photo-card h3{color:#fff;font-size:19px;font-weight:800;}
-  .photo-card .role{color:var(--green);font-weight:700;font-size:13px;margin-top:4px;text-transform:uppercase;letter-spacing:.03em;}
-  .photo-card .loc{color:#94a3b8;font-size:13px;margin-top:10px;display:flex;align-items:center;gap:6px;}
-  .social-row{display:flex;gap:10px;margin-top:20px;}
-  .social-row a{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:#cbd5e1;transition:.2s;}
-  .social-row a:hover{background:var(--green);color:#fff;border-color:var(--green);}
+  @keyframes pulseRing{
+    0%,100%{box-shadow:0 0 0 6px rgba(0,255,163,.15), 0 0 30px rgba(0,255,163,.35);}
+    50%{box-shadow:0 0 0 10px rgba(0,255,163,.08), 0 0 50px rgba(0,255,163,.55);}
+  }
+  .photo-card h3{color:#fff;font-size:20px;font-weight:800;}
+  .photo-card .role{color:var(--neon);font-weight:700;font-size:13px;margin-top:4px;text-transform:uppercase;letter-spacing:.03em;}
+  .photo-card .loc{color:var(--muted);font-size:13px;margin-top:12px;display:flex;align-items:center;gap:6px;}
+  .social-row{display:flex;gap:10px;margin-top:22px;}
+  .social-row a{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:#cbd5e1;transition:.25s;}
+  .social-row a:hover{background:var(--neon);color:#03130c;border-color:var(--neon);box-shadow:0 0 18px rgba(0,255,163,.5);transform:translateY(-3px);}
 
-  /* LIGHT SECTIONS */
-  .section-light{background:#f8fafc;color:var(--ink);}
-  .section-light .h2{color:var(--navy);}
-  .section-light .eyebrow{color:var(--green-2);}
-  .section-light .lead{color:var(--muted);}
+  /* SCROLL CUE */
+  .scrolldown{display:flex;justify-content:center;margin-top:50px;}
+  .scrolldown i{color:var(--neon);font-size:20px;animation:bounce 1.8s infinite;}
+  @keyframes bounce{0%,100%{transform:translateY(0);opacity:.5;}50%{transform:translateY(10px);opacity:1;}}
 
-  /* SKILLS */
-  .skills-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:40px;}
-  @media(min-width:760px){.skills-grid{grid-template-columns:repeat(2,1fr);}}
-  @media(min-width:1080px){.skills-grid{grid-template-columns:repeat(3,1fr);}}
+  /* ===== INFOGRAPHIC: SKILLS RADIAL ===== */
+  .skills-wrap{display:grid;grid-template-columns:1fr;gap:18px;margin-top:44px;}
+  @media(min-width:760px){.skills-wrap{grid-template-columns:repeat(2,1fr);}}
+  @media(min-width:1080px){.skills-wrap{grid-template-columns:repeat(3,1fr);}}
   .skill-card{
-    background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:24px;
-    transition:.2s;box-shadow:0 1px 2px rgba(0,0,0,.03);
+    background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:16px;padding:26px;
+    transition:.3s;position:relative;overflow:hidden;
   }
-  .skill-card:hover{border-color:var(--green);box-shadow:0 12px 30px -12px rgba(11,163,96,.35);transform:translateY(-3px);}
-  .skill-card .ic{width:44px;height:44px;border-radius:12px;background:rgba(11,163,96,.1);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px;}
-  .skill-card h3{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:6px;}
+  .skill-card::after{
+    content:"";position:absolute;inset:0;border-radius:16px;opacity:0;
+    background:radial-gradient(circle at 30% 0%, rgba(0,255,163,.15), transparent 60%);
+    transition:.3s;
+  }
+  .skill-card:hover{border-color:var(--neon);box-shadow:0 16px 40px -14px rgba(0,255,163,.35);transform:translateY(-4px);}
+  .skill-card:hover::after{opacity:1;}
+  .skill-card .top{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .skill-card .ic{width:44px;height:44px;border-radius:12px;background:rgba(0,255,163,.1);color:var(--neon);display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 14px rgba(0,255,163,.2);}
+  .ring{width:46px;height:46px;position:relative;}
+  .ring svg{transform:rotate(-90deg);}
+  .ring circle{fill:none;stroke-width:5;}
+  .ring .bg{stroke:rgba(255,255,255,.08);}
+  .ring .fg{stroke:var(--neon);stroke-linecap:round;stroke-dasharray:126;stroke-dashoffset:126;transition:stroke-dashoffset 1.3s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 0 6px rgba(0,255,163,.7));}
+  .ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;color:var(--neon);}
+  .skill-card h3{font-size:15px;font-weight:800;color:#fff;margin-top:16px;margin-bottom:6px;}
   .skill-card p{font-size:13.5px;color:var(--muted);line-height:1.55;}
 
-  /* TIMELINE */
-  .timeline{margin-top:40px;position:relative;}
-  .tl-item{position:relative;padding-left:30px;padding-bottom:34px;border-left:2px solid #e2e8f0;}
-  .tl-item:last-child{border-color:transparent;padding-bottom:0;}
-  .tl-item::before{content:"";position:absolute;left:-6px;top:2px;width:11px;height:11px;border-radius:50%;background:var(--green);border:2px solid #fff;box-shadow:0 0 0 3px rgba(11,163,96,.2);}
+  /* ===== TIMELINE INFOGRAPHIC ===== */
+  .timeline{margin-top:48px;position:relative;padding-left:4px;}
+  .timeline::before{
+    content:"";position:absolute;left:15px;top:6px;bottom:6px;width:2px;
+    background:linear-gradient(180deg, var(--neon), rgba(0,255,163,.05));
+  }
+  .tl-item{position:relative;padding-left:46px;padding-bottom:38px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item .node{
+    position:absolute;left:6px;top:2px;width:20px;height:20px;border-radius:50%;
+    background:var(--navy);border:2px solid var(--neon);
+    box-shadow:0 0 0 4px rgba(0,255,163,.12), 0 0 16px rgba(0,255,163,.4);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .tl-item .node::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon);}
+  .tl-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:18px 20px;transition:.25s;}
+  .tl-card:hover{border-color:var(--neon);box-shadow:0 12px 30px -14px rgba(0,255,163,.3);}
   .tl-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:baseline;}
-  .tl-head h3{font-size:16px;font-weight:800;color:var(--navy);}
-  .tl-date{font-size:11.5px;font-weight:700;color:var(--green-2);background:rgba(11,163,96,.1);padding:3px 10px;border-radius:999px;white-space:nowrap;}
-  .tl-company{font-size:13.5px;font-weight:700;color:var(--green-2);margin-top:4px;}
-  .tl-item ul{margin-top:8px;padding-left:18px;color:#475569;font-size:13.5px;line-height:1.6;}
-  .tl-item li{margin-top:3px;}
+  .tl-head h3{font-size:16px;font-weight:800;color:#fff;}
+  .tl-date{font-size:11.5px;font-weight:700;color:var(--neon);background:rgba(0,255,163,.1);padding:3px 10px;border-radius:999px;white-space:nowrap;}
+  .tl-company{font-size:13.5px;font-weight:700;color:var(--neon);margin-top:4px;}
+  .tl-card ul{margin-top:8px;padding-left:18px;color:#aebdd1;font-size:13.5px;line-height:1.6;}
+  .tl-card li{margin-top:3px;}
   .earlier-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:36px;}
   @media(min-width:700px){.earlier-grid{grid-template-columns:repeat(4,1fr);}}
-  .earlier-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px;}
-  .earlier-card .role{font-weight:800;font-size:12.5px;color:var(--navy);}
-  .earlier-card .org{font-size:11.5px;color:var(--green-2);font-weight:700;margin-top:3px;}
+  .earlier-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:14px;transition:.25s;}
+  .earlier-card:hover{border-color:var(--neon-cyan);}
+  .earlier-card .role{font-weight:800;font-size:12.5px;color:#fff;}
+  .earlier-card .org{font-size:11.5px;color:var(--neon);font-weight:700;margin-top:3px;}
   .earlier-card .date{font-size:11px;color:var(--muted);margin-top:4px;}
 
+  /* ===== EXPERTISE BAR CHART (infographic) ===== */
+  .barchart{margin-top:44px;display:flex;flex-direction:column;gap:16px;}
+  .bar-row{display:grid;grid-template-columns:170px 1fr 46px;gap:14px;align-items:center;}
+  .bar-row .lbl{font-size:13px;font-weight:700;color:#e2e8f0;display:flex;align-items:center;gap:8px;}
+  .bar-row .lbl i{color:var(--neon);width:16px;}
+  .bar-track{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;position:relative;}
+  .bar-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--neon));box-shadow:0 0 12px rgba(0,255,163,.5);transition:width 1.4s cubic-bezier(.2,.8,.2,1);}
+  .bar-row .val{font-size:12.5px;font-weight:800;color:var(--neon);text-align:right;}
+  @media(max-width:640px){.bar-row{grid-template-columns:1fr;}.bar-row .val{text-align:left;}}
+
   /* EDUCATION / CERTS */
-  .edu-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:36px;}
+  .edu-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:40px;}
   @media(min-width:820px){.edu-grid{grid-template-columns:1.1fr .9fr;}}
-  .edu-main{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:26px;}
-  .edu-main h3{font-size:16px;font-weight:800;color:var(--navy);}
-  .edu-main .org{font-size:13.5px;color:var(--green-2);font-weight:700;margin-top:8px;}
+  .edu-main{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:16px;padding:28px;}
+  .edu-main h3{font-size:16px;font-weight:800;color:#fff;}
+  .edu-main .org{font-size:13.5px;color:var(--neon);font-weight:700;margin-top:8px;}
   .edu-main .yr{font-size:12px;color:var(--muted);margin-top:4px;}
   .certs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
-  .cert{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 14px;}
-  .cert .t{font-weight:800;font-size:12.5px;color:var(--navy);}
-  .cert .d{font-size:11.5px;color:var(--green-2);font-weight:700;margin-top:2px;}
+  .cert{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:12px 14px;transition:.25s;}
+  .cert:hover{border-color:var(--neon);}
+  .cert .t{font-weight:800;font-size:12.5px;color:#fff;}
+  .cert .d{font-size:11.5px;color:var(--neon);font-weight:700;margin-top:2px;}
   .cert .y{font-size:10.5px;color:var(--muted);margin-top:3px;}
 
-  /* LANGUAGES */
-  .lang-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px;}
-  .lang-pill{flex:1 1 160px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;text-align:center;}
-  .lang-pill .name{font-weight:800;color:var(--navy);font-size:14px;}
-  .lang-pill .lvl{font-size:12px;color:var(--green-2);font-weight:700;margin-top:4px;}
+  /* LANGUAGES RADIAL */
+  .lang-row{display:flex;flex-wrap:wrap;gap:18px;margin-top:40px;justify-content:flex-start;}
+  .lang-pill{flex:1 1 150px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:16px;padding:20px 12px;text-align:center;transition:.25s;}
+  .lang-pill:hover{border-color:var(--neon-cyan);}
+  .lang-pill .name{font-weight:800;color:#fff;font-size:14px;}
+  .lang-pill .lvl{font-size:12px;color:var(--neon);font-weight:700;margin-top:4px;}
 
   /* CTA / CONTACT */
-  .cta{background:linear-gradient(135deg,var(--navy),#0d233a);}
   .contact-card{
-    background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;
-    padding:40px;display:grid;grid-template-columns:1fr;gap:26px;
+    background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:20px;
+    padding:44px;display:grid;grid-template-columns:1fr;gap:26px;
+    box-shadow:0 0 60px rgba(0,255,163,.08);
   }
   @media(min-width:760px){.contact-card{grid-template-columns:1.2fr .8fr;}}
   .contact-list{display:flex;flex-direction:column;gap:14px;margin-top:20px;}
   .contact-list a{display:flex;align-items:center;gap:12px;color:#e2e8f0;font-size:14px;font-weight:600;transition:.2s;}
-  .contact-list a:hover{color:var(--green);}
-  .contact-list .ic{width:36px;height:36px;border-radius:10px;background:rgba(11,163,96,.12);color:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .qr-box{background:#fff;border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px;justify-self:center;}
+  .contact-list a:hover{color:var(--neon);}
+  .contact-list .ic{width:38px;height:38px;border-radius:10px;background:rgba(0,255,163,.1);color:var(--neon);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 12px rgba(0,255,163,.15);}
+  .qr-box{background:#fff;border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px;justify-self:center;box-shadow:0 0 30px rgba(0,255,163,.25);}
   .qr-box img{width:120px;height:120px;object-fit:contain;}
   .qr-box span{color:var(--navy);font-size:12px;font-weight:700;}
 
-  footer{background:var(--navy);border-top:1px solid var(--border);padding:28px 0;text-align:center;color:#64748b;font-size:12.5px;}
-  footer a{color:var(--green);font-weight:700;}
+  footer{border-top:1px solid var(--border);padding:30px 0;text-align:center;color:var(--muted);font-size:12.5px;position:relative;z-index:2;}
+  footer a{color:var(--neon);font-weight:700;}
 </style>
 </head>
 <body>
+
+<div class="bg-grid"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
 
 <nav>
   <div class="wrap inner">
@@ -202,7 +290,7 @@
 <!-- HERO -->
 <section class="hero" id="profil">
   <div class="wrap hero-grid">
-    <div>
+    <div class="reveal in">
       <span class="badge"><i class="fa-solid fa-circle-check"></i> DARIKO HR &amp; MARKETING · Bosh Konsultant</span>
       <h1 style="margin-top:20px;">KHIKMATULLO <span>TURAEV</span></h1>
       <div class="hero-role">
@@ -218,13 +306,13 @@
         <a href="mailto:khikmatulloturaev@gmail.com" class="btn btn-ghost"><i class="fa-solid fa-envelope"></i> Email yozish</a>
       </div>
       <div class="hero-stats">
-        <div class="stat"><div class="num">17+</div><div class="label">Yillik rahbarlik</div></div>
-        <div class="stat"><div class="num">100%</div><div class="label">SOP tizimlashtirish</div></div>
-        <div class="stat"><div class="num">C&amp;B+KPI</div><div class="label">HR standartlari</div></div>
+        <div class="stat"><div class="num" data-count="17" data-suffix="+">0</div><div class="label">Yillik rahbarlik</div></div>
+        <div class="stat"><div class="num" data-count="100" data-suffix="%">0</div><div class="label">SOP tizimlashtirish</div></div>
+        <div class="stat"><div class="num" data-static="C&amp;B+KPI">0</div><div class="label">HR standartlari</div></div>
       </div>
     </div>
 
-    <div class="photo-card">
+    <div class="photo-card reveal-scale in">
       <div class="avatar">KT</div>
       <h3>Khikmatullo Turaev</h3>
       <div class="role">Operatsion Boshqaruvchi</div>
@@ -238,123 +326,181 @@
       </div>
     </div>
   </div>
+  <div class="scrolldown"><i class="fa-solid fa-chevron-down"></i></div>
 </section>
 
 <!-- SKILLS -->
-<section class="section section-light" id="konikmalar">
+<section class="section" id="konikmalar">
   <div class="wrap">
-    <span class="eyebrow">Kasbiy salohiyat</span>
-    <h2 class="h2">Asosiy ko‘nikmalar</h2>
-    <p class="lead">Operatsion boshqaruvdan tortib raqamlashtirishgacha — biznesni tizimli o‘stirishga xizmat qiluvchi ko‘nikmalar to‘plami.</p>
+    <div class="eyebrow reveal">Kasbiy salohiyat</div>
+    <h2 class="h2 reveal">Asosiy <span class="glow">ko‘nikmalar</span></h2>
+    <p class="lead reveal">Operatsion boshqaruvdan tortib raqamlashtirishgacha — biznesni tizimli o‘stirishga xizmat qiluvchi ko‘nikmalar to‘plami.</p>
 
-    <div class="skills-grid">
-      <div class="skill-card">
-        <div class="ic"><i class="fa-solid fa-sliders"></i></div>
+    <div class="skills-wrap stagger">
+      <div class="skill-card reveal" style="--i:0;">
+        <div class="top">
+          <div class="ic"><i class="fa-solid fa-sliders"></i></div>
+          <div class="ring"><svg width="46" height="46"><circle class="bg" cx="23" cy="23" r="20"/><circle class="fg" data-pct="95" cx="23" cy="23" r="20"/></svg><span class="pct">95%</span></div>
+        </div>
         <h3>Operatsion boshqaruv va tizimlashtirish</h3>
         <p>Biznes-jarayonlarni noldan loyihalash, ichki audit, resurslarni oqilona taqsimlash va xarajatlarni maqbullashtirish.</p>
       </div>
-      <div class="skill-card">
-        <div class="ic"><i class="fa-solid fa-sitemap"></i></div>
+      <div class="skill-card reveal" style="--i:1;">
+        <div class="top">
+          <div class="ic"><i class="fa-solid fa-sitemap"></i></div>
+          <div class="ring"><svg width="46" height="46"><circle class="bg" cx="23" cy="23" r="20"/><circle class="fg" data-pct="92" cx="23" cy="23" r="20"/></svg><span class="pct">92%</span></div>
+        </div>
         <h3>Inson resurslari (HR), C&amp;B va SOP</h3>
         <p>Standart operatsion tartiblar (SOP), KPI baholash va kompensatsiya-imtiyozlar (C&amp;B) tizimini joriy qilish.</p>
       </div>
-      <div class="skill-card">
-        <div class="ic"><i class="fa-solid fa-bullhorn"></i></div>
+      <div class="skill-card reveal" style="--i:2;">
+        <div class="top">
+          <div class="ic"><i class="fa-solid fa-bullhorn"></i></div>
+          <div class="ring"><svg width="46" height="46"><circle class="bg" cx="23" cy="23" r="20"/><circle class="fg" data-pct="88" cx="23" cy="23" r="20"/></svg><span class="pct">88%</span></div>
+        </div>
         <h3>Strategik marketing va brend rivoji</h3>
         <p>Bozor tahlili, maqsadli auditoriyani kengaytirish, reklama kampaniyalari va sotuv ko‘rsatkichlarini oshirish.</p>
       </div>
-      <div class="skill-card">
-        <div class="ic"><i class="fa-solid fa-users"></i></div>
+      <div class="skill-card reveal" style="--i:3;">
+        <div class="top">
+          <div class="ic"><i class="fa-solid fa-users"></i></div>
+          <div class="ring"><svg width="46" height="46"><circle class="bg" cx="23" cy="23" r="20"/><circle class="fg" data-pct="96" cx="23" cy="23" r="20"/></svg><span class="pct">96%</span></div>
+        </div>
         <h3>Jamoa yetakchiligi va jipslik</h3>
         <p>17+ yillik rahbarlik tajribasi, xodimlar motivatsiyasi, korporativ madaniyat va team building.</p>
       </div>
-      <div class="skill-card">
-        <div class="ic"><i class="fa-solid fa-laptop-code"></i></div>
+      <div class="skill-card reveal" style="--i:4;">
+        <div class="top">
+          <div class="ic"><i class="fa-solid fa-laptop-code"></i></div>
+          <div class="ring"><svg width="46" height="46"><circle class="bg" cx="23" cy="23" r="20"/><circle class="fg" data-pct="80" cx="23" cy="23" r="20"/></svg><span class="pct">80%</span></div>
+        </div>
         <h3>Raqamlashtirish va AKT loyihalari</h3>
         <p>CRM/ERP tatbiq etish, zamonaviy dasturlash, sun’iy intellekt (Vibe Coding) va veb-dizayn.</p>
       </div>
-      <div class="skill-card">
-        <div class="ic"><i class="fa-solid fa-shield-halved"></i></div>
+      <div class="skill-card reveal" style="--i:5;">
+        <div class="top">
+          <div class="ic"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="ring"><svg width="46" height="46"><circle class="bg" cx="23" cy="23" r="20"/><circle class="fg" data-pct="85" cx="23" cy="23" r="20"/></svg><span class="pct">85%</span></div>
+        </div>
         <h3>Axborot xavfsizligi</h3>
         <p>Davlat xizmatlarini raqamlashtirish loyihalarida axborot xavfsizligini ta’minlash tajribasi.</p>
+      </div>
+    </div>
+
+    <!-- Bar chart infographic -->
+    <div class="barchart">
+      <div class="bar-row reveal">
+        <div class="lbl"><i class="fa-solid fa-sitemap"></i> Operatsion boshqaruv</div>
+        <div class="bar-track"><div class="bar-fill" data-w="95"></div></div>
+        <div class="val">95%</div>
+      </div>
+      <div class="bar-row reveal">
+        <div class="lbl"><i class="fa-solid fa-users"></i> HR va jamoa boshqaruvi</div>
+        <div class="bar-track"><div class="bar-fill" data-w="92"></div></div>
+        <div class="val">92%</div>
+      </div>
+      <div class="bar-row reveal">
+        <div class="lbl"><i class="fa-solid fa-bullhorn"></i> Marketing strategiyasi</div>
+        <div class="bar-track"><div class="bar-fill" data-w="88"></div></div>
+        <div class="val">88%</div>
+      </div>
+      <div class="bar-row reveal">
+        <div class="lbl"><i class="fa-solid fa-laptop-code"></i> Raqamlashtirish / AI</div>
+        <div class="bar-track"><div class="bar-fill" data-w="80"></div></div>
+        <div class="val">80%</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- EXPERIENCE -->
-<section class="section" style="background:#fff;" id="tajriba">
+<section class="section" id="tajriba">
   <div class="wrap">
-    <span class="eyebrow" style="color:#098C52;">Mehnat faoliyati</span>
-    <h2 class="h2" style="color:var(--navy);">Operatsion boshqaruv tajribasi</h2>
-    <p class="lead" style="color:var(--muted);">17+ yillik rahbarlik yo‘li — davlat korxonasidan tortib xususiy kompaniyalargacha.</p>
+    <div class="eyebrow reveal">Mehnat faoliyati</div>
+    <h2 class="h2 reveal">Operatsion boshqaruv <span class="glow">tajribasi</span></h2>
+    <p class="lead reveal">17+ yillik rahbarlik yo‘li — davlat korxonasidan tortib xususiy kompaniyalargacha.</p>
 
     <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-head"><h3>Konsultant (HR va operatsion marketing)</h3><span class="tl-date">2026-yil — hozirgi kunga qadar</span></div>
-        <div class="tl-company">“Dariko” MChJ — Vobkent, Buxoro · Co-Founder</div>
-        <ul>
-          <li>Korxonada HR boshqaruvi, C&amp;B hamda KPI tizimini joriy qilish.</li>
-          <li>Operatsion jarayonlar auditi, marketing strategiyasi va savdo tizimini takomillashtirish bo‘yicha konsalting.</li>
-        </ul>
+      <div class="tl-item reveal">
+        <div class="node"></div>
+        <div class="tl-card">
+          <div class="tl-head"><h3>Konsultant (HR va operatsion marketing)</h3><span class="tl-date">2026-yil — hozirgi kunga qadar</span></div>
+          <div class="tl-company">“Dariko” MChJ — Vobkent, Buxoro · Co-Founder</div>
+          <ul>
+            <li>Korxonada HR boshqaruvi, C&amp;B hamda KPI tizimini joriy qilish.</li>
+            <li>Operatsion jarayonlar auditi, marketing strategiyasi va savdo tizimini takomillashtirish bo‘yicha konsalting.</li>
+          </ul>
+        </div>
       </div>
-      <div class="tl-item">
-        <div class="tl-head"><h3>Marketolog (Marketing bo‘limi boshlig‘i)</h3><span class="tl-date">2026-yil</span></div>
-        <div class="tl-company">“Bor Store” MChJ — Buxoro</div>
-        <ul>
-          <li>Marketing bo‘limining operatsion faoliyatini boshqarish, brend tanilishi va savdo tizimini takomillashtirish.</li>
-          <li>Bozor talablarini o‘rganish, auditoriyani kengaytirish va reklama kampaniyalarini boshqarish.</li>
-        </ul>
+      <div class="tl-item reveal">
+        <div class="node"></div>
+        <div class="tl-card">
+          <div class="tl-head"><h3>Marketolog (Marketing bo‘limi boshlig‘i)</h3><span class="tl-date">2026-yil</span></div>
+          <div class="tl-company">“Bor Store” MChJ — Buxoro</div>
+          <ul>
+            <li>Marketing bo‘limining operatsion faoliyatini boshqarish, brend tanilishi va savdo tizimini takomillashtirish.</li>
+            <li>Bozor talablarini o‘rganish, auditoriyani kengaytirish va reklama kampaniyalarini boshqarish.</li>
+          </ul>
+        </div>
       </div>
-      <div class="tl-item">
-        <div class="tl-head"><h3>Raqamlashtirish va operatsion boshqaruv bo‘limi boshlig‘i</h3><span class="tl-date">2024 — 2026-yillar</span></div>
-        <div class="tl-company">“Sayna Tour” MChJ — Toshkent / Buxoro</div>
-        <ul>
-          <li>Operatsion jarayonlarni to‘liq raqamlashtirish, CRM tizimini joriy qilish.</li>
-          <li>Korporativ tadbirlar, team building va xodimlar unumdorligini oshirish.</li>
-        </ul>
+      <div class="tl-item reveal">
+        <div class="node"></div>
+        <div class="tl-card">
+          <div class="tl-head"><h3>Raqamlashtirish va operatsion boshqaruv bo‘limi boshlig‘i</h3><span class="tl-date">2024 — 2026-yillar</span></div>
+          <div class="tl-company">“Sayna Tour” MChJ — Toshkent / Buxoro</div>
+          <ul>
+            <li>Operatsion jarayonlarni to‘liq raqamlashtirish, CRM tizimini joriy qilish.</li>
+            <li>Korporativ tadbirlar, team building va xodimlar unumdorligini oshirish.</li>
+          </ul>
+        </div>
       </div>
-      <div class="tl-item">
-        <div class="tl-head"><h3>Ish boshqaruvchi (Operatsion boshqaruvchi)</h3><span class="tl-date">2022 — 2024-yillar</span></div>
-        <div class="tl-company">“Bugun-Kecha-Ertaga” MChJ — Buxoro</div>
-        <ul>
-          <li>Kundalik operatsion faoliyat, xodimlar intizomi va resurslarni oqilona taqsimlash.</li>
-          <li>SOP ishlab chiqish, xizmat sifatini oshirish va xarajatlarni qisqartirish.</li>
-        </ul>
+      <div class="tl-item reveal">
+        <div class="node"></div>
+        <div class="tl-card">
+          <div class="tl-head"><h3>Ish boshqaruvchi (Operatsion boshqaruvchi)</h3><span class="tl-date">2022 — 2024-yillar</span></div>
+          <div class="tl-company">“Bugun-Kecha-Ertaga” MChJ — Buxoro</div>
+          <ul>
+            <li>Kundalik operatsion faoliyat, xodimlar intizomi va resurslarni oqilona taqsimlash.</li>
+            <li>SOP ishlab chiqish, xizmat sifatini oshirish va xarajatlarni qisqartirish.</li>
+          </ul>
+        </div>
       </div>
-      <div class="tl-item">
-        <div class="tl-head"><h3>Direktor</h3><span class="tl-date">2018 — 2022-yillar</span></div>
-        <div class="tl-company">“AKTRM” DUK — Buxoro</div>
-        <ul>
-          <li>Buxoro viloyati hokimligi huzuridagi AKT rivojlantirish markaziga to‘liq rahbarlik.</li>
-          <li>Hududiy raqamlashtirish loyihalari, davlat xizmatlari integratsiyasi va axborot xavfsizligi.</li>
-        </ul>
+      <div class="tl-item reveal">
+        <div class="node"></div>
+        <div class="tl-card">
+          <div class="tl-head"><h3>Direktor</h3><span class="tl-date">2018 — 2022-yillar</span></div>
+          <div class="tl-company">“AKTRM” DUK — Buxoro</div>
+          <ul>
+            <li>Buxoro viloyati hokimligi huzuridagi AKT rivojlantirish markaziga to‘liq rahbarlik.</li>
+            <li>Hududiy raqamlashtirish loyihalari, davlat xizmatlari integratsiyasi va axborot xavfsizligi.</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <div class="earlier-grid">
-      <div class="earlier-card"><div class="role">BOSH KOORDINATOR</div><div class="org">Kamolot, Buxoro vil.</div><div class="date">2012 — 2018-yy.</div></div>
-      <div class="earlier-card"><div class="role">KOORDINATOR</div><div class="org">Kamolot, Vobkent</div><div class="date">2010 — 2011-yy.</div></div>
-      <div class="earlier-card"><div class="role">YETAKCHI MUTAXASSIS</div><div class="org">Kamolot, Toshkent sh.</div><div class="date">2010 — 2010-y.</div></div>
-      <div class="earlier-card"><div class="role">DIREKTOR</div><div class="org">Fly Team Vabkent XK</div><div class="date">2009 — 2010-yy.</div></div>
+    <div class="earlier-grid stagger">
+      <div class="earlier-card reveal" style="--i:0;"><div class="role">BOSH KOORDINATOR</div><div class="org">Kamolot, Buxoro vil.</div><div class="date">2012 — 2018-yy.</div></div>
+      <div class="earlier-card reveal" style="--i:1;"><div class="role">KOORDINATOR</div><div class="org">Kamolot, Vobkent</div><div class="date">2010 — 2011-yy.</div></div>
+      <div class="earlier-card reveal" style="--i:2;"><div class="role">YETAKCHI MUTAXASSIS</div><div class="org">Kamolot, Toshkent sh.</div><div class="date">2010 — 2010-y.</div></div>
+      <div class="earlier-card reveal" style="--i:3;"><div class="role">DIREKTOR</div><div class="org">Fly Team Vabkent XK</div><div class="date">2009 — 2010-yy.</div></div>
     </div>
   </div>
 </section>
 
 <!-- EDUCATION -->
-<section class="section section-light" id="talim">
+<section class="section" id="talim">
   <div class="wrap">
-    <span class="eyebrow">Bilim va malaka</span>
-    <h2 class="h2">Ta’lim va sertifikatlar</h2>
+    <div class="eyebrow reveal">Bilim va malaka</div>
+    <h2 class="h2 reveal">Ta’lim va <span class="glow">sertifikatlar</span></h2>
 
     <div class="edu-grid">
-      <div class="edu-main">
+      <div class="edu-main reveal">
         <h3>OLIY MA’LUMOT, FILOLOG (INGLIZ TILI)</h3>
         <div class="org">O‘zbekiston davlat jahon tillari universiteti — Toshkent</div>
         <div class="yr">2005 — 2009-yy. · Filologiya (ingliz tili) bo‘yicha bakalavr</div>
 
         <div style="margin-top:26px;">
-          <span class="eyebrow" style="margin-bottom:14px;">Tillar</span>
+          <div class="eyebrow" style="margin-bottom:14px;">Tillar</div>
           <div class="lang-row" style="margin-top:0;">
             <div class="lang-pill"><div class="name">O‘zbek tili</div><div class="lvl">Ona tili</div></div>
             <div class="lang-pill"><div class="name">Rus tili</div><div class="lvl">O‘rta daraja</div></div>
@@ -363,25 +509,25 @@
         </div>
       </div>
 
-      <div class="certs">
-        <div class="cert"><div class="t">Top HR Academy</div><div class="d">C&amp;B, SOP va HR boshqaruvi</div><div class="y">2026-y. — hozir</div></div>
-        <div class="cert"><div class="t">Marketing Maximum</div><div class="d">Marketing strategiyasi</div><div class="y">2026-y. — hozir</div></div>
-        <div class="cert"><div class="t">Insan Academy</div><div class="d">Dasturlash va AI (Vibe Coding)</div><div class="y">2026-yil</div></div>
-        <div class="cert"><div class="t">Insan Academy</div><div class="d">Veb-dizayn va UX/UI</div><div class="y">2024-yil</div></div>
-        <div class="cert" style="grid-column:1/-1;"><div class="t">DigitalGov — Toshkent</div><div class="d">Axborot xavfsizligi va davlat xizmatlarini raqamlashtirish</div><div class="y">2022-yil</div></div>
+      <div class="certs stagger">
+        <div class="cert reveal" style="--i:0;"><div class="t">Top HR Academy</div><div class="d">C&amp;B, SOP va HR boshqaruvi</div><div class="y">2026-y. — hozir</div></div>
+        <div class="cert reveal" style="--i:1;"><div class="t">Marketing Maximum</div><div class="d">Marketing strategiyasi</div><div class="y">2026-y. — hozir</div></div>
+        <div class="cert reveal" style="--i:2;"><div class="t">Insan Academy</div><div class="d">Dasturlash va AI (Vibe Coding)</div><div class="y">2026-yil</div></div>
+        <div class="cert reveal" style="--i:3;"><div class="t">Insan Academy</div><div class="d">Veb-dizayn va UX/UI</div><div class="y">2024-yil</div></div>
+        <div class="cert reveal" style="grid-column:1/-1;--i:4;"><div class="t">DigitalGov — Toshkent</div><div class="d">Axborot xavfsizligi va davlat xizmatlarini raqamlashtirish</div><div class="y">2022-yil</div></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section class="section cta" id="aloqa">
+<section class="section" id="aloqa">
   <div class="wrap">
-    <span class="eyebrow">Hamkorlik</span>
-    <h2 class="h2">Keling, bog‘lanamiz</h2>
-    <p class="lead" style="color:#94a3b8;">Operatsion boshqaruv, HR yoki marketing bo‘yicha konsalting kerak bo‘lsa — quyidagi kanallar orqali murojaat qiling.</p>
+    <div class="eyebrow reveal">Hamkorlik</div>
+    <h2 class="h2 reveal">Keling, <span class="glow">bog‘lanamiz</span></h2>
+    <p class="lead reveal">Operatsion boshqaruv, HR yoki marketing bo‘yicha konsalting kerak bo‘lsa — quyidagi kanallar orqali murojaat qiling.</p>
 
-    <div class="contact-card">
+    <div class="contact-card reveal">
       <div>
         <div class="contact-list">
           <a href="mailto:khikmatulloturaev@gmail.com"><span class="ic"><i class="fa-solid fa-envelope"></i></span> khikmatulloturaev@gmail.com</a>
@@ -403,6 +549,65 @@
 <footer>
   &copy; 2026 Khikmatullo Turaev · <a href="mailto:khikmatulloturaev@gmail.com">khikmatulloturaev@gmail.com</a> · DARIKO HR &amp; MARKETING
 </footer>
+
+<script>
+  // Scroll reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
+  },{threshold:.15});
+  document.querySelectorAll('.reveal, .reveal-scale').forEach(el=>io.observe(el));
+
+  // Counter animation
+  function animateCount(el){
+    const target = parseInt(el.dataset.count,10);
+    const suffix = el.dataset.suffix || '';
+    let cur = 0;
+    const step = Math.max(1, Math.round(target/40));
+    const t = setInterval(()=>{
+      cur += step;
+      if(cur >= target){ cur = target; clearInterval(t); }
+      el.textContent = cur + suffix;
+    }, 30);
+  }
+  document.querySelectorAll('[data-static]').forEach(el=> el.textContent = el.dataset.static);
+
+  const statIo = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.querySelectorAll('[data-count]').forEach(animateCount);
+        statIo.unobserve(e.target);
+      }
+    });
+  },{threshold:.4});
+  document.querySelectorAll('.hero-stats').forEach(el=>statIo.observe(el));
+
+  // Radial skill rings
+  const ringIo = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const circle = e.target;
+        const pct = parseFloat(circle.dataset.pct);
+        const r = 20, c = 2*Math.PI*r;
+        circle.style.strokeDasharray = c;
+        circle.style.strokeDashoffset = c - (pct/100)*c;
+        ringIo.unobserve(circle);
+      }
+    });
+  },{threshold:.5});
+  document.querySelectorAll('.ring .fg').forEach(el=>ringIo.observe(el));
+
+  // Bar chart fill
+  const barIo = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const fill = e.target.querySelector('.bar-fill');
+        if(fill){ fill.style.width = fill.dataset.w + '%'; }
+        barIo.unobserve(e.target);
+      }
+    });
+  },{threshold:.4});
+  document.querySelectorAll('.bar-row').forEach(el=>barIo.observe(el));
+</script>
 
 </body>
 </html>
