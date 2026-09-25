@@ -35,7 +35,6 @@
   .wrap{max-width:1140px;margin:0 auto;padding:0 24px;position:relative;z-index:2;}
   ::selection{background:var(--green);color:#fff;}
 
-  /* Subtle backdrop — professional, not loud */
   .bg-grid{
     position:fixed;inset:0;z-index:0;pointer-events:none;
     background-image:
@@ -79,12 +78,13 @@
   .h2 .accent{color:var(--green-l);}
   .lead{color:var(--muted);font-size:16px;max-width:640px;margin-top:14px;}
 
+  /* NAV */
   nav{
-    position:sticky;top:0;z-index:50;
+    position:sticky;top:0;z-index:60;
     background:rgba(8,20,32,.82);backdrop-filter:blur(20px);
     border-bottom:1px solid var(--border);
   }
-  nav .inner{display:flex;align-items:center;justify-content:space-between;padding:15px 0;}
+  nav .inner{display:flex;align-items:center;justify-content:space-between;padding:15px 0;position:relative;}
   .logo{display:flex;align-items:center;gap:11px;font-weight:800;color:#fff;font-size:15px;}
   .logo .mark{width:38px;height:38px;border-radius:9px;background:var(--navy-3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--green-l);font-weight:900;font-size:14px;}
   .navlinks{display:none;gap:30px;font-size:13.5px;font-weight:600;color:#c6d3e3;}
@@ -92,10 +92,24 @@
   .navlinks a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--green);transition:.25s;}
   .navlinks a:hover::after{width:100%;}
   .navlinks a:hover{color:#fff;}
-  @media(min-width:820px){.navlinks{display:flex;}}
+  .nav-actions{display:flex;align-items:center;gap:10px;}
+  .nav-toggle{
+    display:flex;align-items:center;justify-content:center;
+    width:38px;height:38px;border-radius:9px;background:rgba(255,255,255,.04);
+    border:1px solid var(--border);color:#fff;font-size:15px;cursor:pointer;
+  }
+  @media(min-width:820px){.navlinks{display:flex;}.nav-toggle{display:none;}}
+  .mobile-menu{
+    display:none;flex-direction:column;gap:2px;
+    background:rgba(8,20,32,.98);border-top:1px solid var(--border);
+    padding:10px 24px 18px;
+  }
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{padding:12px 4px;font-size:14px;font-weight:600;color:#dce4ee;border-bottom:1px solid rgba(255,255,255,.05);}
+  @media(min-width:820px){.mobile-menu{display:none !important;}}
 
   /* HERO */
-  .hero{padding:96px 0 64px;}
+  .hero{padding:88px 0 60px;}
   .hero-grid{display:grid;grid-template-columns:1fr;gap:52px;align-items:center;}
   @media(min-width:920px){.hero-grid{grid-template-columns:1.2fr .8fr;}}
   .hero h1{font-size:clamp(34px,5vw,52px);font-weight:900;color:#fff;line-height:1.08;letter-spacing:-0.02em;}
@@ -129,6 +143,17 @@
   .social-row{display:flex;gap:10px;margin-top:24px;}
   .social-row a{width:38px;height:38px;border-radius:9px;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:#c6d3e3;transition:.2s;}
   .social-row a:hover{background:var(--green);color:#fff;border-color:var(--green);transform:translateY(-2px);}
+
+  /* SERVICES */
+  .services-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:44px;}
+  @media(min-width:700px){.services-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(min-width:1080px){.services-grid{grid-template-columns:repeat(4,1fr);}}
+  .service-card{background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:14px;padding:26px 24px;transition:.25s;}
+  .service-card:hover{border-color:rgba(11,163,96,.4);transform:translateY(-4px);box-shadow:0 20px 40px -20px rgba(0,0,0,.5);}
+  .service-card .num{font-family:'Outfit',sans-serif;font-weight:900;font-size:26px;color:rgba(255,255,255,.12);}
+  .service-card .ic{width:42px;height:42px;border-radius:10px;background:rgba(11,163,96,.12);color:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:17px;margin-top:-6px;}
+  .service-card h3{font-size:15px;font-weight:800;color:#fff;margin-top:16px;margin-bottom:8px;}
+  .service-card p{font-size:13px;color:var(--muted);line-height:1.6;}
 
   /* SKILLS */
   .skills-wrap{display:grid;grid-template-columns:1fr;gap:16px;margin-top:44px;}
@@ -199,7 +224,6 @@
   .lang-pill .name{font-weight:800;color:#fff;font-size:13.5px;}
   .lang-pill .lvl{font-size:11.5px;color:var(--green-l);font-weight:700;margin-top:5px;}
 
-  /* Quote / positioning statement */
   .quote-block{
     background:rgba(11,163,96,.06);border:1px solid rgba(11,163,96,.25);border-radius:16px;
     padding:36px 40px;position:relative;margin-top:8px;
@@ -222,8 +246,24 @@
   .qr-box img{width:118px;height:118px;object-fit:contain;}
   .qr-box span{color:var(--navy);font-size:11.5px;font-weight:700;}
 
-  footer{border-top:1px solid var(--border);padding:32px 0;text-align:center;color:var(--muted);font-size:12px;position:relative;z-index:2;}
+  footer{border-top:1px solid var(--border);padding:36px 0;position:relative;z-index:2;}
+  .footer-grid{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;}
   footer a{color:var(--green-l);font-weight:700;}
+  footer .copy{color:var(--muted);font-size:12px;}
+  .footer-social{display:flex;gap:10px;}
+  .footer-social a{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:#c6d3e3;transition:.2s;font-size:13px;}
+  .footer-social a:hover{background:var(--green);color:#fff;border-color:var(--green);}
+
+  /* Back to top */
+  .to-top{
+    position:fixed;bottom:26px;right:26px;z-index:55;
+    width:44px;height:44px;border-radius:12px;background:var(--green);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:16px;
+    box-shadow:0 14px 30px -10px rgba(11,163,96,.6);opacity:0;pointer-events:none;
+    transition:opacity .25s, transform .25s;transform:translateY(10px);
+  }
+  .to-top.show{opacity:1;pointer-events:auto;transform:translateY(0);}
+  .to-top:hover{background:var(--green-l);}
 </style>
 </head>
 <body>
@@ -237,12 +277,24 @@
     <div class="logo"><span class="mark">KT</span> Khikmatullo Turaev</div>
     <div class="navlinks">
       <a href="#profil">Profil</a>
+      <a href="#xizmatlar">Xizmatlar</a>
       <a href="#konikmalar">Ko‘nikmalar</a>
       <a href="#tajriba">Tajriba</a>
       <a href="#talim">Ta’lim</a>
       <a href="#aloqa">Aloqa</a>
     </div>
-    <a href="#aloqa" class="btn btn-primary" style="padding:10px 18px;font-size:13px;">Bog‘lanish</a>
+    <div class="nav-actions">
+      <a href="#aloqa" class="btn btn-primary" style="padding:10px 18px;font-size:13px;">Bog‘lanish</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menyu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#profil">Profil</a>
+    <a href="#xizmatlar">Xizmatlar</a>
+    <a href="#konikmalar">Ko‘nikmalar</a>
+    <a href="#tajriba">Tajriba</a>
+    <a href="#talim">Ta’lim</a>
+    <a href="#aloqa">Aloqa</a>
   </div>
 </nav>
 
@@ -282,6 +334,44 @@
         <a href="https://t.me/khikmatulloturaev" target="_blank" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
         <a href="https://www.instagram.com/khikmatullo_turaev/" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
         <a href="https://linkedin.com/in/khikmatulloturaev" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="section-divider"></div></div>
+
+<!-- SERVICES -->
+<section class="section" id="xizmatlar" style="padding-bottom:60px;">
+  <div class="wrap">
+    <div class="eyebrow reveal">Nima bilan yordam beraman</div>
+    <h2 class="h2 reveal">Konsalting <span class="accent">yo‘nalishlari</span></h2>
+    <p class="lead reveal">Korxonangizning operatsion, HR va marketing tizimlarini professional darajaga olib chiqish uchun aniq yo‘nalishlar.</p>
+
+    <div class="services-grid stagger">
+      <div class="service-card reveal" style="--i:0;">
+        <div class="num">01</div>
+        <div class="ic"><i class="fa-solid fa-diagram-project"></i></div>
+        <h3>Operatsion audit</h3>
+        <p>Mavjud jarayonlarni tahlil qilish, bo‘g‘inlarni aniqlash va samaradorlikni oshirish bo‘yicha aniq reja.</p>
+      </div>
+      <div class="service-card reveal" style="--i:1;">
+        <div class="num">02</div>
+        <div class="ic"><i class="fa-solid fa-sitemap"></i></div>
+        <h3>SOP va KPI tizimlari</h3>
+        <p>Standart operatsion tartiblar va o‘lchanadigan samaradorlik ko‘rsatkichlarini joriy etish.</p>
+      </div>
+      <div class="service-card reveal" style="--i:2;">
+        <div class="num">03</div>
+        <div class="ic"><i class="fa-solid fa-users-gear"></i></div>
+        <h3>HR va C&amp;B konsalting</h3>
+        <p>Xodimlarni baholash, kompensatsiya-imtiyozlar tizimi va korporativ madaniyatni mustahkamlash.</p>
+      </div>
+      <div class="service-card reveal" style="--i:3;">
+        <div class="num">04</div>
+        <div class="ic"><i class="fa-solid fa-bullhorn"></i></div>
+        <h3>Marketing strategiyasi</h3>
+        <p>Brend pozitsiyasi, bozor tahlili va savdo ko‘rsatkichlarini oshirishga qaratilgan strategiya.</p>
       </div>
     </div>
   </div>
@@ -518,8 +608,17 @@
 </section>
 
 <footer>
-  &copy; 2026 Khikmatullo Turaev · <a href="mailto:khikmatulloturaev@gmail.com">khikmatulloturaev@gmail.com</a> · DARIKO HR &amp; MARKETING
+  <div class="wrap footer-grid">
+    <div class="copy">&copy; 2026 Khikmatullo Turaev · <a href="mailto:khikmatulloturaev@gmail.com">khikmatulloturaev@gmail.com</a> · DARIKO HR &amp; MARKETING</div>
+    <div class="footer-social">
+      <a href="https://t.me/khikmatulloturaev" target="_blank" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+      <a href="https://www.instagram.com/khikmatullo_turaev/" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://linkedin.com/in/khikmatulloturaev" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+    </div>
+  </div>
 </footer>
+
+<a href="#profil" class="to-top" id="toTop" aria-label="Yuqoriga"><i class="fa-solid fa-arrow-up"></i></a>
 
 <script>
   const io = new IntersectionObserver((entries)=>{
@@ -573,6 +672,25 @@
     });
   },{threshold:.2});
   document.querySelectorAll('.barchart').forEach(el=>barIo.observe(el));
+
+  // Mobile menu toggle
+  const navToggle = document.getElementById('navToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  navToggle.addEventListener('click', ()=>{
+    mobileMenu.classList.toggle('open');
+    const icon = navToggle.querySelector('i');
+    icon.className = mobileMenu.classList.contains('open') ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=>{
+    mobileMenu.classList.remove('open');
+    navToggle.querySelector('i').className = 'fa-solid fa-bars';
+  }));
+
+  // Back to top button
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', ()=>{
+    if(window.scrollY > 500){ toTop.classList.add('show'); } else { toTop.classList.remove('show'); }
+  });
 </script>
 
 </body>
