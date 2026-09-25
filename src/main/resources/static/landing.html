@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Khikmatullo Turaev — Operatsion Boshqaruvchi & Konsultant</title>
+<meta name="description" content="Khikmatullo Turaev — 17+ yillik tajribaga ega Operatsion boshqaruvchi, HR va Marketing konsultanti. DARIKO HR & MARKETING bosh konsultanti.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<style>
+  :root{
+    --navy:#081C32;
+    --navy-2:#0d233a;
+    --navy-3:#132f4c;
+    --green:#0BA360;
+    --green-2:#098C52;
+    --border:#1d436b;
+    --ink:#1e293b;
+    --muted:#64748b;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    color:#e2e8f0;
+    background:var(--navy);
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.font-heading{font-family:'Outfit',sans-serif;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:13px 26px;border-radius:12px;font-weight:700;font-size:14px;
+    transition:all .2s ease;cursor:pointer;border:none;
+  }
+  .btn-primary{background:var(--green);color:#fff;box-shadow:0 10px 30px -8px rgba(11,163,96,.5);}
+  .btn-primary:hover{background:var(--green-2);transform:translateY(-2px);}
+  .btn-ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid var(--border);}
+  .btn-ghost:hover{background:rgba(255,255,255,.12);}
+  .section{padding:88px 0;}
+  .badge{
+    display:inline-flex;align-items:center;gap:6px;
+    background:rgba(11,163,96,.12);color:var(--green);
+    border:1px solid rgba(11,163,96,.35);
+    padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;
+    letter-spacing:.04em;text-transform:uppercase;
+  }
+  .eyebrow{color:var(--green);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;display:block;}
+  .h2{font-size:clamp(26px,4vw,38px);font-weight:800;color:#fff;letter-spacing:-0.01em;}
+  .lead{color:#94a3b8;font-size:16px;max-width:640px;margin-top:12px;}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(8,28,50,.85);backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--border);
+  }
+  nav .inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0;}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;color:#fff;font-size:15px;}
+  .logo .mark{width:38px;height:38px;border-radius:10px;background:var(--navy-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--green);font-weight:900;font-size:14px;}
+  .navlinks{display:flex;gap:28px;font-size:14px;font-weight:600;color:#cbd5e1;}
+  .navlinks a:hover{color:var(--green);}
+  .navlinks{display:none;}
+  @media(min-width:800px){.navlinks{display:flex;}}
+
+  /* HERO */
+  .hero{padding:80px 0 60px;position:relative;}
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(60% 60% at 80% 0%, rgba(11,163,96,.16), transparent 60%);
+    pointer-events:none;
+  }
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:48px;align-items:center;position:relative;}
+  @media(min-width:900px){.hero-grid{grid-template-columns:1.15fr .85fr;}}
+  .hero h1{font-size:clamp(34px,5.5vw,56px);font-weight:900;color:#fff;line-height:1.06;letter-spacing:-0.02em;}
+  .hero h1 span{color:var(--green);}
+  .hero-role{margin-top:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:14px;font-weight:700;color:#cbd5e1;text-transform:uppercase;letter-spacing:.03em;}
+  .hero-role .dot{color:var(--green);}
+  .hero p.lead{margin-top:20px;color:#94a3b8;font-size:17px;max-width:560px;}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px;}
+  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:44px;max-width:520px;}
+  .stat{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:16px 10px;text-align:center;}
+  .stat .num{font-size:22px;font-weight:900;color:var(--green);font-family:'Outfit',sans-serif;}
+  .stat .label{font-size:11px;color:#94a3b8;margin-top:4px;font-weight:600;}
+
+  .photo-card{
+    position:relative;background:linear-gradient(160deg,var(--navy-2),var(--navy));
+    border:1px solid var(--border);border-radius:24px;padding:32px;
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+    box-shadow:0 40px 80px -30px rgba(0,0,0,.6);
+  }
+  .avatar{
+    width:132px;height:132px;border-radius:50%;
+    background:var(--navy-3);color:#fff;display:flex;align-items:center;justify-content:center;
+    font-family:'Outfit',sans-serif;font-weight:900;font-size:44px;
+    border:3px solid #fff;box-shadow:0 0 0 4px rgba(11,163,96,.55);
+    margin-bottom:20px;
+  }
+  .photo-card h3{color:#fff;font-size:19px;font-weight:800;}
+  .photo-card .role{color:var(--green);font-weight:700;font-size:13px;margin-top:4px;text-transform:uppercase;letter-spacing:.03em;}
+  .photo-card .loc{color:#94a3b8;font-size:13px;margin-top:10px;display:flex;align-items:center;gap:6px;}
+  .social-row{display:flex;gap:10px;margin-top:20px;}
+  .social-row a{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:#cbd5e1;transition:.2s;}
+  .social-row a:hover{background:var(--green);color:#fff;border-color:var(--green);}
+
+  /* LIGHT SECTIONS */
+  .section-light{background:#f8fafc;color:var(--ink);}
+  .section-light .h2{color:var(--navy);}
+  .section-light .eyebrow{color:var(--green-2);}
+  .section-light .lead{color:var(--muted);}
+
+  /* SKILLS */
+  .skills-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:40px;}
+  @media(min-width:760px){.skills-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(min-width:1080px){.skills-grid{grid-template-columns:repeat(3,1fr);}}
+  .skill-card{
+    background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:24px;
+    transition:.2s;box-shadow:0 1px 2px rgba(0,0,0,.03);
+  }
+  .skill-card:hover{border-color:var(--green);box-shadow:0 12px 30px -12px rgba(11,163,96,.35);transform:translateY(-3px);}
+  .skill-card .ic{width:44px;height:44px;border-radius:12px;background:rgba(11,163,96,.1);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px;}
+  .skill-card h3{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:6px;}
+  .skill-card p{font-size:13.5px;color:var(--muted);line-height:1.55;}
+
+  /* TIMELINE */
+  .timeline{margin-top:40px;position:relative;}
+  .tl-item{position:relative;padding-left:30px;padding-bottom:34px;border-left:2px solid #e2e8f0;}
+  .tl-item:last-child{border-color:transparent;padding-bottom:0;}
+  .tl-item::before{content:"";position:absolute;left:-6px;top:2px;width:11px;height:11px;border-radius:50%;background:var(--green);border:2px solid #fff;box-shadow:0 0 0 3px rgba(11,163,96,.2);}
+  .tl-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:baseline;}
+  .tl-head h3{font-size:16px;font-weight:800;color:var(--navy);}
+  .tl-date{font-size:11.5px;font-weight:700;color:var(--green-2);background:rgba(11,163,96,.1);padding:3px 10px;border-radius:999px;white-space:nowrap;}
+  .tl-company{font-size:13.5px;font-weight:700;color:var(--green-2);margin-top:4px;}
+  .tl-item ul{margin-top:8px;padding-left:18px;color:#475569;font-size:13.5px;line-height:1.6;}
+  .tl-item li{margin-top:3px;}
+  .earlier-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:36px;}
+  @media(min-width:700px){.earlier-grid{grid-template-columns:repeat(4,1fr);}}
+  .earlier-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px;}
+  .earlier-card .role{font-weight:800;font-size:12.5px;color:var(--navy);}
+  .earlier-card .org{font-size:11.5px;color:var(--green-2);font-weight:700;margin-top:3px;}
+  .earlier-card .date{font-size:11px;color:var(--muted);margin-top:4px;}
+
+  /* EDUCATION / CERTS */
+  .edu-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:36px;}
+  @media(min-width:820px){.edu-grid{grid-template-columns:1.1fr .9fr;}}
+  .edu-main{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:26px;}
+  .edu-main h3{font-size:16px;font-weight:800;color:var(--navy);}
+  .edu-main .org{font-size:13.5px;color:var(--green-2);font-weight:700;margin-top:8px;}
+  .edu-main .yr{font-size:12px;color:var(--muted);margin-top:4px;}
+  .certs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+  .cert{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 14px;}
+  .cert .t{font-weight:800;font-size:12.5px;color:var(--navy);}
+  .cert .d{font-size:11.5px;color:var(--green-2);font-weight:700;margin-top:2px;}
+  .cert .y{font-size:10.5px;color:var(--muted);margin-top:3px;}
+
+  /* LANGUAGES */
+  .lang-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px;}
+  .lang-pill{flex:1 1 160px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;text-align:center;}
+  .lang-pill .name{font-weight:800;color:var(--navy);font-size:14px;}
+  .lang-pill .lvl{font-size:12px;color:var(--green-2);font-weight:700;margin-top:4px;}
+
+  /* CTA / CONTACT */
+  .cta{background:linear-gradient(135deg,var(--navy),#0d233a);}
+  .contact-card{
+    background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;
+    padding:40px;display:grid;grid-template-columns:1fr;gap:26px;
+  }
+  @media(min-width:760px){.contact-card{grid-template-columns:1.2fr .8fr;}}
+  .contact-list{display:flex;flex-direction:column;gap:14px;margin-top:20px;}
+  .contact-list a{display:flex;align-items:center;gap:12px;color:#e2e8f0;font-size:14px;font-weight:600;transition:.2s;}
+  .contact-list a:hover{color:var(--green);}
+  .contact-list .ic{width:36px;height:36px;border-radius:10px;background:rgba(11,163,96,.12);color:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .qr-box{background:#fff;border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px;justify-self:center;}
+  .qr-box img{width:120px;height:120px;object-fit:contain;}
+  .qr-box span{color:var(--navy);font-size:12px;font-weight:700;}
+
+  footer{background:var(--navy);border-top:1px solid var(--border);padding:28px 0;text-align:center;color:#64748b;font-size:12.5px;}
+  footer a{color:var(--green);font-weight:700;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap inner">
+    <div class="logo"><span class="mark">KT</span> Khikmatullo Turaev</div>
+    <div class="navlinks">
+      <a href="#profil">Profil</a>
+      <a href="#konikmalar">Ko‘nikmalar</a>
+      <a href="#tajriba">Tajriba</a>
+      <a href="#talim">Ta’lim</a>
+      <a href="#aloqa">Aloqa</a>
+    </div>
+    <a href="#aloqa" class="btn btn-primary" style="padding:10px 18px;font-size:13px;">Bog‘lanish</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="profil">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="badge"><i class="fa-solid fa-circle-check"></i> DARIKO HR &amp; MARKETING · Bosh Konsultant</span>
+      <h1 style="margin-top:20px;">KHIKMATULLO <span>TURAEV</span></h1>
+      <div class="hero-role">
+        <span>KONSULTANT</span><span class="dot">•</span><span>OPERATSION BOSHQARUVCHI</span>
+      </div>
+      <p class="lead">
+        17 yildan ortiq boshqaruv tajribasiga ega operatsion boshqaruvchi, HR va marketing bo‘yicha yetakchi mutaxassis.
+        Biznes-jarayonlarni tizimlashtirish, SOP/KPI/C&amp;B tizimlarini joriy etish va raqamlashtirish orqali korxonalarga
+        barqaror o‘sish va samaradorlik olib kelaman.
+      </p>
+      <div class="hero-cta">
+        <a href="#aloqa" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Menga murojaat qiling</a>
+        <a href="mailto:khikmatulloturaev@gmail.com" class="btn btn-ghost"><i class="fa-solid fa-envelope"></i> Email yozish</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="num">17+</div><div class="label">Yillik rahbarlik</div></div>
+        <div class="stat"><div class="num">100%</div><div class="label">SOP tizimlashtirish</div></div>
+        <div class="stat"><div class="num">C&amp;B+KPI</div><div class="label">HR standartlari</div></div>
+      </div>
+    </div>
+
+    <div class="photo-card">
+      <div class="avatar">KT</div>
+      <h3>Khikmatullo Turaev</h3>
+      <div class="role">Operatsion Boshqaruvchi</div>
+      <div class="loc"><i class="fa-solid fa-location-dot"></i> Buxoro shahri, O‘zbekiston</div>
+      <div class="social-row">
+        <a href="mailto:khikmatulloturaev@gmail.com" title="Email"><i class="fa-solid fa-envelope"></i></a>
+        <a href="tel:+998914053508" title="Telefon"><i class="fa-solid fa-phone"></i></a>
+        <a href="https://t.me/khikmatulloturaev" target="_blank" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+        <a href="https://www.instagram.com/khikmatullo_turaev/" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://linkedin.com/in/khikmatulloturaev" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section section-light" id="konikmalar">
+  <div class="wrap">
+    <span class="eyebrow">Kasbiy salohiyat</span>
+    <h2 class="h2">Asosiy ko‘nikmalar</h2>
+    <p class="lead">Operatsion boshqaruvdan tortib raqamlashtirishgacha — biznesni tizimli o‘stirishga xizmat qiluvchi ko‘nikmalar to‘plami.</p>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="ic"><i class="fa-solid fa-sliders"></i></div>
+        <h3>Operatsion boshqaruv va tizimlashtirish</h3>
+        <p>Biznes-jarayonlarni noldan loyihalash, ichki audit, resurslarni oqilona taqsimlash va xarajatlarni maqbullashtirish.</p>
+      </div>
+      <div class="skill-card">
+        <div class="ic"><i class="fa-solid fa-sitemap"></i></div>
+        <h3>Inson resurslari (HR), C&amp;B va SOP</h3>
+        <p>Standart operatsion tartiblar (SOP), KPI baholash va kompensatsiya-imtiyozlar (C&amp;B) tizimini joriy qilish.</p>
+      </div>
+      <div class="skill-card">
+        <div class="ic"><i class="fa-solid fa-bullhorn"></i></div>
+        <h3>Strategik marketing va brend rivoji</h3>
+        <p>Bozor tahlili, maqsadli auditoriyani kengaytirish, reklama kampaniyalari va sotuv ko‘rsatkichlarini oshirish.</p>
+      </div>
+      <div class="skill-card">
+        <div class="ic"><i class="fa-solid fa-users"></i></div>
+        <h3>Jamoa yetakchiligi va jipslik</h3>
+        <p>17+ yillik rahbarlik tajribasi, xodimlar motivatsiyasi, korporativ madaniyat va team building.</p>
+      </div>
+      <div class="skill-card">
+        <div class="ic"><i class="fa-solid fa-laptop-code"></i></div>
+        <h3>Raqamlashtirish va AKT loyihalari</h3>
+        <p>CRM/ERP tatbiq etish, zamonaviy dasturlash, sun’iy intellekt (Vibe Coding) va veb-dizayn.</p>
+      </div>
+      <div class="skill-card">
+        <div class="ic"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3>Axborot xavfsizligi</h3>
+        <p>Davlat xizmatlarini raqamlashtirish loyihalarida axborot xavfsizligini ta’minlash tajribasi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="section" style="background:#fff;" id="tajriba">
+  <div class="wrap">
+    <span class="eyebrow" style="color:#098C52;">Mehnat faoliyati</span>
+    <h2 class="h2" style="color:var(--navy);">Operatsion boshqaruv tajribasi</h2>
+    <p class="lead" style="color:var(--muted);">17+ yillik rahbarlik yo‘li — davlat korxonasidan tortib xususiy kompaniyalargacha.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-head"><h3>Konsultant (HR va operatsion marketing)</h3><span class="tl-date">2026-yil — hozirgi kunga qadar</span></div>
+        <div class="tl-company">“Dariko” MChJ — Vobkent, Buxoro · Co-Founder</div>
+        <ul>
+          <li>Korxonada HR boshqaruvi, C&amp;B hamda KPI tizimini joriy qilish.</li>
+          <li>Operatsion jarayonlar auditi, marketing strategiyasi va savdo tizimini takomillashtirish bo‘yicha konsalting.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-head"><h3>Marketolog (Marketing bo‘limi boshlig‘i)</h3><span class="tl-date">2026-yil</span></div>
+        <div class="tl-company">“Bor Store” MChJ — Buxoro</div>
+        <ul>
+          <li>Marketing bo‘limining operatsion faoliyatini boshqarish, brend tanilishi va savdo tizimini takomillashtirish.</li>
+          <li>Bozor talablarini o‘rganish, auditoriyani kengaytirish va reklama kampaniyalarini boshqarish.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-head"><h3>Raqamlashtirish va operatsion boshqaruv bo‘limi boshlig‘i</h3><span class="tl-date">2024 — 2026-yillar</span></div>
+        <div class="tl-company">“Sayna Tour” MChJ — Toshkent / Buxoro</div>
+        <ul>
+          <li>Operatsion jarayonlarni to‘liq raqamlashtirish, CRM tizimini joriy qilish.</li>
+          <li>Korporativ tadbirlar, team building va xodimlar unumdorligini oshirish.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-head"><h3>Ish boshqaruvchi (Operatsion boshqaruvchi)</h3><span class="tl-date">2022 — 2024-yillar</span></div>
+        <div class="tl-company">“Bugun-Kecha-Ertaga” MChJ — Buxoro</div>
+        <ul>
+          <li>Kundalik operatsion faoliyat, xodimlar intizomi va resurslarni oqilona taqsimlash.</li>
+          <li>SOP ishlab chiqish, xizmat sifatini oshirish va xarajatlarni qisqartirish.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-head"><h3>Direktor</h3><span class="tl-date">2018 — 2022-yillar</span></div>
+        <div class="tl-company">“AKTRM” DUK — Buxoro</div>
+        <ul>
+          <li>Buxoro viloyati hokimligi huzuridagi AKT rivojlantirish markaziga to‘liq rahbarlik.</li>
+          <li>Hududiy raqamlashtirish loyihalari, davlat xizmatlari integratsiyasi va axborot xavfsizligi.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="earlier-grid">
+      <div class="earlier-card"><div class="role">BOSH KOORDINATOR</div><div class="org">Kamolot, Buxoro vil.</div><div class="date">2012 — 2018-yy.</div></div>
+      <div class="earlier-card"><div class="role">KOORDINATOR</div><div class="org">Kamolot, Vobkent</div><div class="date">2010 — 2011-yy.</div></div>
+      <div class="earlier-card"><div class="role">YETAKCHI MUTAXASSIS</div><div class="org">Kamolot, Toshkent sh.</div><div class="date">2010 — 2010-y.</div></div>
+      <div class="earlier-card"><div class="role">DIREKTOR</div><div class="org">Fly Team Vabkent XK</div><div class="date">2009 — 2010-yy.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="section section-light" id="talim">
+  <div class="wrap">
+    <span class="eyebrow">Bilim va malaka</span>
+    <h2 class="h2">Ta’lim va sertifikatlar</h2>
+
+    <div class="edu-grid">
+      <div class="edu-main">
+        <h3>OLIY MA’LUMOT, FILOLOG (INGLIZ TILI)</h3>
+        <div class="org">O‘zbekiston davlat jahon tillari universiteti — Toshkent</div>
+        <div class="yr">2005 — 2009-yy. · Filologiya (ingliz tili) bo‘yicha bakalavr</div>
+
+        <div style="margin-top:26px;">
+          <span class="eyebrow" style="margin-bottom:14px;">Tillar</span>
+          <div class="lang-row" style="margin-top:0;">
+            <div class="lang-pill"><div class="name">O‘zbek tili</div><div class="lvl">Ona tili</div></div>
+            <div class="lang-pill"><div class="name">Rus tili</div><div class="lvl">O‘rta daraja</div></div>
+            <div class="lang-pill"><div class="name">Ingliz tili</div><div class="lvl">O‘rta daraja</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="certs">
+        <div class="cert"><div class="t">Top HR Academy</div><div class="d">C&amp;B, SOP va HR boshqaruvi</div><div class="y">2026-y. — hozir</div></div>
+        <div class="cert"><div class="t">Marketing Maximum</div><div class="d">Marketing strategiyasi</div><div class="y">2026-y. — hozir</div></div>
+        <div class="cert"><div class="t">Insan Academy</div><div class="d">Dasturlash va AI (Vibe Coding)</div><div class="y">2026-yil</div></div>
+        <div class="cert"><div class="t">Insan Academy</div><div class="d">Veb-dizayn va UX/UI</div><div class="y">2024-yil</div></div>
+        <div class="cert" style="grid-column:1/-1;"><div class="t">DigitalGov — Toshkent</div><div class="d">Axborot xavfsizligi va davlat xizmatlarini raqamlashtirish</div><div class="y">2022-yil</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section cta" id="aloqa">
+  <div class="wrap">
+    <span class="eyebrow">Hamkorlik</span>
+    <h2 class="h2">Keling, bog‘lanamiz</h2>
+    <p class="lead" style="color:#94a3b8;">Operatsion boshqaruv, HR yoki marketing bo‘yicha konsalting kerak bo‘lsa — quyidagi kanallar orqali murojaat qiling.</p>
+
+    <div class="contact-card">
+      <div>
+        <div class="contact-list">
+          <a href="mailto:khikmatulloturaev@gmail.com"><span class="ic"><i class="fa-solid fa-envelope"></i></span> khikmatulloturaev@gmail.com</a>
+          <a href="tel:+998914053508"><span class="ic"><i class="fa-solid fa-phone"></i></span> +998 91 405 35 08</a>
+          <a href="https://t.me/khikmatulloturaev" target="_blank"><span class="ic"><i class="fa-brands fa-telegram"></i></span> @khikmatulloturaev (Telegram)</a>
+          <a href="https://www.instagram.com/khikmatullo_turaev/" target="_blank"><span class="ic"><i class="fa-brands fa-instagram"></i></span> @khikmatullo_turaev (Instagram)</a>
+          <a href="https://linkedin.com/in/khikmatulloturaev" target="_blank"><span class="ic"><i class="fa-brands fa-linkedin"></i></span> linkedin.com/in/khikmatulloturaev</a>
+          <a href="#"><span class="ic"><i class="fa-solid fa-location-dot"></i></span> Buxoro shahri, O‘zbekiston</a>
+        </div>
+      </div>
+      <div class="qr-box">
+        <img src="assets/img/qr-instagram.png" alt="Instagram QR" onerror="this.style.display='none'">
+        <span>Instagram QR-kod</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 Khikmatullo Turaev · <a href="mailto:khikmatulloturaev@gmail.com">khikmatulloturaev@gmail.com</a> · DARIKO HR &amp; MARKETING
+</footer>
+
+</body>
+</html>
