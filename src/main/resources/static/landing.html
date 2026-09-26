@@ -285,46 +285,6 @@
   .order-side{display:flex;flex-direction:column;gap:16px;}
   .order-side .contact-card{padding:26px;}
 
-  /* BUSINESS CARD VISUAL — flat, background-free showcase spanning full width */
-  .card-showcase-wrap{margin-top:8px;margin-bottom:44px;}
-  .card-showcase{
-    display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:36px;
-    padding:40px 24px;border-radius:20px;
-    background:radial-gradient(ellipse 70% 100% at 50% 50%, rgba(11,163,96,.05), transparent 70%);
-    border:1px solid var(--border);
-  }
-  .biz-card{
-    width:320px;max-width:100%;aspect-ratio:1.62;border-radius:16px;position:relative;
-    box-shadow:0 26px 60px -22px rgba(0,0,0,.65);transition:transform .3s ease, box-shadow .3s ease;
-    overflow:hidden;
-  }
-  .biz-card:hover{transform:translateY(-6px);box-shadow:0 34px 70px -22px rgba(0,0,0,.75);}
-  .biz-card.front{
-    background:#fff;border:1px solid #e6ebf1;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;
-  }
-  .biz-card.front .tagline{position:absolute;top:16px;left:20px;font-style:italic;font-size:11px;color:#94a3b8;font-family:'Outfit',sans-serif;}
-  .biz-card.front .dlogo{font-family:'Outfit',sans-serif;font-weight:900;font-size:30px;color:var(--navy);letter-spacing:.01em;}
-  .biz-card.front .dlogo span{color:var(--green);}
-  .biz-card.front .dsub{margin-top:2px;font-size:10.5px;font-weight:700;color:#64748b;letter-spacing:.28em;text-transform:uppercase;}
-  .biz-card.front .dslogan{margin-top:14px;font-size:10.5px;font-weight:800;color:var(--green);letter-spacing:.14em;text-transform:uppercase;}
-  .biz-card.back{
-    background:var(--navy);border:1px solid var(--border);color:#fff;
-    display:flex;flex-direction:column;justify-content:space-between;padding:20px 22px;
-  }
-  .biz-card.back .b-head{display:flex;align-items:center;gap:10px;}
-  .biz-card.back .b-head .mk{width:28px;height:28px;border-radius:7px;background:var(--navy-3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--green-l);font-weight:900;font-size:12px;flex-shrink:0;}
-  .biz-card.back .b-head .nm{font-weight:800;font-size:13px;color:#fff;line-height:1.2;}
-  .biz-card.back .b-head .rl{font-size:9px;color:var(--green-l);font-weight:700;letter-spacing:.04em;}
-  .biz-card.back .b-list{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
-  .biz-card.back .b-list div{display:flex;align-items:center;gap:8px;font-size:10.5px;color:#c6d3e3;font-weight:600;}
-  .biz-card.back .b-list i{color:var(--green-l);width:12px;font-size:10px;}
-  .biz-card.back .b-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding-top:10px;border-top:1px solid var(--border);}
-  .biz-card.back .b-foot .tags{font-size:8px;font-weight:800;color:var(--green-l);letter-spacing:.06em;max-width:150px;line-height:1.5;}
-  .biz-card.back .b-foot .mini-qr{width:44px;height:44px;background:#fff;border-radius:8px;padding:4px;flex-shrink:0;}
-  .biz-card.back .b-foot .mini-qr img{width:100%;height:100%;object-fit:contain;display:block;}
-  .card-showcase-cap{text-align:center;margin-top:18px;font-size:12px;font-weight:700;color:var(--green-l);letter-spacing:.05em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px;}
-
   footer{border-top:1px solid var(--border);padding:36px 0;position:relative;z-index:2;}
   .footer-grid{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;}
   footer a{color:var(--green-l);font-weight:700;}
@@ -666,37 +626,6 @@
     <div class="eyebrow reveal">Hamkorlik</div>
     <h2 class="h2 reveal">Keling, <span class="accent">bog‘lanamiz</span></h2>
     <p class="lead reveal">Operatsion boshqaruv, HR yoki marketing bo‘yicha konsalting kerak bo‘lsa — arizangizni qoldiring, Telegram orqali tez orada javob beraman.</p>
-
-    <div class="card-showcase-wrap reveal-scale">
-      <div class="card-showcase">
-        <div class="biz-card front">
-          <div class="tagline">Tizim. Tartib. Intizom.</div>
-          <div class="dlogo"><span>D</span>ARIKO</div>
-          <div class="dsub">HR &amp; Marketing</div>
-          <div class="dslogan">Tizim · Tartib · Intizom</div>
-        </div>
-        <div class="biz-card back">
-          <div class="b-head">
-            <div class="mk">KT</div>
-            <div>
-              <div class="nm">Khikmatullo Turaev</div>
-              <div class="rl">Marketolog | HR va Marketing yechimlari</div>
-            </div>
-          </div>
-          <div class="b-list">
-            <div><i class="fa-solid fa-phone"></i> +998 91 405-35-08</div>
-            <div><i class="fa-brands fa-telegram"></i> @KhikmatulloTuraev</div>
-            <div><i class="fa-brands fa-instagram"></i> @Khikmatullo_turaev</div>
-            <div><i class="fa-solid fa-location-dot"></i> Buxoro, Vobkent, Imom Buxoriy ko‘chasi, 36-uy</div>
-          </div>
-          <div class="b-foot">
-            <div class="tags">HR · MARKETING · BIZNESNI RIVOJLANTIRISH</div>
-            <div class="mini-qr"><img src="assets/img/qr-instagram.webp" alt="Instagram QR" onerror="this.style.display='none'"></div>
-          </div>
-        </div>
-      </div>
-      <div class="card-showcase-cap"><i class="fa-solid fa-id-card"></i> Rasmiy Dariko vizitka kartasi</div>
-    </div>
 
     <div class="order-grid">
       <div class="order-card reveal">
