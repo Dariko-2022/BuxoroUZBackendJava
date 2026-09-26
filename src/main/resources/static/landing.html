@@ -275,6 +275,21 @@
   .order-side{display:flex;flex-direction:column;gap:16px;}
   .order-side .contact-card{padding:26px;}
 
+  /* BUSINESS CARD VISUAL */
+  .bcard-frame{
+    background:linear-gradient(165deg,var(--navy-3),var(--navy-2));
+    border:1px solid var(--border);border-radius:18px;padding:22px;
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+    box-shadow:0 30px 70px -30px rgba(0,0,0,.65);
+  }
+  .bcard-frame img{
+    border-radius:12px;box-shadow:0 20px 50px -18px rgba(0,0,0,.7);
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .bcard-frame:hover img{transform:translateY(-4px) scale(1.015);box-shadow:0 28px 60px -18px rgba(0,0,0,.75);}
+  .bcard-frame .cap{margin-top:16px;font-size:12px;font-weight:700;color:var(--green-l);letter-spacing:.05em;text-transform:uppercase;display:flex;align-items:center;gap:8px;}
+  .bcard-frame .cap i{font-size:11px;}
+
   footer{border-top:1px solid var(--border);padding:36px 0;position:relative;z-index:2;}
   .footer-grid{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;}
   footer a{color:var(--green-l);font-weight:700;}
@@ -663,6 +678,10 @@
       </div>
 
       <div class="order-side">
+        <div class="bcard-frame reveal-scale">
+          <img src="assets/img/business-card.webp" alt="Dariko HR & Marketing — Khikmatullo Turaev vizitka kartasi" style="width:100%;max-width:320px;">
+          <div class="cap"><i class="fa-solid fa-id-card"></i> Rasmiy Dariko vizitka kartasi</div>
+        </div>
         <div class="contact-card reveal" style="grid-template-columns:1fr;">
           <div class="contact-list" style="margin-top:0;">
             <a href="mailto:khikmatulloturaev@gmail.com"><span class="ic"><i class="fa-solid fa-envelope"></i></span> khikmatulloturaev@gmail.com</a>
